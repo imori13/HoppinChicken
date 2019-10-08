@@ -49,6 +49,7 @@ namespace FliedChicken
             Pixel.SetData(color);
             renderer.LoadTexture("Pixel", Pixel);
             renderer.LoadTexture("packman");
+            renderer.LoadTexture("4k-gaming-wallpaper");
 
             sceneManager.AddScene(SceneEnum.GameScene, new GameScene());
 

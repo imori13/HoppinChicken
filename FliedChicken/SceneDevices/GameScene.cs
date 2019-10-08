@@ -1,4 +1,5 @@
 ﻿using FliedChicken.Devices;
+using FliedChicken.GameObjects.Objects;
 using FliedChicken.Objects;
 using FliedChicken.Particle;
 using FliedChicken.Scenes;
@@ -27,6 +28,8 @@ namespace FliedChicken.SceneDevices
         {
             camera.Initialize();
             objectsManager.Initialize();
+
+            objectsManager.AddGameObject(new Player(camera));
         }
 
         public void Update()
@@ -50,7 +53,7 @@ namespace FliedChicken.SceneDevices
         {
             renderer.Begin(camera);
 
-            renderer.Draw2D("packman", Vector2.Zero, Color.White);
+            renderer.Draw2D("4k-gaming-wallpaper", Vector2.Zero, Color.White);
             objectsManager.Draw(renderer);
 
             renderer.End();
