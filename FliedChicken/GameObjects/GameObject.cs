@@ -1,5 +1,6 @@
 ﻿using FliedChicken.Devices;
 using FliedChicken.GameObjects.Collision;
+using FliedChicken.Objects;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -12,17 +13,13 @@ namespace FliedChicken.GameObjects
     // 抽象クラス
     abstract class GameObject
     {
-        // 座標修正用
-        public static Vector2 Offset { get; set; }
-        // 空間分割したなかのどの空間にいるのか
-        public uint CurrentRootPos { get; set; } = uint.MaxValue;
-
         // 変数
         public Vector2 Position { get; set; } // 位置
         public Vector2 Velocity { get; protected set; } // 移動量 処理は各自必要な場合
         public GameObjectTag GameObjectTag { get; protected set; }  // ゲームタグ
         public Collider Collider { get; protected set; }
         public bool IsDead { get; protected set; }  // 死亡してるか
+        public ObjectsManager ObjectsManager { get; set; }
 
         // コンストラクタ
         public GameObject()
