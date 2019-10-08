@@ -31,9 +31,16 @@ namespace FliedChicken.Devices
         }
 
         // 描画開始
-        public void Begin()
+        public void Begin(Camera camera)
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(
+                  SpriteSortMode.Deferred,
+                  BlendState.AlphaBlend,
+                  SamplerState.LinearClamp,
+                  DepthStencilState.None,
+                  RasterizerState.CullCounterClockwise,
+                  null,
+                  camera.Matrix);
         }
 
         // 描画終了
