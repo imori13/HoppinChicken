@@ -8,5 +8,6 @@ namespace FliedChicken.GameObjects.Objects
 {
     class Player
     {
+
     }
 }

@@ -43,6 +43,11 @@ namespace FliedChicken
         {
             renderer = GameDevice.Instance().Renderer;
 
+            Texture2D Pixel = new Texture2D(GraphicsDevice, 1, 1);
+            Color[] color = new Color[1];
+            color[0] = Color.White;
+            Pixel.SetData(color);
+            renderer.LoadTexture("Pixel", Pixel);
             renderer.LoadTexture("packman");
             renderer.LoadTexture("stage");
 
