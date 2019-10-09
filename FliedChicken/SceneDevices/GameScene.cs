@@ -19,7 +19,7 @@ namespace FliedChicken.SceneDevices
         public GameScene()
         {
             Camera = new Camera();
-            backGround = new BackGround(new Vector2(0, 832 * 2), new Vector2(0, -832 * 2));
+            backGround = new BackGround(Camera);
         }
 
         public void Initialize()
@@ -38,8 +38,8 @@ namespace FliedChicken.SceneDevices
         {
             renderer.Begin(Camera);
 
-            renderer.Draw2D("packman", Vector2.Zero, Color.White);
             backGround.Draw(renderer);
+            renderer.Draw2D("packman", Vector2.Zero, Color.White);
 
             renderer.End();
         }

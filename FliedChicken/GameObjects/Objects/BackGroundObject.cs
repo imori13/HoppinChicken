@@ -1,27 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using FliedChicken.Devices;
 using Microsoft.Xna.Framework;
-
-using FliedChicken.Devices;
+using System;
 
 namespace FliedChicken.GameObjects.Objects
 {
     class BackGroundObject : GameObject
     {
-        public Vector2 Size { get; private set; }
+        private string textureName;
+        private Vector2 textureSize;
 
-        public BackGroundObject(Vector2 size)
+        private Vector2 DrawScale { get { return new Vector2(Screen.WIDTH / textureSize.X, Screen.HEIGHT / textureSize.Y); } }
+
+        public BackGroundObject(string textureName, Vector2 textureSize)
         {
-            Size = size;
+            this.textureName = textureName;
+            this.textureSize = textureSize;
         }
 
         public override void Draw(Renderer renderer)
         {
-            renderer.Draw2D("stage", Position, Color.White, 0.0f, Size / 2, Vector2.One);
+            renderer.Draw2D("stage", Position, Color.White, 0.0f, textureSize / 2, DrawScale);
         }
 
         public override void HitAction(GameObject gameObject)
@@ -36,16 +34,22 @@ namespace FliedChicken.GameObjects.Objects
         {
         }
 
-        public Vector2 Top()
+        public Vector2 Up()
         {
-            float halfHeight = Size.Y / 2;
+            float halfHeight = Screen.HEIGHT / 2;
             return Position - new Vector2(0, halfHeight);
         }
 
         public Vector2 Down()
         {
-            float halfHeight = Size.Y / 2;
+            float halfHeight = Screen.HEIGHT / 2;
             return Position + new Vector2(0, halfHeight);
+        }
+
+        public bool IsOutOfScreenUp(Camera camera)
+        {
+            float screenUp = camera.Position.Y - Screen.HEIGHT / 2;
+            return Down().Y < screenUp;
         }
     }
 }
