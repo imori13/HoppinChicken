@@ -28,6 +28,8 @@ namespace FliedChicken.GameObjects.Objects
             {
                 var bgObject = new BackGroundObject("stage", new Vector2(704, 832));
                 bgObject.Position = Position + new Vector2(0, Screen.HEIGHT * i);
+
+                ObjectsManager.AddGameObject(bgObject);
                 backGroundObjects.Add(bgObject);
             }
         }
@@ -38,14 +40,12 @@ namespace FliedChicken.GameObjects.Objects
 
             foreach (var bgObject in backGroundObjects)
             {
-                bgObject.Update();
                 RepeatBGObject(bgObject);
             }
         }
 
         public override void Draw(Renderer renderer)
         {
-            backGroundObjects.ForEach(bgObj => bgObj.Draw(renderer));
         }
 
         public override void HitAction(GameObject gameObject)
