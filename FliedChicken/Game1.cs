@@ -44,6 +44,7 @@ namespace FliedChicken
             renderer = GameDevice.Instance().Renderer;
 
             renderer.LoadTexture("packman");
+            renderer.LoadTexture("stage");
 
             sceneManager.AddScene(SceneEnum.GameScene, new GameScene());
 

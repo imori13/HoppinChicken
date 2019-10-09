@@ -52,12 +52,14 @@
     <Compile Include="Devices\Sound.cs" />
     <Compile Include="Devices\TimeSpeed.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="GameObjects\Objects\BackGround.cs" />
     <Compile Include="GameObjects\Collision\BoxCollider.cs" />
     <Compile Include="GameObjects\Collision\CircleCollider.cs" />
     <Compile Include="GameObjects\Collision\Collider.cs" />
     <Compile Include="GameObjects\Collision\ColliderEnum.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\GameObjectTag.cs" />
+    <Compile Include="GameObjects\Objects\BackGroundObject.cs" />
     <Compile Include="GameObjects\Objects\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
