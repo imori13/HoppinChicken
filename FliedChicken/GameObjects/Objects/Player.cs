@@ -11,15 +11,17 @@ namespace FliedChicken.GameObjects.Objects
 {
     class Player : GameObject
     {
+        private static readonly float FALLMAXSPEED = 10;
+        private static readonly int MAXGRID = 11;
+
+
         Camera camera;
 
         private int currentGrid;
         private Vector2 destPosition;
 
-        private static readonly float FALLMAXSPEED = 10;
-        private static readonly int MAXGRID = 11;
-
         private float time;
+        private bool inputflag;
 
         public Player(Camera camera)
         {
@@ -29,6 +31,7 @@ namespace FliedChicken.GameObjects.Objects
         public override void Initialize()
         {
             currentGrid = 6;
+            inputflag = false;
         }
 
         public override void Update()
@@ -50,14 +53,18 @@ namespace FliedChicken.GameObjects.Objects
             Position = Vector2.Lerp(Position, destPosition, 0.2f);
 
             time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
-
-            // TODO : 上に上がらない処理を書く
-            if (time >= 0.1f)
+            
+            if (Input.GetKeyDown(Keys.Space) || inputflag)
             {
-                if (Input.GetKeyDown(Keys.Space))
+                if (time >= 0.15f)
                 {
                     time = 0;
-                    Velocity = new Vector2(Velocity.X, -15);
+                    Velocity = new Vector2(Velocity.X, -10);
+                    inputflag = false;
+                }
+                else
+                {
+                    inputflag = true;
                 }
             }
 

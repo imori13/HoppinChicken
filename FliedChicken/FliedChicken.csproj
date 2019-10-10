@@ -68,6 +68,7 @@
     <Compile Include="SceneDevices\IScene.cs" />
     <Compile Include="SceneDevices\SceneEnum.cs" />
     <Compile Include="SceneDevices\SceneManager.cs" />
+    <Compile Include="SceneDevices\TitleScene.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
