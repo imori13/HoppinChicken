@@ -14,6 +14,9 @@ namespace FliedChicken.Objects
         private List<GameObject> gameobjects = new List<GameObject>();
         private List<Particle2D> particles = new List<Particle2D>();
 
+        private List<GameObject> addGameObjects = new List<GameObject>();
+        private List<Particle2D> addParticles = new List<Particle2D>();
+
         public ObjectsManager(Camera camera)
         {
             this.camera = camera;
@@ -32,8 +35,7 @@ namespace FliedChicken.Objects
             gameobject.Initialize();
 
             gameobject.ObjectsManager = this;
-
-            gameobjects.Add(gameobject);
+            addGameObjects.Add(gameobject);
         }
 
         public void AddParticle(Particle2D particle)
@@ -41,14 +43,18 @@ namespace FliedChicken.Objects
             if (particle == null) { return; }
 
             particle.Initialize();
-
-            particles.Add(particle);
+            addParticles.Add(particle);
         }
 
         public void Update()
         {
             gameobjects.ForEach(g => g.Update());
+            gameobjects.AddRange(addGameObjects);
+            addGameObjects.Clear();
+
             particles.ForEach(p => p.Update());
+            particles.AddRange(addParticles);
+            addParticles.Clear();
 
             gameobjects.RemoveAll(g => g.IsDead);
             particles.RemoveAll(p => p.IsDead);

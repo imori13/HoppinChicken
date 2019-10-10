@@ -10,12 +10,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using FliedChicken.GameObjects.Objects;
+
 namespace FliedChicken.SceneDevices
 {
     class GameScene : IScene
     {
         Camera camera;
         ObjectsManager objectsManager;
+
+        EnemyLaneManager laneManager;
 
         public GameScene()
         {
@@ -27,10 +31,17 @@ namespace FliedChicken.SceneDevices
         {
             camera.Initialize();
             objectsManager.Initialize();
+
+            laneManager = new EnemyLaneManager(camera, 10);
+            laneManager.ObjectsManager = objectsManager;
+
+            objectsManager.AddGameObject(laneManager);
         }
 
         public void Update()
         {
+            camera.Position += new Vector2(0, 8) * TimeSpeed.Time;
+
             if (Input.GetKeyDown(Keys.Space))
             {
                 Random rand = GameDevice.Instance().Random;
