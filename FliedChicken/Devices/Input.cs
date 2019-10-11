@@ -69,8 +69,7 @@ namespace FliedChicken.Devices
 
             for (int i = 0; i < current.Count; i++)
             {
-                if (((int)current[i] >= 65 && (int)current[i] <= 90) ||
-                    current[i] == Keys.Space)
+                if (((int)current[i] >= 65 && (int)current[i] <= 90))
                 {
 
                 }

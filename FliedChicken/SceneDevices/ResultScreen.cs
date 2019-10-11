@@ -2,7 +2,6 @@
 using FliedChicken.GameObjects.Objects;
 using FliedChicken.Objects;
 using FliedChicken.Particle;
-using FliedChicken.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;

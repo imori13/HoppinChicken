@@ -2,7 +2,7 @@
 using FliedChicken.GameObjects.Objects;
 using FliedChicken.Objects;
 using FliedChicken.Particle;
-using FliedChicken.Scenes;
+using FliedChicken.ScenesDevice;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -10,9 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using FliedChicken.GameObjects.Objects;
-
 namespace FliedChicken.SceneDevices
 {
     enum GamePlayState
@@ -24,11 +21,10 @@ namespace FliedChicken.SceneDevices
         RESULT,
         RANKING,
     }
-    class GameScene : IScene
+    class GameScene : SceneBase
     {
         Camera camera;
         ObjectsManager objectsManager;
-        SceneManager sceneManager;
         //プレイヤー保存用
         Player player;
         //ゲームクリアライン
@@ -37,22 +33,21 @@ namespace FliedChicken.SceneDevices
         float cleartime;
 
         GamePlayState state;
-        
+
         ResultScreen resultScreen;
         EnemyLaneManager laneManager;
 
-        public GameScene(SceneManager sceneManager)
+        public GameScene()
         {
             camera = new Camera();
             objectsManager = new ObjectsManager(camera);
-            this.sceneManager = sceneManager;
         }
 
-        public void Initialize()
+        public override void Initialize()
         {
             camera.Initialize();
             objectsManager.Initialize();
-            
+
             player = new Player(camera);
             objectsManager.AddGameObject(player);
 
@@ -64,9 +59,11 @@ namespace FliedChicken.SceneDevices
             laneManager = new EnemyLaneManager(camera, 10);
             laneManager.ObjectsManager = objectsManager;
             objectsManager.AddGameObject(laneManager);
+
+            base.Initialize();
         }
 
-        public void Update()
+        public override void Update()
         {
             camera.Position += new Vector2(0, 8) * TimeSpeed.Time;
 
@@ -98,6 +95,8 @@ namespace FliedChicken.SceneDevices
                     Clear();
                     break;
             }
+
+            base.Update();
         }
 
         private void Default()
@@ -132,7 +131,7 @@ namespace FliedChicken.SceneDevices
 
         private void Restart()
         {
-            sceneManager.ChangeScene(SceneEnum.GameScene);
+            ShutDown = true;
         }
 
         private void Clear()
@@ -143,7 +142,7 @@ namespace FliedChicken.SceneDevices
             }
         }
 
-        public void Draw(Renderer renderer)
+        public override void Draw(Renderer renderer)
         {
             renderer.Begin(camera);
 
@@ -161,13 +160,13 @@ namespace FliedChicken.SceneDevices
             }
 
             renderer.End();
+
+            base.Draw(renderer);
         }
 
-
-
-        public void ShutDown()
+        public override SceneEnum NextScene()
         {
-
+            return SceneEnum.TitleScene;
         }
     }
 }

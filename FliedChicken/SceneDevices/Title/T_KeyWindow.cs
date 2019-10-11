@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FliedChicken.UI
+namespace FliedChicken.SceneDevices.Title
 {
     class T_KeyWindow
     {
@@ -64,10 +64,10 @@ namespace FliedChicken.UI
 
         public void Draw(Renderer renderer)
         {
-            SpriteFont font = Fonts.Font32;
+            SpriteFont font = Fonts.Font12_32;
             Vector2 size = font.MeasureString(text);
 
-            renderer.Draw2D("Pixel", Screen.Vec2 / 2f, Color.Black, 0,  size + new Vector2(200, 0));
+            renderer.Draw2D("Pixel", Screen.Vec2 / 2f, Color.Black, 0, Vector2.One * 0.5f, size);
 
             renderer.DrawString(font, text, Screen.Vec2 / 2f, Color.White, 0, size / 2f, Vector2.One);
         }
