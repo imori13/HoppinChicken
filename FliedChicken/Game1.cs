@@ -44,7 +44,7 @@ namespace FliedChicken
             Fonts.LoadFonts(Content);
 
             renderer = GameDevice.Instance().Renderer;
-
+            
             Texture2D Pixel = new Texture2D(GraphicsDevice, 1, 1);
             Color[] color = new Color[1];
             color[0] = Color.White;
@@ -52,6 +52,7 @@ namespace FliedChicken
             renderer.LoadTexture("Pixel", Pixel);
             renderer.LoadTexture("packman", "Texture/");
             renderer.LoadTexture("4k-gaming-wallpaper", "Texture/");
+            renderer.LoadTexture("stage", "Texture/");
 
             sceneManager.AddScene(SceneEnum.TitleScene, new TitleScene());
             sceneManager.AddScene(SceneEnum.GameScene, new GameScene());
