@@ -63,3 +63,10 @@
 /processorParam:TextureFormat=Color
 /build:Texture/stage.png
 
+#begin Font/pixelMplus10_size128.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Font/pixelMplus10_size128.spritefont
+

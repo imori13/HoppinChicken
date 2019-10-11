@@ -4,7 +4,6 @@ using FliedChicken.Devices;
 using FliedChicken.GameObjects.Objects;
 using FliedChicken.Objects;
 using FliedChicken.Particle;
-using FliedChicken.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
@@ -49,11 +48,11 @@ namespace FliedChicken.SceneDevices
             renderer.Draw2D("Pixel", new Vector2(camera.Position.X - 600, camera.Position.Y - Screen.HEIGHT / 2),
                 Color.White, 0.0f, new Vector2(1200, Screen.HEIGHT));
 
-            renderer.DrawString(Fonts.Font32, "RESULT",
+            renderer.DrawString(Fonts.Font12_32, "RESULT",
                 new Vector2(camera.Position.X - 180, camera.Position.Y - Screen.HEIGHT / 2), Color.Red,
                 0.0f, Vector2.Zero, new Vector2(3, 3));
 
-            renderer.DrawString(Fonts.Font32, cleartime.ToString(),
+            renderer.DrawString(Fonts.Font12_32, cleartime.ToString(),
                 new Vector2(camera.Position.X - 180, camera.Position.Y), Color.Red,
                 0.0f, Vector2.Zero, new Vector2(3, 3));
         }

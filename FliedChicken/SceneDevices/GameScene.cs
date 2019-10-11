@@ -2,7 +2,7 @@
 using FliedChicken.GameObjects.Objects;
 using FliedChicken.Objects;
 using FliedChicken.Particle;
-using FliedChicken.Scenes;
+using FliedChicken.ScenesDevice;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,8 +11,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FliedChicken.GameObjects.Objects;
-
 namespace FliedChicken.SceneDevices
 {
     /// <summary>
@@ -28,12 +26,10 @@ namespace FliedChicken.SceneDevices
         RANKING,
     }
 
-    //ゲームシーン管理クラス
-    class GameScene : IScene
+    class GameScene : SceneBase
     {
         Camera camera;
         ObjectsManager objectsManager;
-        SceneManager sceneManager;
         //プレイヤー保存用
         Player player;
         //ゲームクリアライン(一時的処置)
@@ -52,18 +48,17 @@ namespace FliedChicken.SceneDevices
         ResultScreen resultScreen;
         RankingScreen rankingScreen;
 
-        public GameScene(SceneManager sceneManager)
+        public GameScene()
         {
             camera = new Camera();
             objectsManager = new ObjectsManager(camera);
-            this.sceneManager = sceneManager;
         }
 
-        public void Initialize()
+        public override void Initialize()
         {
             camera.Initialize();
             objectsManager.Initialize();
-            
+
             player = new Player(camera);
             objectsManager.AddGameObject(player);
 
@@ -73,9 +68,11 @@ namespace FliedChicken.SceneDevices
 
             resultScreen = new ResultScreen(camera);
             rankingScreen = new RankingScreen(camera);
+
+            base.Initialize();
         }
 
-        public void Update()
+        public override void Update()
         {
             //if (Input.GetKeyDown(Keys.Space))
             //{
@@ -113,6 +110,8 @@ namespace FliedChicken.SceneDevices
                     Ranking();
                     break;
             }
+
+            base.Update();
         }
 
         private void Default()
@@ -147,7 +146,7 @@ namespace FliedChicken.SceneDevices
 
         private void Restart()
         {
-            sceneManager.ChangeScene(SceneEnum.GameScene);
+            ShutDown = true;
         }
 
         private void Clear()
@@ -173,11 +172,11 @@ namespace FliedChicken.SceneDevices
         {
             if (Input.GetKeyDown(Keys.A))
             {
-                sceneManager.ChangeScene(SceneEnum.TitleScene);
+                ShutDown = true;
             }
         }
 
-        public void Draw(Renderer renderer)
+        public override void Draw(Renderer renderer)
         {
             renderer.Begin(camera);
 
@@ -195,6 +194,8 @@ namespace FliedChicken.SceneDevices
             }
 
             renderer.End();
+
+            base.Draw(renderer);
         }
 
         private void ResultScreen(Renderer renderer)
@@ -205,13 +206,13 @@ namespace FliedChicken.SceneDevices
         private void RankingScreen(Renderer renderer)
         {
             rankingScreen.Draw(renderer);
+            base.Draw(renderer);
         }
 
-
-
-        public void ShutDown()
+        public override SceneEnum NextScene()
         {
             rankingScreen.RankingWrite();
+            return SceneEnum.TitleScene;
         }
     }
 }

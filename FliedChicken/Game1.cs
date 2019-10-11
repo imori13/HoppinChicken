@@ -1,6 +1,6 @@
 ﻿using FliedChicken.Devices;
 using FliedChicken.SceneDevices;
-using FliedChicken.Scenes;
+using FliedChicken.ScenesDevice;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -55,9 +55,9 @@ namespace FliedChicken
             renderer.LoadTexture("stage", "Texture/");
 
             sceneManager.AddScene(SceneEnum.TitleScene, new TitleScene());
-            sceneManager.AddScene(SceneEnum.GameScene, new GameScene(sceneManager));
+            sceneManager.AddScene(SceneEnum.GameScene, new GameScene());
 
-            sceneManager.ChangeScene(SceneEnum.GameScene);
+            sceneManager.ChangeScene(SceneEnum.TitleScene);
         }
 
         protected override void UnloadContent()
@@ -75,7 +75,10 @@ namespace FliedChicken
             Screen.Update(graphics, Window);
 
             sceneManager.Update();
-            
+
+            if (Input.GetKeyDown(Keys.D1)) { sceneManager.ChangeScene(SceneEnum.TitleScene); }
+            else if (Input.GetKeyDown(Keys.D2)) { sceneManager.ChangeScene(SceneEnum.GameScene); }
+
             base.Update(gameTime);
         }
 

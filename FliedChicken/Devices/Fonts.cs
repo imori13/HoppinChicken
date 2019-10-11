@@ -10,11 +10,13 @@ namespace FliedChicken.Devices
 {
     static class Fonts
     {
-        public static SpriteFont Font32 { get; private set; }
+        public static SpriteFont Font12_32 { get; private set; }
+        public static SpriteFont Font10_128 { get; private set; }
 
         public static void LoadFonts(ContentManager content)
         {
-            Font32 = content.Load<SpriteFont>("Font/pixelMplus12_size32");
+            Font12_32 = content.Load<SpriteFont>("Font/pixelMplus12_size32");
+            Font10_128 = content.Load<SpriteFont>("Font/pixelMplus10_size128");
         }
     }
 }

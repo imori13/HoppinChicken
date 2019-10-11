@@ -4,17 +4,13 @@ using FliedChicken.Devices;
 using FliedChicken.GameObjects.Objects;
 using FliedChicken.Objects;
 using FliedChicken.Particle;
-using FliedChicken.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using FliedChicken.GameObjects.Objects;
 
 namespace FliedChicken.SceneDevices
 {
@@ -133,20 +129,20 @@ namespace FliedChicken.SceneDevices
             renderer.Draw2D("Pixel", new Vector2(camera.Position.X - 600, camera.Position.Y - Screen.HEIGHT / 2), 
                 Color.White, 0.0f, new Vector2(1200, Screen.HEIGHT));
 
-            renderer.DrawString(Fonts.Font32, "RANKING",
+            renderer.DrawString(Fonts.Font12_32, "RANKING",
                 new Vector2(camera.Position.X - 220, camera.Position.Y - Screen.HEIGHT / 2), Color.Red,
                 0.0f, Vector2.Zero, new Vector2(3, 3));
 
             for (int i = 0; i < rankNum; i++)
             {
-                renderer.DrawString(Fonts.Font32, rankPlayer[i],
+                renderer.DrawString(Fonts.Font12_32, rankPlayer[i],
                     new Vector2(camera.Position.X - 500, camera.Position.Y - 300 + 300 * i), Color.Red,
                     0.0f, Vector2.Zero, new Vector2(3, 3));
             }
 
             for (int i = 0; i < rankNum; i++)
             {
-                renderer.DrawString(Fonts.Font32, rankScore[i].ToString(),
+                renderer.DrawString(Fonts.Font12_32, rankScore[i].ToString(),
                     new Vector2(camera.Position.X + 200, camera.Position.Y - 300 + 300 * i), Color.Red,
                     0.0f, Vector2.Zero, new Vector2(3, 3));
             }
