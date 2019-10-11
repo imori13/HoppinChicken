@@ -97,7 +97,6 @@ namespace FliedChicken.Particle
                 position,
                 color,
                 MathHelper.ToRadians(rotation),
-                origin,
                 scale);
         }
 

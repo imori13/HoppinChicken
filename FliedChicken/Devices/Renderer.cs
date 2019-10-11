@@ -70,21 +70,24 @@ namespace FliedChicken.Devices
         {
             Debug.Assert(textures.ContainsKey(name), "アセット名[ " + name + " ]が見つかりません。ロードされてないかアセット名を間違えています");
 
-            spriteBatch.Draw(textures[name], position, color);
+            Draw2D(name, position, color, 0.0f, Vector2.One);
         }
 
         // 引数拡張
-        public void Draw2D(string name, Vector2 position, Color color, float rotation, Vector2 origin, Vector2 scale)
+        public void Draw2D(string name, Vector2 position, Color color, float rotation, Vector2 scale)
         {
             Debug.Assert(textures.ContainsKey(name), "アセット名[ " + name + " ]が見つかりません。ロードされてないかアセット名を間違えています");
 
-            spriteBatch.Draw(textures[name], position, null, color, MathHelper.ToRadians(rotation), origin, scale, SpriteEffects.None, 0);
+            Draw2D(name, position, null, color, rotation, scale);
         }
 
         // 矩形切り抜き描画
-        public void Draw2D(string name, Vector2 position, Rectangle rectangle, Color color, float rotation, Vector2 origin, Vector2 scale)
+        public void Draw2D(string name, Vector2 position, Rectangle? rectangle, Color color, float rotation, Vector2 scale)
         {
             Debug.Assert(textures.ContainsKey(name), "アセット名[ " + name + " ]が見つかりません。ロードされてないかアセット名を間違えています");
+
+            var texture = textures[name];
+            Vector2 origin = new Vector2(texture.Width / 2, texture.Height / 2);
 
             spriteBatch.Draw(textures[name], position, rectangle, color, MathHelper.ToRadians(rotation), origin, scale, SpriteEffects.None, 0);
         }

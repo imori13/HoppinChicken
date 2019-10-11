@@ -15,6 +15,9 @@ namespace FliedChicken.GameObjects.Objects
         public float width;
         public float height;
 
+        public float enemyMoveSpeed;
+        public float spacePerEnemy;
+        //抽象エネミー
 
     }
 
@@ -28,11 +31,7 @@ namespace FliedChicken.GameObjects.Objects
 
         public override void Initialize()
         {
-            LaneInfo = new LaneInfo()
-            {
-                width = 128 * 10,
-                height = 128,
-            };
+            LaneInfo = GenerateLaneInfo();
         }
 
         public override void Update()
@@ -46,7 +45,7 @@ namespace FliedChicken.GameObjects.Objects
                 "stage",
                 Position,
                 new Color(1, 1, 1, 0.5f),
-                0.0f, new Vector2(704, 832) / 2,
+                0.0f,
                 new Vector2(LaneInfo.width / 704, LaneInfo.height / 832)
                 );
 #endif
@@ -68,9 +67,13 @@ namespace FliedChicken.GameObjects.Objects
             IsDead = true;
         }
 
-        private LaneInfo RandomizeLaneInfo()
+        private LaneInfo GenerateLaneInfo()
         {
-            var laneInfo = new LaneInfo();
+            var laneInfo = new LaneInfo()
+            {
+                width = 128 * 10,
+                height = 128,
+            };
 
             
 
