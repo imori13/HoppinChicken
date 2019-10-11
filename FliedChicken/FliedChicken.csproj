@@ -59,6 +59,10 @@
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\GameObjectTag.cs" />
     <Compile Include="GameObjects\ObjectsManager.cs" />
+    <Compile Include="GameObjects\Objects\EnemyLane.cs" />
+    <Compile Include="GameObjects\Objects\BackGround.cs" />
+    <Compile Include="GameObjects\Objects\BackGroundObject.cs" />
+    <Compile Include="GameObjects\Objects\EnemyLaneManager.cs" />
     <Compile Include="GameObjects\Objects\Player.cs" />
     <Compile Include="GameObjects\Particle\Particle2D.cs" />
     <Compile Include="GameObjects\Particle\RadiationParticle2D.cs" />

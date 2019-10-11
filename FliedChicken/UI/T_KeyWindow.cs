@@ -67,7 +67,7 @@ namespace FliedChicken.UI
             SpriteFont font = Fonts.Font32;
             Vector2 size = font.MeasureString(text);
 
-            renderer.Draw2D("Pixel", Screen.Vec2 / 2f, Color.Black, 0, Vector2.One * 0.5f, size + new Vector2(200, 0));
+            renderer.Draw2D("Pixel", Screen.Vec2 / 2f, Color.Black, 0,  size + new Vector2(200, 0));
 
             renderer.DrawString(font, text, Screen.Vec2 / 2f, Color.White, 0, size / 2f, Vector2.One);
         }

@@ -11,6 +11,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using FliedChicken.GameObjects.Objects;
+
 namespace FliedChicken.SceneDevices
 {
     enum GamePlayState
@@ -35,8 +37,9 @@ namespace FliedChicken.SceneDevices
         float cleartime;
 
         GamePlayState state;
-
+        
         ResultScreen resultScreen;
+        EnemyLaneManager laneManager;
 
         public GameScene(SceneManager sceneManager)
         {
@@ -49,7 +52,7 @@ namespace FliedChicken.SceneDevices
         {
             camera.Initialize();
             objectsManager.Initialize();
-
+            
             player = new Player(camera);
             objectsManager.AddGameObject(player);
 
@@ -58,10 +61,15 @@ namespace FliedChicken.SceneDevices
             state = GamePlayState.STOP;
 
             resultScreen = new ResultScreen();
+            laneManager = new EnemyLaneManager(camera, 10);
+            laneManager.ObjectsManager = objectsManager;
+            objectsManager.AddGameObject(laneManager);
         }
 
         public void Update()
         {
+            camera.Position += new Vector2(0, 8) * TimeSpeed.Time;
+
             if (Input.GetKeyDown(Keys.Space))
             {
                 Random rand = GameDevice.Instance().Random;
