@@ -31,6 +31,12 @@ namespace FliedChicken.Devices
         }
 
         // 描画開始
+        public void Begin()
+        {
+            spriteBatch.Begin();
+        }
+
+        // 描画開始
         public void Begin(Camera camera)
         {
             spriteBatch.Begin(

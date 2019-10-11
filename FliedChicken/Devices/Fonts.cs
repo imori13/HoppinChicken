@@ -14,7 +14,7 @@ namespace FliedChicken.Devices
 
         public static void LoadFonts(ContentManager content)
         {
-
+            Font32 = content.Load<SpriteFont>("Font/pixelMplus12_size32");
         }
     }
 }

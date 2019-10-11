@@ -69,6 +69,7 @@
     <Compile Include="SceneDevices\SceneEnum.cs" />
     <Compile Include="SceneDevices\SceneManager.cs" />
     <Compile Include="SceneDevices\TitleScene.cs" />
+    <Compile Include="UI\T_KeyWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -83,6 +84,8 @@
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
+    <None Include="Content\Font\pixelMplus12_size32.spritefont" />
+    <None Include="Content\Font\PixelMplus10-Bold.ttf" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
