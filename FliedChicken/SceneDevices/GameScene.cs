@@ -5,16 +5,19 @@ using FliedChicken.Particle;
 using FliedChicken.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using FliedChicken.GameObjects.Objects;
 
 namespace FliedChicken.SceneDevices
 {
+    /// <summary>
+    /// ゲームシーンの状態
+    /// </summary>
     enum GamePlayState
     {
         STOP,
@@ -24,6 +27,8 @@ namespace FliedChicken.SceneDevices
         RESULT,
         RANKING,
     }
+
+    //ゲームシーン管理クラス
     class GameScene : IScene
     {
         Camera camera;
@@ -31,15 +36,21 @@ namespace FliedChicken.SceneDevices
         SceneManager sceneManager;
         //プレイヤー保存用
         Player player;
-        //ゲームクリアライン
+        //ゲームクリアライン(一時的処置)
         int gameclearLine;
         //タイム保存用
         float cleartime;
 
+        //プレイヤーネーム保存用
+        string playerName;
+        //スコア保存用
+        int score;
+
+        //ゲームプレイシーンの状態
         GamePlayState state;
-        
+
         ResultScreen resultScreen;
-        EnemyLaneManager laneManager;
+        RankingScreen rankingScreen;
 
         public GameScene(SceneManager sceneManager)
         {
@@ -60,29 +71,27 @@ namespace FliedChicken.SceneDevices
             gameclearLine = 500;
             state = GamePlayState.STOP;
 
-            resultScreen = new ResultScreen();
-            laneManager = new EnemyLaneManager(camera, 10);
-            laneManager.ObjectsManager = objectsManager;
-            objectsManager.AddGameObject(laneManager);
+            resultScreen = new ResultScreen(camera);
+            rankingScreen = new RankingScreen(camera);
         }
 
         public void Update()
         {
-            camera.Position += new Vector2(0, 8) * TimeSpeed.Time;
+            //if (Input.GetKeyDown(Keys.Space))
+            //{
+            //    Random rand = GameDevice.Instance().Random;
 
-            if (Input.GetKeyDown(Keys.Space))
-            {
-                Random rand = GameDevice.Instance().Random;
+            //    for (int i = 0; i < 50; i++)
+            //    {
+            //        objectsManager.AddParticle(
+            //            new RadiationParticle2D(Vector2.Zero, Color.Red, MyMath.RandomCircleVec2(), rand));
+            //    }
+            //}
 
-                for (int i = 0; i < 50; i++)
-                {
-                    objectsManager.AddParticle(
-                        new RadiationParticle2D(Vector2.Zero, Color.Red, MyMath.RandomCircleVec2(), rand));
-                }
-            }
-
+            //どの状態でもUpdateで動くメソッド
             Default();
 
+            //状態によって動くUpdateメソッド
             switch (state)
             {
                 case GamePlayState.STOP:
@@ -96,6 +105,12 @@ namespace FliedChicken.SceneDevices
                     break;
                 case GamePlayState.CLEAR:
                     Clear();
+                    break;
+                case GamePlayState.RESULT:
+                    Result();
+                    break;
+                case GamePlayState.RANKING:
+                    Ranking();
                     break;
             }
         }
@@ -139,7 +154,26 @@ namespace FliedChicken.SceneDevices
         {
             if (Input.GetKeyDown(Keys.A))
             {
+                resultScreen.SetScore(cleartime, 0);
                 state = GamePlayState.RESULT;
+            }
+        }
+
+        private void Result()
+        {
+            if (Input.GetKeyDown(Keys.A))
+            {
+                rankingScreen.RankingRead();
+                rankingScreen.RankingChange("souya", 11000);
+                state = GamePlayState.RANKING;
+            }
+        }
+
+        private void Ranking()
+        {
+            if (Input.GetKeyDown(Keys.A))
+            {
+                sceneManager.ChangeScene(SceneEnum.TitleScene);
             }
         }
 
@@ -152,22 +186,32 @@ namespace FliedChicken.SceneDevices
 
             if (state == GamePlayState.RESULT)
             {
-
+                ResultScreen(renderer);
             }
 
             if (state == GamePlayState.RANKING)
             {
-
+                RankingScreen(renderer);
             }
 
             renderer.End();
+        }
+
+        private void ResultScreen(Renderer renderer)
+        {
+            resultScreen.Draw(renderer);
+        }
+
+        private void RankingScreen(Renderer renderer)
+        {
+            rankingScreen.Draw(renderer);
         }
 
 
 
         public void ShutDown()
         {
-
+            rankingScreen.RankingWrite();
         }
     }
 }

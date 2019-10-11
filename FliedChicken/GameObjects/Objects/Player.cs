@@ -115,7 +115,10 @@ namespace FliedChicken.GameObjects.Objects
         }
         public override void HitAction(GameObject gameObject)
         {
-
+            if (gameObject.GameObjectTag == GameObjectTag.Enemy)
+            {
+                IsDead = true;
+            }
         }
     }
 }
