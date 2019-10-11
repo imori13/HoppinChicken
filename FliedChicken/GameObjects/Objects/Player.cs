@@ -9,6 +9,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace FliedChicken.GameObjects.Objects
 {
+    enum PlayerState
+    {
+        STOP,
+        FLY,
+        CLEAR,
+    }
     class Player : GameObject
     {
         Camera camera;
@@ -21,6 +27,8 @@ namespace FliedChicken.GameObjects.Objects
 
         private float time;
 
+        public PlayerState state;
+
         public Player(Camera camera)
         {
             this.camera = camera;
@@ -29,9 +37,34 @@ namespace FliedChicken.GameObjects.Objects
         public override void Initialize()
         {
             currentGrid = 6;
+            state = PlayerState.STOP;
         }
 
         public override void Update()
+        {
+            switch (state)
+            {
+                case PlayerState.STOP:
+                    StopUpdate();
+                    break;
+                case PlayerState.FLY:
+                    FlyUpdate();
+                    break;
+                case PlayerState.CLEAR:
+                    ClearUpdate();
+                    break;
+            }
+        }
+
+        public void StopUpdate()
+        {
+            if (Input.GetKeyDown(Keys.A))
+            {
+                state = PlayerState.FLY;
+            }
+        }
+
+        public void FlyUpdate()
         {
             if (Input.GetKeyDown(Keys.Right) && currentGrid <= MAXGRID)
             {
@@ -62,6 +95,11 @@ namespace FliedChicken.GameObjects.Objects
             }
 
             camera.Position = Vector2.Lerp(camera.Position, Position + Vector2.UnitY * Screen.HEIGHT / 5f, 0.1f);
+        }
+
+        public void ClearUpdate()
+        {
+
         }
 
         public override void Draw(Renderer renderer)
