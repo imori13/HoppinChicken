@@ -59,10 +59,13 @@
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\GameObjectTag.cs" />
     <Compile Include="GameObjects\ObjectsManager.cs" />
+    <Compile Include="GameObjects\Objects\Enemy.cs" />
+    <Compile Include="GameObjects\Objects\EnemyFactory.cs" />
     <Compile Include="GameObjects\Objects\EnemyLane.cs" />
     <Compile Include="GameObjects\Objects\BackGround.cs" />
     <Compile Include="GameObjects\Objects\BackGroundObject.cs" />
     <Compile Include="GameObjects\Objects\EnemyLaneManager.cs" />
+    <Compile Include="GameObjects\Objects\ObjectLooper.cs" />
     <Compile Include="GameObjects\Objects\Player.cs" />
     <Compile Include="GameObjects\Particle\Particle2D.cs" />
     <Compile Include="GameObjects\Particle\RadiationParticle2D.cs" />
@@ -72,6 +75,8 @@
     <Compile Include="SceneDevices\IScene.cs" />
     <Compile Include="SceneDevices\SceneEnum.cs" />
     <Compile Include="SceneDevices\SceneManager.cs" />
+    <Compile Include="Utilities\RandomSelector.cs" />
+    <Compile Include="Utilities\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

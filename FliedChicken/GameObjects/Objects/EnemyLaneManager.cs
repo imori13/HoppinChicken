@@ -25,27 +25,36 @@ namespace FliedChicken.GameObjects.Objects
 
         public override void Initialize()
         {
+            float basePosition = Position.Y;
             for (int i = 0; i < laneCount; i++)
             {
                 var newLane = new EnemyLane();
-                //レーン情報の読み込みとか実装したら高さに合わせるようにする
-                newLane.Position = Position + new Vector2(0, 128 * i);
+                newLane.Position = new Vector2(Position.X, basePosition + newLane.LaneInfo.height / 2);
+
+                newLane.ObjectsManager = ObjectsManager;
 
                 ObjectsManager.AddGameObject(newLane);
                 laneQueue.Enqueue(newLane);
+
+                basePosition = newLane.LaneInfo.height / 2 + newLane.Position.Y;
             }
         }
 
         public override void Update()
         {
-            var hoge = laneQueue.Peek();
             if (laneQueue.Peek().IsOutOfScreenUp(camera))
             {
                 laneQueue.Dequeue().Destory();
+            }
+
+            var lastLane = laneQueue.Last();
+            if (lastLane.Position.Y < camera.Position.Y + Screen.HEIGHT)
+            {
+                float basePosition = lastLane.Position.Y + lastLane.LaneInfo.height / 2;
 
                 var newLane = new EnemyLane();
-                //レーン情報の読み込みとか実装したら高さに合わせるようにする
-                newLane.Position = new Vector2(0, GetLowestYPosition());
+                newLane.Position = new Vector2(Position.X, basePosition + newLane.LaneInfo.height / 2);
+                newLane.ObjectsManager = ObjectsManager;
 
                 ObjectsManager.AddGameObject(newLane);
                 laneQueue.Enqueue(newLane);
@@ -58,11 +67,6 @@ namespace FliedChicken.GameObjects.Objects
 
         public override void HitAction(GameObject gameObject)
         {
-        }
-
-        private float GetLowestYPosition()
-        {
-            return laneQueue.Max<EnemyLane, float>(lane => lane.Position.Y + lane.LaneInfo.height);
         }
     }
 }
