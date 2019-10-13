@@ -9,8 +9,6 @@ namespace FliedChicken.GameObjects.Objects
         private string textureName;
         private Vector2 textureSize;
 
-        private Vector2 DrawScale { get { return new Vector2(Screen.WIDTH / textureSize.X, Screen.HEIGHT / textureSize.Y); } }
-
         public BackGroundObject(string textureName, Vector2 textureSize)
         {
             this.textureName = textureName;
@@ -19,7 +17,7 @@ namespace FliedChicken.GameObjects.Objects
 
         public override void Draw(Renderer renderer)
         {
-            renderer.Draw2D("stage", Position, Color.White, 0.0f, textureSize / 2, DrawScale);
+            renderer.Draw2D(textureName, Position, Color.White, 0.0f, new Vector2(Screen.WIDTH / textureSize.X, Screen.HEIGHT / textureSize.Y));
         }
 
         public override void HitAction(GameObject gameObject)

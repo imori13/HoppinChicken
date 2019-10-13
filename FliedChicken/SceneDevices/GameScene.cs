@@ -2,19 +2,20 @@
 using FliedChicken.GameObjects.Objects;
 using FliedChicken.Objects;
 using FliedChicken.Particle;
-using FliedChicken.Scenes;
+using FliedChicken.ScenesDevice;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using FliedChicken.GameObjects.Objects;
-
 namespace FliedChicken.SceneDevices
 {
+    /// <summary>
+    /// ゲームシーンの状態
+    /// </summary>
     enum GamePlayState
     {
         STOP,
@@ -24,36 +25,38 @@ namespace FliedChicken.SceneDevices
         RESULT,
         RANKING,
     }
-    class GameScene : IScene
+
+    class GameScene : SceneBase
     {
         Camera camera;
         ObjectsManager objectsManager;
-        BackGround backGround;
-        SceneManager sceneManager;
         //プレイヤー保存用
         Player player;
-        //ゲームクリアライン
+        //ゲームクリアライン(一時的処置)
         int gameclearLine;
         //タイム保存用
         float cleartime;
 
+        //プレイヤーネーム保存用
+        string playerName;
+        //スコア保存用
+        int score;
+
+        //ゲームプレイシーンの状態
         GamePlayState state;
         ResultScreen resultScreen;
+        RankingScreen rankingScreen;
 
-        public GameScene(SceneManager sceneManager)
+        public GameScene()
         {
             camera = new Camera();
             objectsManager = new ObjectsManager(camera);
-            backGround = new BackGround(camera);
-            this.sceneManager = sceneManager;
         }
 
-        public void Initialize()
+        public override void Initialize()
         {
             camera.Initialize();
             objectsManager.Initialize();
-            objectsManager.AddGameObject(new Player(camera));
-            backGround.Initialize();
 
             player = new Player(camera);
             objectsManager.AddGameObject(player);
@@ -61,25 +64,18 @@ namespace FliedChicken.SceneDevices
             cleartime = 0.0f;
             gameclearLine = 500;
             state = GamePlayState.STOP;
+            
+            resultScreen = new ResultScreen(camera);
+            rankingScreen = new RankingScreen(camera);
 
-            resultScreen = new ResultScreen();
+            base.Initialize();
         }
 
-        public void Update()
+        public override void Update()
         {
-            if (Input.GetKeyDown(Keys.Space))
-            {
-                Random rand = GameDevice.Instance().Random;
-
-                for (int i = 0; i < 50; i++)
-                {
-                    objectsManager.AddParticle(
-                        new RadiationParticle2D(Vector2.Zero, Color.Red, MyMath.RandomCircleVec2(), rand));
-                }
-            }
-
             Default();
 
+            //状態によって動くUpdateメソッド
             switch (state)
             {
                 case GamePlayState.STOP:
@@ -94,14 +90,21 @@ namespace FliedChicken.SceneDevices
                 case GamePlayState.CLEAR:
                     Clear();
                     break;
+                case GamePlayState.RESULT:
+                    Result();
+                    break;
+                case GamePlayState.RANKING:
+                    Ranking();
+                    break;
             }
+
+            base.Update();
         }
 
         private void Default()
         {
             camera.Update();
             objectsManager.Update();
-            backGround.Update();
         }
 
         private void Stop()
@@ -130,44 +133,74 @@ namespace FliedChicken.SceneDevices
 
         private void Restart()
         {
-            sceneManager.ChangeScene(SceneEnum.GameScene);
+            ShutDown = true;
         }
 
         private void Clear()
         {
             if (Input.GetKeyDown(Keys.A))
             {
+                resultScreen.SetScore(cleartime, 0);
                 state = GamePlayState.RESULT;
             }
         }
 
-        public void Draw(Renderer renderer)
+        private void Result()
+        {
+            if (Input.GetKeyDown(Keys.A))
+            {
+                rankingScreen.RankingRead();
+                rankingScreen.RankingChange("souya", 11000);
+                state = GamePlayState.RANKING;
+            }
+        }
+
+        private void Ranking()
+        {
+            if (Input.GetKeyDown(Keys.A))
+            {
+                ShutDown = true;
+            }
+        }
+
+        public override void Draw(Renderer renderer)
         {
             renderer.Begin(camera);
-            
-            backGround.Draw(renderer);
+
             renderer.Draw2D("4k-gaming-wallpaper", Vector2.Zero, Color.White);
-            renderer.Draw2D("packman", Vector2.Zero, Color.White);
+
             objectsManager.Draw(renderer);
 
             if (state == GamePlayState.RESULT)
             {
-
+                ResultScreen(renderer);
             }
 
             if (state == GamePlayState.RANKING)
             {
-
+                RankingScreen(renderer);
             }
 
             renderer.End();
+
+            base.Draw(renderer);
         }
 
-
-
-        public void ShutDown()
+        private void ResultScreen(Renderer renderer)
         {
+            resultScreen.Draw(renderer);
+        }
 
+        private void RankingScreen(Renderer renderer)
+        {
+            rankingScreen.Draw(renderer);
+            base.Draw(renderer);
+        }
+
+        public override SceneEnum NextScene()
+        {
+            rankingScreen.RankingWrite();
+            return SceneEnum.TitleScene;
         }
     }
 }

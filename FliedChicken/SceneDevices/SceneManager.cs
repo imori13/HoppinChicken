@@ -1,4 +1,5 @@
 ﻿using FliedChicken.Devices;
+using FliedChicken.SceneDevices;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,19 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FliedChicken.Scenes
+namespace FliedChicken.ScenesDevice
 {
     class SceneManager
     {
-        private Dictionary<SceneEnum, IScene> scenes;
-        private IScene currentScene;
+        private Dictionary<SceneEnum, SceneBase> scenes;
+        private SceneBase currentScene;
 
         public SceneManager()
         {
-            scenes = new Dictionary<SceneEnum, IScene>();
+            scenes = new Dictionary<SceneEnum, SceneBase>();
         }
 
-        public void AddScene(SceneEnum sceneEnum, IScene scene)
+        public void AddScene(SceneEnum sceneEnum, SceneBase scene)
         {
             Debug.Assert(scene != null, "追加されたシーン[ " + sceneEnum + " ]がnullです");
             Debug.Assert(!scenes.ContainsKey(sceneEnum), "すでに同じシーンEnumが使われています[ " + sceneEnum + " ]");
@@ -30,11 +31,6 @@ namespace FliedChicken.Scenes
         {
             Debug.Assert(scenes.ContainsKey(sceneEnum), "変更指定したシーンがまだ登録されていません[ " + sceneEnum + " ]");
 
-            if (currentScene != null)
-            {
-                currentScene.ShutDown();
-            }
-
             currentScene = scenes[sceneEnum];
             currentScene.Initialize();
         }
@@ -43,6 +39,8 @@ namespace FliedChicken.Scenes
         {
             if (currentScene == null) { return; }
             currentScene.Update();
+
+            if (currentScene.IsEndFlag) { ChangeScene(currentScene.NextScene()); }
         }
 
         public void Draw(Renderer renderer)

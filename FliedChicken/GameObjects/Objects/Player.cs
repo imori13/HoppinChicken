@@ -111,11 +111,14 @@ namespace FliedChicken.GameObjects.Objects
 
         public override void Draw(Renderer renderer)
         {
-            renderer.Draw2D("packman", Position, Color.White, 0, new Vector2(124 / 2f, 132 / 2f), Vector2.One * 0.5f);
+            renderer.Draw2D("packman", Position, Color.White, 0, Vector2.One * 0.5f);
         }
         public override void HitAction(GameObject gameObject)
         {
-
+            if (gameObject.GameObjectTag == GameObjectTag.Enemy)
+            {
+                IsDead = true;
+            }
         }
     }
 }

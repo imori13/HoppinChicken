@@ -52,7 +52,6 @@
     <Compile Include="Devices\Sound.cs" />
     <Compile Include="Devices\TimeSpeed.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="GameObjects\Objects\BackGround.cs" />
     <Compile Include="GameObjects\Collision\BoxCollider.cs" />
     <Compile Include="GameObjects\Collision\CircleCollider.cs" />
     <Compile Include="GameObjects\Collision\Collider.cs" />
@@ -60,19 +59,25 @@
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\GameObjectTag.cs" />
     <Compile Include="GameObjects\ObjectsManager.cs" />
+    <Compile Include="GameObjects\Objects\EnemyLane.cs" />
+    <Compile Include="GameObjects\Objects\BackGround.cs" />
     <Compile Include="GameObjects\Objects\BackGroundObject.cs" />
+    <Compile Include="GameObjects\Objects\EnemyLaneManager.cs" />
     <Compile Include="GameObjects\Objects\Player.cs" />
     <Compile Include="GameObjects\Particle\Particle2D.cs" />
     <Compile Include="GameObjects\Particle\RadiationParticle2D.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SceneDevices\GameScene.cs" />
-    <Compile Include="SceneDevices\IScene.cs" />
+    <Compile Include="SceneDevices\RankingScreen.cs" />
+    <Compile Include="SceneDevices\SceneBase.cs" />
     <Compile Include="SceneDevices\ResultScreen.cs" />
     <Compile Include="SceneDevices\SceneEnum.cs" />
     <Compile Include="SceneDevices\SceneManager.cs" />
     <Compile Include="SceneDevices\TitleScene.cs" />
-    <Compile Include="UI\T_KeyWindow.cs" />
+    <Compile Include="SceneDevices\Title\T_KeyWindow.cs" />
+    <Compile Include="SceneDevices\Title\T_ParticleManager.cs" />
+    <Compile Include="SceneDevices\Title\T_Player.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -87,6 +92,7 @@
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
+    <None Include="Content\Font\pixelMplus10_size128.spritefont" />
     <None Include="Content\Font\pixelMplus12_size32.spritefont" />
     <None Include="Content\Font\PixelMplus10-Bold.ttf" />
   </ItemGroup>

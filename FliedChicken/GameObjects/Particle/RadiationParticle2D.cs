@@ -55,7 +55,6 @@ namespace FliedChicken.Particle
                    position,
                    color,
                    rotation,
-                   origin,
                    scale * Screen.ScreenSize);
         }
     }
