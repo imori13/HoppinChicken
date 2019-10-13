@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FliedChicken.Scenes
+namespace FliedChicken.ScenesDevice
 {
     enum SceneEnum
     {
+        TitleScene,
         GameScene,
     }
 }

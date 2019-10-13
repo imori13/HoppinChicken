@@ -62,6 +62,37 @@ namespace FliedChicken.Devices
             return currentKey.IsKeyDown(key);
         }
 
+        // 押しているキーボードを受け取る
+        public static Keys[] GetPressedKey()
+        {
+            List<Keys> current = currentKey.GetPressedKeys().ToList();
+
+            for (int i = 0; i < current.Count; i++)
+            {
+                if (((int)current[i] >= 65 && (int)current[i] <= 90))
+                {
+
+                }
+                else
+                {
+                    current[i] = Keys.None;
+                }
+            }
+
+            current.RemoveAll(c => c == Keys.None);
+
+            List<Keys> list = new List<Keys>();
+            foreach (var c in current)
+            {
+                if (currentKey.IsKeyDown(c) && prevKey.IsKeyUp(c))
+                {
+                    list.Add(c);
+                }
+            }
+
+            return list.ToArray();
+        }
+
         #endregion キーボード関連
 
         #region マウス関連

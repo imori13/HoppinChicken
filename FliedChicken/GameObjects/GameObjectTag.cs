@@ -10,5 +10,6 @@ namespace FliedChicken.GameObjects
     {
         None,   // タグなし
         Player, // プレイヤー
+        Enemy, //敵
     }
 }

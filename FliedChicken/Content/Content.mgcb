@@ -10,10 +10,11 @@
 
 #-------------------------------- References --------------------------------#
 
+/reference:WpfFontPipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 
-#begin packman.png
+#begin Texture/4k-gaming-wallpaper.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -23,9 +24,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:packman.png
+/build:Texture/4k-gaming-wallpaper.jpg
 
-#begin stage.png
+#begin Texture/packman.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -35,5 +36,37 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:stage.png
+/build:Texture/packman.png
+
+#begin Font/PixelMplus12-Bold.ttf
+/copy:Font/PixelMplus12-Bold.ttf
+
+#begin Font/pixelMplus12_size32.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Font/pixelMplus12_size32.spritefont
+
+#begin Font/PixelMplus10-Bold.ttf
+/copy:Font/PixelMplus10-Bold.ttf
+
+#begin Texture/stage.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Texture/stage.png
+
+#begin Font/pixelMplus10_size128.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Font/pixelMplus10_size128.spritefont
 

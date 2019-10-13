@@ -16,7 +16,7 @@ namespace FliedChicken.GameObjects
         // 変数
         public Vector2 Position { get; set; } // 位置
         public Vector2 Velocity { get; protected set; } // 移動量 処理は各自必要な場合
-        public GameObjectTag GameObjectTag { get; protected set; }  // ゲームタグ
+        public GameObjectTag GameObjectTag { get; set; }  // ゲームタグ
         public Collider Collider { get; protected set; }
         public bool IsDead { get; protected set; }  // 死亡してるか
         public ObjectsManager ObjectsManager { get; set; }
