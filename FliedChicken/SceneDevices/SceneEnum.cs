@@ -8,7 +8,6 @@ namespace FliedChicken.ScenesDevice
 {
     enum SceneEnum
     {
-        TitleScene,
         GameScene,
     }
 }

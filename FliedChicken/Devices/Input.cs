@@ -69,7 +69,9 @@ namespace FliedChicken.Devices
 
             for (int i = 0; i < current.Count; i++)
             {
-                if (((int)current[i] >= 65 && (int)current[i] <= 90))
+                if (((int)current[i] >= 48 && (int)current[i] <= 57) ||
+                    ((int)current[i] >= 65 && (int)current[i] <= 90) ||
+                    current[i] == Keys.OemBackslash)
                 {
 
                 }

@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FliedChicken.SceneDevices.Title;
+
 namespace FliedChicken.SceneDevices
 {
     /// <summary>
@@ -18,7 +20,7 @@ namespace FliedChicken.SceneDevices
     /// </summary>
     enum GamePlayState
     {
-        STOP,
+        TITLE,
         FLY,
         RESTART,
         CLEAR,
@@ -46,11 +48,13 @@ namespace FliedChicken.SceneDevices
         GamePlayState state;
         ResultScreen resultScreen;
         RankingScreen rankingScreen;
+        TitleDisplayMode titleDisplayMode;
 
         public GameScene()
         {
             camera = new Camera();
             objectsManager = new ObjectsManager(camera);
+            titleDisplayMode = new TitleDisplayMode();
         }
 
         public override void Initialize()
@@ -63,10 +67,12 @@ namespace FliedChicken.SceneDevices
 
             cleartime = 0.0f;
             gameclearLine = 500;
-            state = GamePlayState.STOP;
-            
+            state = GamePlayState.TITLE;
+
             resultScreen = new ResultScreen(camera);
             rankingScreen = new RankingScreen(camera);
+
+            titleDisplayMode.Initialize();
 
             base.Initialize();
         }
@@ -78,8 +84,8 @@ namespace FliedChicken.SceneDevices
             //状態によって動くUpdateメソッド
             switch (state)
             {
-                case GamePlayState.STOP:
-                    Stop();
+                case GamePlayState.TITLE:
+                    Title();
                     break;
                 case GamePlayState.FLY:
                     Fly();
@@ -101,17 +107,75 @@ namespace FliedChicken.SceneDevices
             base.Update();
         }
 
+        public override void Draw(Renderer renderer)
+        {
+            renderer.Begin(camera);
+
+            if (state == GamePlayState.RESULT)
+            {
+                ResultScreen(renderer);
+            }
+
+            if (state == GamePlayState.RANKING)
+            {
+                RankingScreen(renderer);
+            }
+
+            renderer.End();
+
+            // タイトル画面を描画
+            if (state == GamePlayState.TITLE)
+            {
+                renderer.Begin();
+                titleDisplayMode.Draw(renderer);
+                renderer.End();
+            }
+
+            // タイトル画面の黒幕よりもプレイヤーを上に描画させたいのでこの描画順
+            // オブジェクトを描画
+            renderer.Begin(camera);
+
+            objectsManager.Draw(renderer);
+#if DEBUG
+            // デバッグ用
+            if (titleDisplayMode.TitleFinishFlag)
+            {
+                renderer.Draw2D("Pixel", new Vector2(player.Position.X, gameclearLine), Color.Red, 0, Vector2.One / 2f, new Vector2(2000, 10));
+            }
+#endif
+
+            renderer.End();
+
+#if DEBUG
+            // デバッグ用描画 現在のGamePlayStateの状態を表示
+            renderer.Begin();
+            SpriteFont font = Fonts.Font12_32;
+            string text = state.ToString();
+            Vector2 size = font.MeasureString(text);
+            renderer.DrawString(font, text, new Vector2(Screen.WIDTH / 2f, 100 * Screen.ScreenSize), Color.White * 0.5f, 0, size / 2f, Vector2.One * Screen.ScreenSize);
+            renderer.End();
+#endif
+
+            base.Draw(renderer);
+        }
+
         private void Default()
         {
             camera.Update();
             objectsManager.Update();
         }
 
-        private void Stop()
+        private void Title()
         {
-            if (Input.GetKeyDown(Keys.A))
+            titleDisplayMode.Update();
+            if (titleDisplayMode.TitleFinishFlag)
             {
                 state = GamePlayState.FLY;
+
+                // ゴールラインを設定
+                gameclearLine = (int)player.Position.Y + 1000;
+
+                // TODO : ここでマップを生成する
             }
         }
 
@@ -163,29 +227,6 @@ namespace FliedChicken.SceneDevices
             }
         }
 
-        public override void Draw(Renderer renderer)
-        {
-            renderer.Begin(camera);
-
-            renderer.Draw2D("4k-gaming-wallpaper", Vector2.Zero, Color.White);
-
-            objectsManager.Draw(renderer);
-
-            if (state == GamePlayState.RESULT)
-            {
-                ResultScreen(renderer);
-            }
-
-            if (state == GamePlayState.RANKING)
-            {
-                RankingScreen(renderer);
-            }
-
-            renderer.End();
-
-            base.Draw(renderer);
-        }
-
         private void ResultScreen(Renderer renderer)
         {
             resultScreen.Draw(renderer);
@@ -199,8 +240,8 @@ namespace FliedChicken.SceneDevices
 
         public override SceneEnum NextScene()
         {
-            rankingScreen.RankingWrite();
-            return SceneEnum.TitleScene;
+            //rankingScreen.RankingWrite();
+            return SceneEnum.GameScene;
         }
     }
 }

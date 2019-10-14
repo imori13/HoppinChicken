@@ -11,7 +11,6 @@ namespace FliedChicken.GameObjects.Objects
 {
     enum PlayerState
     {
-        STOP,
         FLY,
         CLEAR,
     }
@@ -40,30 +39,19 @@ namespace FliedChicken.GameObjects.Objects
         {
             currentGrid = 6;
             inputflag = false;
-            state = PlayerState.STOP;
+            state = PlayerState.FLY;
         }
 
         public override void Update()
         {
             switch (state)
             {
-                case PlayerState.STOP:
-                    StopUpdate();
-                    break;
                 case PlayerState.FLY:
                     FlyUpdate();
                     break;
                 case PlayerState.CLEAR:
                     ClearUpdate();
                     break;
-            }
-        }
-
-        public void StopUpdate()
-        {
-            if (Input.GetKeyDown(Keys.A))
-            {
-                state = PlayerState.FLY;
             }
         }
 
@@ -86,7 +74,7 @@ namespace FliedChicken.GameObjects.Objects
             Position = Vector2.Lerp(Position, destPosition, 0.2f);
 
             time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
-            
+
             if (Input.GetKeyDown(Keys.Space) || inputflag)
             {
                 if (time >= 0.15f)

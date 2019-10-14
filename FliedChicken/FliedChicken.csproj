@@ -74,10 +74,8 @@
     <Compile Include="SceneDevices\ResultScreen.cs" />
     <Compile Include="SceneDevices\SceneEnum.cs" />
     <Compile Include="SceneDevices\SceneManager.cs" />
-    <Compile Include="SceneDevices\TitleScene.cs" />
-    <Compile Include="SceneDevices\Title\T_KeyWindow.cs" />
-    <Compile Include="SceneDevices\Title\T_ParticleManager.cs" />
-    <Compile Include="SceneDevices\Title\T_Player.cs" />
+    <Compile Include="SceneDevices\Title\TitleDisplayMode.cs" />
+    <Compile Include="SceneDevices\Title\KeyInput.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
