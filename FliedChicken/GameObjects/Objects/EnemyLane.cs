@@ -48,7 +48,7 @@ namespace FliedChicken.GameObjects.Objects
         public override void Initialize()
         {
             spawnTimer.Reset();
-            PreGenerateEnemies();
+            PreGenerateEnemy();
         }
 
         public override void Update()
@@ -96,20 +96,17 @@ namespace FliedChicken.GameObjects.Objects
             enemyList.ForEach(enemy => enemy.Destroy());
         }
 
-        private void PreGenerateEnemies()
+        private void PreGenerateEnemy()
         {
             float basePos = LaneInfo.width / 2 * -(int)LaneInfo.enemyDirection;
+            float moveValue = LaneInfo.moveSpeed * LaneInfo.interval;
 
-            for (int i = 1; i < 2; i++)
-            {
-                var newEnemy = EnemyFactory.Create(LaneInfo.enemyName);
-                float moveValue = LaneInfo.moveSpeed * LaneInfo.interval * i;
-                newEnemy.Position = new Vector2(basePos + moveValue, Position.Y);
-                newEnemy.MoveSpeed = LaneInfo.moveSpeed;
+            var newEnemy = EnemyFactory.Create(LaneInfo.enemyName);
+            newEnemy.Position = new Vector2(basePos + moveValue, Position.Y);
+            newEnemy.MoveSpeed = LaneInfo.moveSpeed;
 
-                enemyList.Add(newEnemy);
-                ObjectsManager.AddGameObject(newEnemy);
-            }
+            enemyList.Add(newEnemy);
+            ObjectsManager.AddGameObject(newEnemy);
         }
 
         private LaneInfo GenerateLaneInfo()
