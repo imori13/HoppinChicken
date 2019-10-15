@@ -60,6 +60,9 @@ namespace FliedChicken.SceneDevices
             camera = new Camera();
             objectsManager = new ObjectsManager(camera);
             titleDisplayMode = new TitleDisplayMode();
+
+            resultScreen = new ResultScreen(camera);
+            rankingScreen = new RankingScreen(camera);
         }
 
         public override void Initialize()
@@ -74,9 +77,6 @@ namespace FliedChicken.SceneDevices
             cleartime = 0.0f;
             gameclearLine = 500;
             state = GamePlayState.TITLE;
-
-            resultScreen = new ResultScreen(camera);
-            rankingScreen = new RankingScreen(camera);
 
             titleDisplayMode.Initialize();
 
@@ -119,6 +119,8 @@ namespace FliedChicken.SceneDevices
         {
             renderer.Begin(camera);
 
+            objectsManager.Draw(renderer);
+
             if (state == GamePlayState.RESULT)
             {
                 ResultScreen(renderer);
@@ -142,8 +144,7 @@ namespace FliedChicken.SceneDevices
             // タイトル画面の黒幕よりもプレイヤーを上に描画させたいのでこの描画順
             // オブジェクトを描画
             renderer.Begin(camera);
-
-            objectsManager.Draw(renderer);
+            
 #if DEBUG
             // デバッグ用
             if (titleDisplayMode.TitleFinishFlag)
@@ -230,8 +231,8 @@ namespace FliedChicken.SceneDevices
         {
             if (Input.GetKeyDown(Keys.A))
             {
-                resultScreen.SetScore(cleartime, 0);
                 state = GamePlayState.RESULT;
+                resultScreen.Initialize(cleartime, 0);
             }
         }
 
@@ -244,18 +245,23 @@ namespace FliedChicken.SceneDevices
                 diveEnemySpawner.Shutdown();
             }
 
+            resultScreen.Update();
+
             if (Input.GetKeyDown(Keys.A))
             {
-                rankingScreen.RankingRead();
-                rankingScreen.RankingChange("souya", 11000);
+                resultScreen.End();
+                rankingScreen.Initialize();
+                rankingScreen.RankingChange(titleDisplayMode.keyInput.Text, 11000);
                 state = GamePlayState.RANKING;
             }
         }
 
         private void Ranking()
         {
+            rankingScreen.Update();
             if (Input.GetKeyDown(Keys.A))
             {
+                rankingScreen.End();
                 ShutDown = true;
             }
         }
