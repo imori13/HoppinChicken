@@ -29,9 +29,15 @@ namespace FliedChicken.SceneDevices.Title
 
         float endingTime;
 
+        RankingScreen rankingScreen;
+        Camera camera;
+        bool rankingIN;
+
         public TitleDisplayMode()
         {
             keyInput = new KeyInput();
+            camera = new Camera();
+            rankingScreen = new RankingScreen(camera);
         }
 
         public void Initialize()
@@ -51,28 +57,49 @@ namespace FliedChicken.SceneDevices.Title
             finishingFlag = false;
             startBack01 = 0;
             startBack02 = 0;
+
+            rankingScreen.Initialize();
+            rankingIN = false;
         }
 
         public void Update()
         {
             if (!startFlag)
             {
-                // ゲージが満タンになった
-                if (destSizeY >= 1080)
+                if (rankingIN)
                 {
-                    startFlag = true;
-                }
+                    rankingScreen.Update();
 
-                if (Input.GetKeyDown(Keys.Space))
+                    if (rankingScreen.IsDead)
+                    {
+                        rankingIN = false;
+                    }
+                }
+                else
                 {
-                    destSizeY += 300;
+                    // ゲージが満タンになった
+                    if (destSizeY >= 1080)
+                    {
+                        startFlag = true;
+                    }
+
+                    if (Input.GetKeyDown(Keys.Space))
+                    {
+                        destSizeY += 300;
+                    }
+
+                    destSizeY -= 10 * TimeSpeed.Time;
+
+                    destSizeY = MathHelper.Clamp(destSizeY, 0, 1080);
+
+                    keyInput.Update();
+
+                    if (Input.GetKeyDown(Keys.Enter))
+                    {
+                        rankingScreen.Initialize();
+                        rankingIN = true;
+                    }
                 }
-
-                destSizeY -= 10 * TimeSpeed.Time;
-
-                destSizeY = MathHelper.Clamp(destSizeY, 0, 1080);
-
-                keyInput.Update();
             }
             else
             {
@@ -168,6 +195,11 @@ namespace FliedChicken.SceneDevices.Title
             renderer.DrawString(font, text, gameStartTextPos, Color.White * rate, 0, size / 2f, Vector2.One * Screen.ScreenSize);
 
             keyInput.Draw(renderer, rate, inputKeyPos);
+
+            if (rankingIN)
+            {
+                rankingScreen.Draw(renderer);
+            }
         }
     }
 }

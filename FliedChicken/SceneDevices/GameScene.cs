@@ -250,7 +250,7 @@ namespace FliedChicken.SceneDevices
 
             resultScreen.Update();
 
-            if (Input.GetKeyDown(Keys.A))
+            if (resultScreen.IsDead)
             {
                 resultScreen.End();
                 rankingScreen.Initialize();
