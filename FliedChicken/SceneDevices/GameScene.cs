@@ -181,7 +181,7 @@ namespace FliedChicken.SceneDevices
 
         private void Fly()
         {
-            cleartime += TimeSpeed.Time;
+            cleartime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
 
             if (player.IsDead == true)
             {
@@ -235,7 +235,6 @@ namespace FliedChicken.SceneDevices
         private void RankingScreen(Renderer renderer)
         {
             rankingScreen.Draw(renderer);
-            base.Draw(renderer);
         }
 
         public override SceneEnum NextScene()
