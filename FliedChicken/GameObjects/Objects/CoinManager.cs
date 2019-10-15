@@ -25,16 +25,6 @@ namespace FliedChicken.GameObjects.Objects
             coinList = new List<Coin>();
         }
 
-        public void Initialize()
-        {
-            foreach(var coin in coinList)
-            {
-                coin.Destroy();
-            }
-
-            coinList.Clear();
-        }
-
         public void OnGetCoin()
         {
             CoinCount++;
@@ -44,13 +34,25 @@ namespace FliedChicken.GameObjects.Objects
         {
             var random = GameDevice.Instance().Random;
             float randomRatio = (float)random.NextDouble();
-            if (!(randomRatio < coinRatio)) return;
+            if (!(randomRatio <= coinRatio)) return;
 
-            Vector2 basePosition = lane.Position - new Vector2(lane.LaneInfo.width / 2, 0);
+            float laneWidth = lane.LaneInfo.width * 0.75f;
+
+            Vector2 basePosition = lane.Position - new Vector2(laneWidth / 2, 0);
             var newCoin = new Coin(this);
-            newCoin.Position = basePosition + new Vector2((float)random.NextDouble() * lane.LaneInfo.width, 0);
+            newCoin.Position = basePosition + new Vector2((float)random.NextDouble() * laneWidth, 0);
 
             objectsManager.AddGameObject(newCoin);
+        }
+
+        public void ClearCoin()
+        {
+            foreach (var coin in coinList)
+            {
+                coin.Destroy();
+            }
+
+            coinList.Clear();
         }
 
     }

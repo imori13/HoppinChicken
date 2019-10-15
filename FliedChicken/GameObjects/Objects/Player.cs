@@ -34,7 +34,7 @@ namespace FliedChicken.GameObjects.Objects
         public Player(Camera camera)
         {
             this.camera = camera;
-
+            GameObjectTag = GameObjectTag.Player;
             Collider = new BoxCollider(this, new Vector2(127, 132) / 2f);
         }
 

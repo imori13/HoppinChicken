@@ -55,6 +55,9 @@ namespace FliedChicken.SceneDevices
         DiveEnemySpawner diveEnemySpawner;
         float centerX;
 
+        //コイン関連
+        CoinManager coinManager;
+
         public GameScene()
         {
             camera = new Camera();
@@ -63,6 +66,8 @@ namespace FliedChicken.SceneDevices
 
             resultScreen = new ResultScreen(camera);
             rankingScreen = new RankingScreen(camera);
+
+            coinManager = new CoinManager(objectsManager, 0.5f);
         }
 
         public override void Initialize()
@@ -194,7 +199,7 @@ namespace FliedChicken.SceneDevices
         {
             if (laneManager == null)
             {
-                laneManager = new EnemyLaneManager(camera, 20, 10);
+                laneManager = new EnemyLaneManager(camera, 20, 10, coinManager);
                 laneManager.ObjectsManager = objectsManager;
                 laneManager.Position = new Vector2(centerX, player.Position.Y + Screen.HEIGHT);
                 objectsManager.AddGameObject(laneManager);
@@ -224,6 +229,7 @@ namespace FliedChicken.SceneDevices
                 laneManager.Destroy();
                 laneManager = null;
                 diveEnemySpawner.Shutdown();
+                coinManager.ClearCoin();
             }
         }
 
@@ -243,6 +249,7 @@ namespace FliedChicken.SceneDevices
                 laneManager.Destroy();
                 laneManager = null;
                 diveEnemySpawner.Shutdown();
+                coinManager.ClearCoin();
             }
 
             resultScreen.Update();

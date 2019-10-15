@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
+using FliedChicken.GameObjects.Collision;
 using FliedChicken.Devices;
 
 namespace FliedChicken.GameObjects.Objects
@@ -16,6 +17,7 @@ namespace FliedChicken.GameObjects.Objects
         public Coin(CoinManager coinManager)
         {
             this.coinManager = coinManager;
+            Collider = new BoxCollider(this, new Vector2(128, 128));
         }
 
         public override void Initialize()
@@ -28,7 +30,7 @@ namespace FliedChicken.GameObjects.Objects
 
         public override void Draw(Renderer renderer)
         {
-            renderer.Draw2D("Pixel", Position, Color.LightGoldenrodYellow, 0.0f, new Vector2(32, 32));
+            renderer.Draw2D("Pixel", Position, Color.LightGoldenrodYellow, 0.0f, new Vector2(128, 128));
         }
 
         public override void HitAction(GameObject gameObject)

@@ -18,7 +18,7 @@ namespace FliedChicken.GameObjects.Objects
 
         private CoinManager coinManager;
 
-        public EnemyLaneManager(Camera camera, int laneCount, int preGenerateCount, CoinManager coinManager = null)
+        public EnemyLaneManager(Camera camera, int laneCount, int preGenerateCount, CoinManager coinManager)
         {
             this.camera = camera;
             this.laneCount = laneCount - preGenerateCount;
