@@ -12,36 +12,28 @@ namespace FliedChicken.GameObjects.Objects
 {
     class DiveEnemy : GameObject
     {
-        private static DiveEnemy instance;
-        private static bool spawnFlag;
+        private Camera camera;
 
         private float sinWidth;
         private float elapsedTime;
 
         private float speedX;
         private float speedY;
-
-        private Player player;
-        private Camera camera;
         private Vector2 basePosition;
 
         private Vector2 Size { get; set; }
 
-        public DiveEnemy(Player player, Camera camera, Vector2 size, float speedX, float speedY)
+        public DiveEnemy(Camera camera)
         {
-            this.player = player;
             this.camera = camera;
 
-            Size = size;
+            Size = new Vector2(64, 64);
             Collider = new BoxCollider(this, Size);
 
-            this.speedX = speedX;
-            this.speedY = speedY;
+            speedX = 2;
+            speedY = 7;
             sinWidth = 64 * 8;
             elapsedTime = 0.0f;
-
-            if (instance == null)
-                instance = this;
         }
 
         public override void Initialize()
@@ -56,13 +48,6 @@ namespace FliedChicken.GameObjects.Objects
             float newX = sinWidth * (float)Math.Sin(MathHelper.ToRadians(speedX * elapsedTime));
 
             Position = basePosition + new Vector2(newX, speedY * elapsedTime);
-
-            RollSpawnChance();
-
-            if (IsOutOfScreenUp() && spawnFlag)
-            {
-                SpawnNew();
-            }
         }
 
         public override void Draw(Renderer renderer)
@@ -74,34 +59,12 @@ namespace FliedChicken.GameObjects.Objects
         {
         }
 
-        private static void SpawnNew()
+        public void Destroy()
         {
-            spawnFlag = false;
-
-            if (instance != null)
-                instance.IsDead = true;
-
-            var newObject = new DiveEnemy(instance.player, instance.camera, instance.Size, instance.speedX, instance.speedY);
-            newObject.Position = new Vector2(instance.player.Position.X, instance.player.Position.Y - 64 * 8);
-            newObject.ObjectsManager = instance.ObjectsManager;
-
-            newObject.ObjectsManager.AddGameObject(newObject);
-
-            instance = newObject;
+            IsDead = true;
         }
 
-        private static void RollSpawnChance()
-        {
-            if (spawnFlag) return;
-
-            var random = GameDevice.Instance().Random;
-            if (random.Next(0, 800) < 1)
-            {
-                spawnFlag = true;
-            }
-        }
-
-        private bool IsOutOfScreenUp()
+        public bool IsOutOfScreenUp()
         {
             return Position.Y + Size.Y / 2 < camera.Position.Y - Screen.HEIGHT / 2;
         }

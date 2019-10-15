@@ -50,6 +50,11 @@ namespace FliedChicken.SceneDevices
         RankingScreen rankingScreen;
         TitleDisplayMode titleDisplayMode;
 
+        //敵関連
+        EnemyLaneManager laneManager;
+        DiveEnemySpawner diveEnemySpawner;
+        float centerX;
+
         public GameScene()
         {
             camera = new Camera();
@@ -64,6 +69,7 @@ namespace FliedChicken.SceneDevices
 
             player = new Player(camera);
             objectsManager.AddGameObject(player);
+            camera.Position = player.Position;
 
             cleartime = 0.0f;
             gameclearLine = 500;
@@ -73,6 +79,8 @@ namespace FliedChicken.SceneDevices
             rankingScreen = new RankingScreen(camera);
 
             titleDisplayMode.Initialize();
+
+            diveEnemySpawner = new DiveEnemySpawner(3.0f, objectsManager, player, camera);
 
             base.Initialize();
         }
@@ -173,7 +181,9 @@ namespace FliedChicken.SceneDevices
                 state = GamePlayState.FLY;
 
                 // ゴールラインを設定
-                gameclearLine = (int)player.Position.Y + 1000;
+                gameclearLine = (int)player.Position.Y + Screen.WIDTH * 5;
+                if (centerX == 0)
+                    centerX = player.Position.X;
 
                 // TODO : ここでマップを生成する
             }
@@ -181,6 +191,16 @@ namespace FliedChicken.SceneDevices
 
         private void Fly()
         {
+            if (laneManager == null)
+            {
+                laneManager = new EnemyLaneManager(camera, 20, 10);
+                laneManager.ObjectsManager = objectsManager;
+                laneManager.Position = new Vector2(centerX, player.Position.Y + Screen.HEIGHT);
+                objectsManager.AddGameObject(laneManager);
+            }
+
+            diveEnemySpawner.Update();
+
             cleartime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
 
             if (player.IsDead == true)
@@ -198,6 +218,12 @@ namespace FliedChicken.SceneDevices
         private void Restart()
         {
             ShutDown = true;
+            if (laneManager != null)
+            {
+                laneManager.Destroy();
+                laneManager = null;
+                diveEnemySpawner.Shutdown();
+            }
         }
 
         private void Clear()
@@ -211,6 +237,13 @@ namespace FliedChicken.SceneDevices
 
         private void Result()
         {
+            if (laneManager != null)
+            {
+                laneManager.Destroy();
+                laneManager = null;
+                diveEnemySpawner.Shutdown();
+            }
+
             if (Input.GetKeyDown(Keys.A))
             {
                 rankingScreen.RankingRead();

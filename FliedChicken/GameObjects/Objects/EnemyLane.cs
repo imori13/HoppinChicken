@@ -56,7 +56,7 @@ namespace FliedChicken.GameObjects.Objects
             if (spawnTimer.IsTime())
             {
                 var newEnemy = EnemyFactory.Create(LaneInfo.enemyName);
-                newEnemy.Position = new Vector2(LaneInfo.width / 2 * -(int)LaneInfo.enemyDirection, Position.Y);
+                newEnemy.Position = new Vector2(Position.X + LaneInfo.width / 2 * -(int)LaneInfo.enemyDirection, Position.Y);
                 newEnemy.MoveSpeed = LaneInfo.moveSpeed;
 
                 enemyList.Add(newEnemy);

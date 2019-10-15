@@ -14,11 +14,13 @@ namespace FliedChicken.GameObjects.Objects
         private Camera camera;
         private Queue<EnemyLane> laneQueue;
         private int laneCount;
+        private int preGenerateCount;
 
-        public EnemyLaneManager(Camera camera, int laneCount)
+        public EnemyLaneManager(Camera camera, int laneCount, int preGenerateCount)
         {
             this.camera = camera;
-            this.laneCount = Math.Max(1, laneCount);
+            this.laneCount = laneCount - preGenerateCount;
+            this.preGenerateCount = preGenerateCount;
 
             laneQueue = new Queue<EnemyLane>();
         }
@@ -26,7 +28,7 @@ namespace FliedChicken.GameObjects.Objects
         public override void Initialize()
         {
             float basePosition = Position.Y;
-            for (int i = 0; i < laneCount; i++)
+            for (int i = 0; i < preGenerateCount; i++)
             {
                 var newLane = new EnemyLane();
                 newLane.Position = new Vector2(Position.X, basePosition + newLane.LaneInfo.height / 2);
@@ -42,10 +44,9 @@ namespace FliedChicken.GameObjects.Objects
 
         public override void Update()
         {
-            if (laneQueue.Peek().IsOutOfScreenUp(camera))
-            {
-                laneQueue.Dequeue().Destory();
-            }
+            DestroyOutOfScreen();
+
+            if (laneCount == 0) return;
 
             var lastLane = laneQueue.Last();
             if (lastLane.Position.Y < camera.Position.Y + Screen.HEIGHT)
@@ -58,6 +59,7 @@ namespace FliedChicken.GameObjects.Objects
 
                 ObjectsManager.AddGameObject(newLane);
                 laneQueue.Enqueue(newLane);
+                laneCount--;
             }
         }
 
@@ -67,6 +69,23 @@ namespace FliedChicken.GameObjects.Objects
 
         public override void HitAction(GameObject gameObject)
         {
+        }
+
+        private void DestroyOutOfScreen()
+        {
+            if (laneQueue.Count == 0) return;
+
+            if (laneQueue.Peek().IsOutOfScreenUp(camera))
+                laneQueue.Dequeue().Destory();
+        }
+
+        public void Destroy()
+        {
+            IsDead = true;
+            foreach (var lane in laneQueue)
+            {
+                lane.Destory();
+            }
         }
     }
 }
