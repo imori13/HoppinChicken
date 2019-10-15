@@ -61,7 +61,7 @@ namespace FliedChicken.GameObjects.Collision
         public override void Draw(Renderer renderer)
         {
             List<Vector2> pos = new List<Vector2>();
-            for (int i = 0; i < 360; i += 10)
+            for (int i = 0; i < 360; i +=10)
             {
                 pos.Add(gameobject.Position + MyMath.DegToVec2(i) * ((CircleCollider)gameobject.Collider).Radius);
             }
@@ -69,11 +69,11 @@ namespace FliedChicken.GameObjects.Collision
             {
                 if (i == pos.Count - 1)
                 {
-                    renderer.Draw2D("Pixel", pos[i], Color.LightGreen, MathHelper.ToRadians(MyMath.Vec2ToDeg(pos[0] - pos[i])), new Vector2(0.5f, 1), new Vector2(Vector2.Distance(pos[0], pos[i]), 1));
+                    renderer.Draw2D("Pixel", pos[i], Color.LightGreen, MathHelper.ToRadians(MyMath.Vec2ToDeg(pos[0] - pos[i])), new Vector2(0, 0), new Vector2(Vector2.Distance(pos[0], pos[i]), 1));
                 }
                 else
                 {
-                    renderer.Draw2D("Pixel", pos[i], Color.LightGreen, MathHelper.ToRadians(MyMath.Vec2ToDeg(pos[i + 1] - pos[i])), new Vector2(0.5f, 1), new Vector2(Vector2.Distance(pos[i + 1], pos[i]),1));
+                    renderer.Draw2D("Pixel", pos[i], Color.LightGreen, MathHelper.ToRadians(MyMath.Vec2ToDeg(pos[i + 1] - pos[i])), new Vector2(0,0), new Vector2(Vector2.Distance(pos[i + 1], pos[i]),1));
                 }
             }
         }
