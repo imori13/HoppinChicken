@@ -21,13 +21,15 @@ namespace FliedChicken.GameObjects.Objects
         public int MinInterval { get; set; }
         public int MaxInterval { get; set; }
 
+        private Vector2 colliderSize;
         private string textureName;
 
-        public Enemy(string textureName, float width, float height)
+        public Enemy(string textureName, float width, float height, float collWidth, float collHeight)
         {
             this.textureName = textureName;
             Size = new Vector2(width, height);
-            Collider = new BoxCollider(this, Size);
+            colliderSize = new Vector2(collWidth, collHeight);
+            Collider = new BoxCollider(this, colliderSize);
             GameObjectTag = GameObjectTag.Enemy;
         }
 
@@ -51,7 +53,7 @@ namespace FliedChicken.GameObjects.Objects
 
         public object Clone()
         {
-            var newEnemy = new Enemy(textureName, Size.X, Size.Y);
+            var newEnemy = new Enemy(textureName, Size.X, Size.Y, colliderSize.X, colliderSize.Y);
             newEnemy.Position = Position;
             newEnemy.MoveSpeed = MoveSpeed;
             newEnemy.MinSpeed = MinSpeed;
