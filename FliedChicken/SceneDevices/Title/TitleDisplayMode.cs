@@ -18,7 +18,7 @@ namespace FliedChicken.SceneDevices.Title
         float finishBack01; // 横にどいていく背景
         float finishBack02;
         float finishBack03;
-        KeyInput keyInput;
+        public KeyInput keyInput { get; private set; }
         bool startFlag;
         bool finishingFlag;
         public bool TitleFinishFlag { get; private set; }

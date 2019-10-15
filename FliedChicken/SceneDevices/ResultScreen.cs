@@ -25,6 +25,16 @@ namespace FliedChicken.SceneDevices
         private int coinNum;
         private string timeText;
 
+        private float windowWidth;
+        private float windowHeight;
+
+        private readonly float maxWindowWidth = Screen.WIDTH - 300;
+        private readonly float maxWindowHeight = Screen.HEIGHT - 100;
+
+        private Vector2 maxWindowSize;
+
+        private float textSize01;
+
         Camera camera;
 
         public ResultScreen(Camera camera)
@@ -44,6 +54,21 @@ namespace FliedChicken.SceneDevices
             ChangeTimerText();
         }
 
+        public void Initialize()
+        {
+            windowWidth = 0.0f;
+            windowHeight = maxWindowHeight;
+            maxWindowSize = new Vector2(maxWindowWidth, maxWindowHeight);
+
+            textSize01 = 0.0f;
+        }
+
+        public void Update()
+        {
+            windowWidth = MathHelper.Lerp(windowWidth, maxWindowWidth, 0.05f);
+            textSize01 = MathHelper.Lerp(textSize01, 2, 0.05f);
+        }
+
         /// <summary>
         /// タイム表示
         /// </summary>
@@ -57,15 +82,15 @@ namespace FliedChicken.SceneDevices
 
         public void Draw(Renderer renderer)
         {
-            renderer.Draw2D("Pixel", new Vector2(camera.Position.X - 600, camera.Position.Y - Screen.HEIGHT / 2),
-                Color.White, 0.0f, new Vector2(1200, Screen.HEIGHT));
+            renderer.Draw2D("Pixel", new Vector2(camera.Position.X, camera.Position.Y),
+                Color.Black, 0.0f, new Vector2(windowWidth, windowHeight));
 
             renderer.DrawString(Fonts.Font12_32, "RESULT",
-                new Vector2(camera.Position.X - 180, camera.Position.Y - Screen.HEIGHT / 2), Color.Red,
-                0.0f, Vector2.Zero, new Vector2(3, 3));
-            
+                new Vector2(camera.Position.X, camera.Position.Y - 400), Color.White * 255,
+                0.0f, Fonts.Font12_32.MeasureString("Result") / 2, new Vector2(textSize01, 2));
+
             renderer.DrawString(Fonts.Font12_32, timeText,
-                new Vector2(camera.Position.X - 180, camera.Position.Y), Color.Red,
+                new Vector2(camera.Position.X - 180, camera.Position.Y), Color.White,
                 0.0f, Vector2.Zero, new Vector2(3, 3));
         }
     }

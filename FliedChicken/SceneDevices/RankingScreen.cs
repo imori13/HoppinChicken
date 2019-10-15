@@ -20,16 +20,16 @@ namespace FliedChicken.SceneDevices
     class RankingScreen
     {
         Camera camera;
-        string[] rankPlayer;
-        int[] rankScore;
+        List<string> rankPlayer;
+        List<int> rankScore;
 
         readonly int rankNum = 3;
 
         public RankingScreen(Camera camera)
         {
             this.camera = camera;
-            rankPlayer = new string[rankNum];
-            rankScore = new int[rankNum];
+            rankPlayer = new List<string>();
+            rankScore = new List<int>();
         }
 
         /// <summary>
@@ -41,21 +41,13 @@ namespace FliedChicken.SceneDevices
 
             StreamReader sr = new StreamReader("ranking.txt");
 
-            //string line = sr.ReadLine();
-            //string[] value = line.Split(',');
-            //for (int i = 0; i < rankNum; i++)
-            //{
-            //    rankPlayer[i] = value[i];
-            //    rankScore[i] = int.Parse(value[i + rankNum]);
-            //}
-
-            for (int i = 0; i < rankNum; i++)
+            while (!sr.EndOfStream)
             {
                 string line = sr.ReadLine();
                 string[] value = line.Split(',');
 
-                rankPlayer[i] = value[0];
-                rankScore[i] = int.Parse(value[1]);
+                rankPlayer.Add(value[0]);
+                rankScore.Add(int.Parse(value[1]));
             }
             
             sr.Close();
@@ -66,27 +58,10 @@ namespace FliedChicken.SceneDevices
         /// </summary>
         public void RankingWrite()
         {
-
-            //string text = "";
-            //for (int i = 0; i < rankNum; i++)
-            //{
-            //    text += rankPlayer[i];
-            //    text += ",";
-            //}
-
-            //for (int i = 0; i < rankNum; i++)
-            //{
-            //    text += rankScore[i];
-            //    if (i != rankNum)
-            //    {
-            //        text += ",";
-            //    }
-            //}
-
             Encoding enc = Encoding.GetEncoding("Shift_JIS");
             StreamWriter sw = new StreamWriter("ranking.txt", false, enc);
 
-            for (int i = 0; i < rankNum; i++)
+            for (int i = 0; i < rankPlayer.Count; i++)
             {
                 string text = "";
                 text += rankPlayer[i];
@@ -95,7 +70,6 @@ namespace FliedChicken.SceneDevices
                 sw.WriteLine(text);
             }
 
-            //sw.WriteLine(text);
             sw.Close();
         }
 
@@ -106,22 +80,21 @@ namespace FliedChicken.SceneDevices
         /// <param name="score"></param>
         public void RankingChange(string playerName, int score)
         {
-            for (int i = rankNum - 1; i >= 0; i--)
+            for (int i = rankPlayer.Count - 1; i >= 0; i--)
             {
                 if (rankScore[i] >= score)
                 {
+                    rankPlayer.Insert(i + 1, playerName);
+                    rankScore.Insert(i + 1, score);
                     break;
                 }
                 else
                 {
-                    if (i != rankNum - 1)
+                    if (i == 0)
                     {
-                        rankScore[i + 1] = rankScore[i];
-                        rankPlayer[i + 1] = rankPlayer[i];
+                        rankPlayer.Insert(0, playerName);
+                        rankScore.Insert(0, score);
                     }
-
-                    rankScore[i] = score;
-                    rankPlayer[i] = playerName;
                 }
             }
         }
@@ -143,7 +116,7 @@ namespace FliedChicken.SceneDevices
 
         public void Draw(Renderer renderer)
         {
-            renderer.Draw2D("Pixel", new Vector2(camera.Position.X - 600, camera.Position.Y - Screen.HEIGHT / 2), 
+            renderer.Draw2D("Pixel", new Vector2(camera.Position.X, camera.Position.Y), 
                 Color.White, 0.0f, new Vector2(1200, Screen.HEIGHT));
 
             renderer.DrawString(Fonts.Font12_32, "RANKING",
