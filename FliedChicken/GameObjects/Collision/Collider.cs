@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FliedChicken.Devices;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +20,7 @@ namespace FliedChicken.GameObjects.Collision
         }
 
         public abstract bool IsCollision(Collider collider);
+
+        public abstract void Draw(Renderer renderer);
     }
 }

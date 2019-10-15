@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FliedChicken.Devices;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace FliedChicken.GameObjects.Collision
 
         public bool BoxCollision(BoxCollider collider)
         {
-            if (gameobject.Position.X - Size.X/2f < collider.gameobject.Position.X + collider.Size.X / 2f &&
+            if (gameobject.Position.X - Size.X / 2f < collider.gameobject.Position.X + collider.Size.X / 2f &&
                 gameobject.Position.X + Size.X / 2f > collider.gameobject.Position.X - collider.Size.X / 2f &&
                 gameobject.Position.Y - Size.Y / 2f < collider.gameobject.Position.Y + collider.Size.Y / 2f &&
                 gameobject.Position.Y + Size.Y / 2f > collider.gameobject.Position.Y - collider.Size.Y / 2f)
@@ -55,6 +56,21 @@ namespace FliedChicken.GameObjects.Collision
             }
 
             return false;
+        }
+
+        public override void Draw(Renderer renderer)
+        {
+            Vector2 p1, p2, p3, p4;
+            p1 = gameobject.Position + new Vector2(-Size.X/2f, -Size.Y / 2f);
+            p2 = gameobject.Position + new Vector2(Size.X / 2f, -Size.Y / 2f);
+            p3 = gameobject.Position + new Vector2(-Size.X / 2f, Size.Y / 2f);
+            p4 = gameobject.Position + new Vector2(Size.X / 2f, Size.Y / 2f);
+
+            float width = 3;
+            renderer.Draw2D("Pixel", gameobject.Position + new Vector2(0, -Size.Y / 2f), Color.LightGreen, 0, Vector2.One / 2f, new Vector2(p2.X - p1.X, width));
+            renderer.Draw2D("Pixel", gameobject.Position + new Vector2(Size.X / 2f, 0), Color.LightGreen, 0, Vector2.One / 2f, new Vector2(width, p3.Y - p2.Y));
+            renderer.Draw2D("Pixel", gameobject.Position + new Vector2(0, Size.Y / 2f), Color.LightGreen, 0, Vector2.One / 2f, new Vector2(p4.X - p3.X, width));
+            renderer.Draw2D("Pixel", gameobject.Position + new Vector2(-Size.X / 2f, 0), Color.LightGreen, 0, Vector2.One / 2f, new Vector2(width, p4.Y - p1.Y));
         }
     }
 }

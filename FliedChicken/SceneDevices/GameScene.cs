@@ -82,6 +82,8 @@ namespace FliedChicken.SceneDevices
 
             diveEnemySpawner = new DiveEnemySpawner(3.0f, objectsManager, player, camera);
 
+            EnemyFactory.Initialize();
+
             base.Initialize();
         }
 
@@ -119,8 +121,6 @@ namespace FliedChicken.SceneDevices
         {
             renderer.Begin(camera);
 
-            objectsManager.Draw(renderer);
-
             if (state == GamePlayState.RESULT)
             {
                 ResultScreen(renderer);
@@ -144,7 +144,10 @@ namespace FliedChicken.SceneDevices
             // タイトル画面の黒幕よりもプレイヤーを上に描画させたいのでこの描画順
             // オブジェクトを描画
             renderer.Begin(camera);
-            
+
+
+            objectsManager.Draw(renderer);
+
 #if DEBUG
             // デバッグ用
             if (titleDisplayMode.TitleFinishFlag)

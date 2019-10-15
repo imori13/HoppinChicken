@@ -84,6 +84,13 @@ namespace FliedChicken.Objects
         public void Draw(Renderer renderer)
         {
             gameobjects.ForEach(g => g.Draw(renderer));
+            foreach (var g in gameobjects)
+            {
+                if (g.Collider != null)
+                {
+                    g.Collider.Draw(renderer);
+                }
+            }
             particles.ForEach(p => p.Draw(renderer));
         }
     }

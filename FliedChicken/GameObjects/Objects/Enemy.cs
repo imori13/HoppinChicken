@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using FliedChicken.GameObjects.Collision;
 using FliedChicken.Devices;
+using FliedChicken.Devices.AnimationDevice;
 
 namespace FliedChicken.GameObjects.Objects
 {
@@ -20,12 +21,10 @@ namespace FliedChicken.GameObjects.Objects
 
         public int MinInterval { get; set; }
         public int MaxInterval { get; set; }
+        public Animation Animation { get; set; }
 
-        private string textureName;
-
-        public Enemy(string textureName, float width, float height)
+        public Enemy(float width, float height)
         {
-            this.textureName = textureName;
             Size = new Vector2(width, height);
             Collider = new BoxCollider(this, Size);
             GameObjectTag = GameObjectTag.Enemy;
@@ -33,16 +32,18 @@ namespace FliedChicken.GameObjects.Objects
 
         public override void Initialize()
         {
+            Animation.Initialize();
         }
 
         public override void Update()
         {
             Position += new Vector2(MoveSpeed, 0) * TimeSpeed.Time;
+            Animation.Update();
         }
 
         public override void Draw(Renderer renderer)
         {
-            renderer.Draw2D(textureName, Position, Color.White, 0.0f, Size);
+            Animation.Draw(renderer);
         }
 
         public override void HitAction(GameObject gameObject)
@@ -51,7 +52,7 @@ namespace FliedChicken.GameObjects.Objects
 
         public object Clone()
         {
-            var newEnemy = new Enemy(textureName, Size.X, Size.Y);
+            var newEnemy = new Enemy(Size.X, Size.Y);
             newEnemy.Position = Position;
             newEnemy.MoveSpeed = MoveSpeed;
             newEnemy.MinSpeed = MinSpeed;
@@ -59,6 +60,8 @@ namespace FliedChicken.GameObjects.Objects
             newEnemy.MinInterval = MinInterval;
             newEnemy.MaxInterval = MaxInterval;
             newEnemy.ObjectsManager = ObjectsManager;
+            newEnemy.Animation = Animation.Clone();
+            newEnemy.Animation.GameObject = newEnemy;
             return newEnemy;
         }
 

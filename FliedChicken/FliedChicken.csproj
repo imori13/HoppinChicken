@@ -42,7 +42,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Devices\AnimationDevice\Animation.cs" />
-    <Compile Include="Devices\AnimationDevice\Animator.cs" />
     <Compile Include="Devices\Camera.cs" />
     <Compile Include="Devices\Easing.cs" />
     <Compile Include="Devices\Fonts.cs" />
