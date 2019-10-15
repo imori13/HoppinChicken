@@ -19,6 +19,13 @@ namespace FliedChicken.SceneDevices
     /// </summary>
     class RankingScreen
     {
+        enum ScreenState
+        {
+            START,
+            STATE01,
+            FINISH,
+        }
+
         Camera camera;
         List<string> rankPlayer;
         List<int> rankScore;
@@ -31,9 +38,14 @@ namespace FliedChicken.SceneDevices
         private readonly float maxWindowWidth = Screen.WIDTH - 300;
         private readonly float maxWindowHeight = Screen.HEIGHT - 100;
 
-        private Vector2 maxWindowSize;
-
         readonly int rankNum = 3;
+
+        ScreenState state;
+
+        float startTime;
+        float finishTime;
+
+        public bool IsDead { get; private set; }
 
         public RankingScreen(Camera camera)
         {
@@ -47,13 +59,68 @@ namespace FliedChicken.SceneDevices
 
             RankingRead();
 
-            windowWidth = maxWindowWidth;
+            windowWidth = 0.0f;
             windowHeight = maxWindowHeight;
+
+            state = ScreenState.START;
+
+            startTime = 0.0f;
+            finishTime = 0.0f;
+
+            IsDead = false;
         }
 
         public void Update()
         {
+            Default();
 
+            switch (state)
+            {
+                case ScreenState.START:
+                    Start();
+                    break;
+                case ScreenState.STATE01:
+                    State01();
+                    break;
+                case ScreenState.FINISH:
+                    Finish();
+                    break;
+            }
+        }
+
+        private void Default()
+        {
+
+        }
+
+        private void Start()
+        {
+            startTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
+            windowWidth = MathHelper.Lerp(windowWidth, maxWindowWidth, 0.05f);
+            if (startTime >= 1.5f)
+            {
+                windowWidth = maxWindowWidth;
+                state = ScreenState.STATE01;
+            }
+        }
+
+        private void State01()
+        {
+            if (Input.GetKeyDown(Keys.Enter))
+            {
+                state = ScreenState.FINISH;
+            }
+        }
+
+        private void Finish()
+        {
+            finishTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
+            windowWidth = MathHelper.Lerp(windowWidth, 0, 0.05f);
+            if (finishTime >= 1.5f)
+            {
+                windowWidth = 0;
+                IsDead = true;
+            }
         }
 
         public void End()
@@ -159,31 +226,31 @@ namespace FliedChicken.SceneDevices
 
         public void Draw(Renderer renderer)
         {
-            renderer.Draw2D("Pixel", new Vector2(camera.Position.X, camera.Position.Y),
+            renderer.Draw2D("Pixel", Screen.Vec2 / 2,
                 Color.Black, 0.0f, new Vector2(windowWidth, windowHeight));
 
             renderer.DrawString(Fonts.Font12_32, "RANKING",
-                new Vector2(camera.Position.X, camera.Position.Y - 400), Color.White * 255,
+                Screen.Vec2 / 2 - new Vector2(0, 400), Color.White * 1,
                 0.0f, Fonts.Font12_32.MeasureString("RESULT") / 2, new Vector2(2, 2));
 
             for (int i = 0; i < rankNum; i++)
             {
                 renderer.DrawString(Fonts.Font12_32, (i + 1).ToString() + '.',
-                    new Vector2(camera.Position.X - 580, camera.Position.Y - 300 + 200 * i), Color.White,
+                    Screen.Vec2 / 2 - new Vector2(580, 300 - 200 * i), Color.White,
                     0.0f, Vector2.Zero, new Vector2(2, 2));
             }
 
             for (int i = 0; i < rankNum; i++)
             {
                 renderer.DrawString(Fonts.Font12_32, rankPlayer[i],
-                    new Vector2(camera.Position.X - 500, camera.Position.Y - 300 + 200 * i), Color.White,
+                    Screen.Vec2 / 2 - new Vector2(500, 300 - 200 * i), Color.White,
                     0.0f, Vector2.Zero, new Vector2(2, 2));
             }
 
             for (int i = 0; i < rankNum; i++)
             {
                 renderer.DrawString(Fonts.Font12_32, rankScore[i].ToString(),
-                    new Vector2(camera.Position.X + 200, camera.Position.Y - 300 + 200 * i), Color.White,
+                    Screen.Vec2 / 2 - new Vector2(-200, 300 - 200 * i), Color.White,
                     0.0f, Vector2.Zero, new Vector2(2, 2));
             }
         }
