@@ -22,12 +22,19 @@ namespace FliedChicken.GameObjects.Objects
         public int MinInterval { get; set; }
         public int MaxInterval { get; set; }
         public Animation Animation { get; set; }
+        
+        public Vector2 DrawOffset { get; set; }
 
-        public Enemy(float width, float height)
+        private Vector2 colliderSize;
+
+        public Enemy( float width, float height, float collWidth, float collHeight)
         {
             Size = new Vector2(width, height);
-            Collider = new BoxCollider(this, Size);
+            colliderSize = new Vector2(collWidth, collHeight);
+            Collider = new BoxCollider(this, colliderSize);
             GameObjectTag = GameObjectTag.Enemy;
+
+            DrawOffset = new Vector2(0.5f, 0.5f);
         }
 
         public override void Initialize()
@@ -43,7 +50,7 @@ namespace FliedChicken.GameObjects.Objects
 
         public override void Draw(Renderer renderer)
         {
-            Animation.Draw(renderer);
+            Animation.Draw(renderer, DrawOffset);
         }
 
         public override void HitAction(GameObject gameObject)
@@ -52,7 +59,8 @@ namespace FliedChicken.GameObjects.Objects
 
         public object Clone()
         {
-            var newEnemy = new Enemy(Size.X, Size.Y);
+            var newEnemy = new Enemy(Size.X, Size.Y, colliderSize.X, colliderSize.Y);
+
             newEnemy.Position = Position;
             newEnemy.MoveSpeed = MoveSpeed;
             newEnemy.MinSpeed = MinSpeed;
