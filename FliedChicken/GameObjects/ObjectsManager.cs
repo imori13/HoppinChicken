@@ -56,8 +56,29 @@ namespace FliedChicken.Objects
             particles.AddRange(addParticles);
             addParticles.Clear();
 
+            CheckCollision();
+
             gameobjects.RemoveAll(g => g.IsDead);
             particles.RemoveAll(p => p.IsDead);
+        }
+
+        public void CheckCollision()
+        {
+            for (int i = 0; i < gameobjects.Count; i++)
+            {
+                for (int j = 0; j < gameobjects.Count; j++)
+                {
+                    if (i >= j) { continue; }
+                    if (gameobjects[i] == null || gameobjects[i].IsDead || gameobjects[i].Collider == null) { continue; }
+                    if (gameobjects[j] == null || gameobjects[j].IsDead || gameobjects[j].Collider == null) { continue; }
+
+                    if (gameobjects[i].Collider.IsCollision(gameobjects[j].Collider))
+                    {
+                        gameobjects[i].HitAction(gameobjects[j]);
+                        gameobjects[j].HitAction(gameobjects[i]);
+                    }
+                }
+            }
         }
 
         public void Draw(Renderer renderer)

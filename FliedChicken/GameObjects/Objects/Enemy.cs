@@ -19,7 +19,7 @@ namespace FliedChicken.GameObjects.Objects
         public int MaxSpeed { get; set; }
 
         public int MinInterval { get; set; }
-        public int MaxInterval{ get; set; }
+        public int MaxInterval { get; set; }
 
         private string textureName;
 
@@ -28,6 +28,7 @@ namespace FliedChicken.GameObjects.Objects
             this.textureName = textureName;
             Size = new Vector2(width, height);
             Collider = new BoxCollider(this, Size);
+            GameObjectTag = GameObjectTag.Enemy;
         }
 
         public override void Initialize()

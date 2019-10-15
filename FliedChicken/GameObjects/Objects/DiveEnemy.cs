@@ -29,6 +29,7 @@ namespace FliedChicken.GameObjects.Objects
 
             Size = new Vector2(64, 64);
             Collider = new BoxCollider(this, Size);
+            GameObjectTag = GameObjectTag.Enemy;
 
             speedX = 2;
             speedY = 7;

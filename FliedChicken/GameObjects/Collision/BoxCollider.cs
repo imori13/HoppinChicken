@@ -33,10 +33,10 @@ namespace FliedChicken.GameObjects.Collision
 
         public bool BoxCollision(BoxCollider collider)
         {
-            if (gameobject.Position.X - Size.X < collider.gameobject.Position.X + collider.Size.X &&
-                gameobject.Position.X + Size.X > collider.gameobject.Position.X - collider.Size.X &&
-                gameobject.Position.Y - Size.Y < collider.gameobject.Position.Y + collider.Size.Y &&
-                gameobject.Position.Y + Size.Y > collider.gameobject.Position.Y - collider.Size.Y)
+            if (gameobject.Position.X - Size.X/2f < collider.gameobject.Position.X + collider.Size.X / 2f &&
+                gameobject.Position.X + Size.X / 2f > collider.gameobject.Position.X - collider.Size.X / 2f &&
+                gameobject.Position.Y - Size.Y / 2f < collider.gameobject.Position.Y + collider.Size.Y / 2f &&
+                gameobject.Position.Y + Size.Y / 2f > collider.gameobject.Position.Y - collider.Size.Y / 2f)
             {
                 return true;
             }

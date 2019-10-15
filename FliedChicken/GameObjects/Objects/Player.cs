@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FliedChicken.Devices;
+using FliedChicken.GameObjects.Collision;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -33,6 +34,8 @@ namespace FliedChicken.GameObjects.Objects
         public Player(Camera camera)
         {
             this.camera = camera;
+
+            Collider = new BoxCollider(this, new Vector2(127, 132) / 2f);
         }
 
         public override void Initialize()
@@ -99,7 +102,7 @@ namespace FliedChicken.GameObjects.Objects
 
         public override void Draw(Renderer renderer)
         {
-            renderer.Draw2D("packman", Position, Color.White, 0, Vector2.One * 0.5f);
+            renderer.Draw2D("packman", Position, Color.White, 0, new Vector2(127, 132) / 2f, Vector2.One * 0.5f);
         }
         public override void HitAction(GameObject gameObject)
         {
