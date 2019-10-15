@@ -16,13 +16,16 @@ namespace FliedChicken.GameObjects.Objects
         private int laneCount;
         private int preGenerateCount;
 
-        public EnemyLaneManager(Camera camera, int laneCount, int preGenerateCount)
+        private CoinManager coinManager;
+
+        public EnemyLaneManager(Camera camera, int laneCount, int preGenerateCount, CoinManager coinManager = null)
         {
             this.camera = camera;
             this.laneCount = laneCount - preGenerateCount;
             this.preGenerateCount = preGenerateCount;
 
             laneQueue = new Queue<EnemyLane>();
+            this.coinManager = coinManager;
         }
 
         public override void Initialize()
@@ -39,6 +42,7 @@ namespace FliedChicken.GameObjects.Objects
                 laneQueue.Enqueue(newLane);
 
                 basePosition = newLane.LaneInfo.height / 2 + newLane.Position.Y;
+                coinManager.GenerateCoin(newLane);
             }
         }
 
@@ -60,6 +64,8 @@ namespace FliedChicken.GameObjects.Objects
                 ObjectsManager.AddGameObject(newLane);
                 laneQueue.Enqueue(newLane);
                 laneCount--;
+
+                coinManager.GenerateCoin(newLane);
             }
         }
 

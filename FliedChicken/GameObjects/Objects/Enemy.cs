@@ -21,6 +21,8 @@ namespace FliedChicken.GameObjects.Objects
         public int MinInterval { get; set; }
         public int MaxInterval { get; set; }
 
+        public Vector2 DrawOffset { get; set; }
+
         private Vector2 colliderSize;
         private string textureName;
 
@@ -31,6 +33,8 @@ namespace FliedChicken.GameObjects.Objects
             colliderSize = new Vector2(collWidth, collHeight);
             Collider = new BoxCollider(this, colliderSize);
             GameObjectTag = GameObjectTag.Enemy;
+
+            DrawOffset = new Vector2(0.5f, 0.5f);
         }
 
         public override void Initialize()
@@ -44,7 +48,7 @@ namespace FliedChicken.GameObjects.Objects
 
         public override void Draw(Renderer renderer)
         {
-            renderer.Draw2D(textureName, Position, Color.White, 0.0f, Size);
+            renderer.Draw2D(textureName, Position, Color.White, 0.0f, DrawOffset, Size);
         }
 
         public override void HitAction(GameObject gameObject)
