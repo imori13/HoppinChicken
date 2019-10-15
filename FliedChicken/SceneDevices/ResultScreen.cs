@@ -35,6 +35,8 @@ namespace FliedChicken.SceneDevices
 
         private float textSize01;
 
+        public bool IsDead { get; private set; }
+
         Camera camera;
 
         public ResultScreen(Camera camera)
@@ -54,19 +56,28 @@ namespace FliedChicken.SceneDevices
             ChangeTimerText();
         }
 
-        public void Initialize()
+        public void Initialize(float cleatime, int coinNum)
         {
+            SetScore(cleatime, coinNum);
+
             windowWidth = 0.0f;
             windowHeight = maxWindowHeight;
             maxWindowSize = new Vector2(maxWindowWidth, maxWindowHeight);
 
             textSize01 = 0.0f;
+
+            IsDead = false;
         }
 
         public void Update()
         {
             windowWidth = MathHelper.Lerp(windowWidth, maxWindowWidth, 0.05f);
             textSize01 = MathHelper.Lerp(textSize01, 2, 0.05f);
+        }
+
+        public void End()
+        {
+
         }
 
         /// <summary>
@@ -87,7 +98,7 @@ namespace FliedChicken.SceneDevices
 
             renderer.DrawString(Fonts.Font12_32, "RESULT",
                 new Vector2(camera.Position.X, camera.Position.Y - 400), Color.White * 255,
-                0.0f, Fonts.Font12_32.MeasureString("Result") / 2, new Vector2(textSize01, 2));
+                0.0f, Fonts.Font12_32.MeasureString("RESULT") / 2, new Vector2(textSize01, 2));
 
             renderer.DrawString(Fonts.Font12_32, timeText,
                 new Vector2(camera.Position.X - 180, camera.Position.Y), Color.White,

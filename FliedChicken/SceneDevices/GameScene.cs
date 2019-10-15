@@ -72,8 +72,6 @@ namespace FliedChicken.SceneDevices
             gameclearLine = 500;
             state = GamePlayState.TITLE;
 
-            resultScreen.Initialize();
-
             titleDisplayMode.Initialize();
 
             base.Initialize();
@@ -207,8 +205,8 @@ namespace FliedChicken.SceneDevices
         {
             if (Input.GetKeyDown(Keys.A))
             {
-                resultScreen.SetScore(cleartime, 0);
                 state = GamePlayState.RESULT;
+                resultScreen.Initialize(cleartime, 0);
             }
         }
 
@@ -217,7 +215,8 @@ namespace FliedChicken.SceneDevices
             resultScreen.Update();
             if (Input.GetKeyDown(Keys.A))
             {
-                rankingScreen.RankingRead();
+                resultScreen.End();
+                rankingScreen.Initialize();
                 rankingScreen.RankingChange(titleDisplayMode.keyInput.Text, 11000);
                 state = GamePlayState.RANKING;
             }
@@ -225,8 +224,10 @@ namespace FliedChicken.SceneDevices
 
         private void Ranking()
         {
+            rankingScreen.Update();
             if (Input.GetKeyDown(Keys.A))
             {
+                rankingScreen.End();
                 ShutDown = true;
             }
         }

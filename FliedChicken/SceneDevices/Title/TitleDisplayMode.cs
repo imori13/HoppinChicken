@@ -44,6 +44,13 @@ namespace FliedChicken.SceneDevices.Title
             finishBack01 = Screen.WIDTH / 2f;
             finishBack02 = Screen.WIDTH / 2f;
             finishBack03 = Screen.WIDTH / 2f;
+
+            TitleFinishFlag = false;
+            startFlag = false;
+            endingTime = 0.0f;
+            finishingFlag = false;
+            startBack01 = 0;
+            startBack02 = 0;
         }
 
         public void Update()

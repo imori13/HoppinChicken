@@ -23,13 +23,42 @@ namespace FliedChicken.SceneDevices
         List<string> rankPlayer;
         List<int> rankScore;
 
+        private readonly string path = "ranking.txt";
+
+        private float windowWidth;
+        private float windowHeight;
+
+        private readonly float maxWindowWidth = Screen.WIDTH - 300;
+        private readonly float maxWindowHeight = Screen.HEIGHT - 100;
+
+        private Vector2 maxWindowSize;
+
         readonly int rankNum = 3;
 
         public RankingScreen(Camera camera)
         {
             this.camera = camera;
+        }
+
+        public void Initialize()
+        {
             rankPlayer = new List<string>();
             rankScore = new List<int>();
+
+            RankingRead();
+
+            windowWidth = maxWindowWidth;
+            windowHeight = maxWindowHeight;
+        }
+
+        public void Update()
+        {
+
+        }
+
+        public void End()
+        {
+            RankingWrite();
         }
 
         /// <summary>
@@ -39,7 +68,7 @@ namespace FliedChicken.SceneDevices
         {
             FileCheck();
 
-            StreamReader sr = new StreamReader("ranking.txt");
+            StreamReader sr = new StreamReader(path);
 
             while (!sr.EndOfStream)
             {
@@ -59,7 +88,7 @@ namespace FliedChicken.SceneDevices
         public void RankingWrite()
         {
             Encoding enc = Encoding.GetEncoding("Shift_JIS");
-            StreamWriter sw = new StreamWriter("ranking.txt", false, enc);
+            StreamWriter sw = new StreamWriter(path, false, enc);
 
             for (int i = 0; i < rankPlayer.Count; i++)
             {
@@ -80,6 +109,20 @@ namespace FliedChicken.SceneDevices
         /// <param name="score"></param>
         public void RankingChange(string playerName, int score)
         {
+            if (playerName == "Player")
+            {
+                int num = 1;
+                foreach (var name in rankPlayer)
+                {
+                    if (name.Contains("Player"))
+                    {
+                        num++;
+                    }
+                }
+
+                playerName = "Player" + num.ToString();
+            }
+
             for (int i = rankPlayer.Count - 1; i >= 0; i--)
             {
                 if (rankScore[i] >= score)
@@ -101,9 +144,9 @@ namespace FliedChicken.SceneDevices
 
         public void FileCheck()
         {
-            if (!File.Exists("ranking.txt"))
+            if (!File.Exists(path))
             {
-                StreamWriter sw = File.CreateText("ranking.txt");
+                StreamWriter sw = File.CreateText(path);
 
                 for (int i = 0; i < rankNum; i++)
                 {
@@ -116,25 +159,32 @@ namespace FliedChicken.SceneDevices
 
         public void Draw(Renderer renderer)
         {
-            renderer.Draw2D("Pixel", new Vector2(camera.Position.X, camera.Position.Y), 
-                Color.White, 0.0f, new Vector2(1200, Screen.HEIGHT));
+            renderer.Draw2D("Pixel", new Vector2(camera.Position.X, camera.Position.Y),
+                Color.Black, 0.0f, new Vector2(windowWidth, windowHeight));
 
             renderer.DrawString(Fonts.Font12_32, "RANKING",
-                new Vector2(camera.Position.X - 220, camera.Position.Y - Screen.HEIGHT / 2), Color.Red,
-                0.0f, Vector2.Zero, new Vector2(3, 3));
+                new Vector2(camera.Position.X, camera.Position.Y - 400), Color.White * 255,
+                0.0f, Fonts.Font12_32.MeasureString("RESULT") / 2, new Vector2(2, 2));
+
+            for (int i = 0; i < rankNum; i++)
+            {
+                renderer.DrawString(Fonts.Font12_32, (i + 1).ToString() + '.',
+                    new Vector2(camera.Position.X - 580, camera.Position.Y - 300 + 200 * i), Color.White,
+                    0.0f, Vector2.Zero, new Vector2(2, 2));
+            }
 
             for (int i = 0; i < rankNum; i++)
             {
                 renderer.DrawString(Fonts.Font12_32, rankPlayer[i],
-                    new Vector2(camera.Position.X - 500, camera.Position.Y - 300 + 300 * i), Color.Red,
-                    0.0f, Vector2.Zero, new Vector2(3, 3));
+                    new Vector2(camera.Position.X - 500, camera.Position.Y - 300 + 200 * i), Color.White,
+                    0.0f, Vector2.Zero, new Vector2(2, 2));
             }
 
             for (int i = 0; i < rankNum; i++)
             {
                 renderer.DrawString(Fonts.Font12_32, rankScore[i].ToString(),
-                    new Vector2(camera.Position.X + 200, camera.Position.Y - 300 + 300 * i), Color.Red,
-                    0.0f, Vector2.Zero, new Vector2(3, 3));
+                    new Vector2(camera.Position.X + 200, camera.Position.Y - 300 + 200 * i), Color.White,
+                    0.0f, Vector2.Zero, new Vector2(2, 2));
             }
         }
     }
