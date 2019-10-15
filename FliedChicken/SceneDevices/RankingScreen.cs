@@ -41,6 +41,8 @@ namespace FliedChicken.SceneDevices
         /// </summary>
         public void RankingRead()
         {
+            FileCheck();
+
             StreamReader sr = new StreamReader("ranking.txt");
 
             //string line = sr.ReadLine();
@@ -125,6 +127,21 @@ namespace FliedChicken.SceneDevices
                     rankScore[i] = score;
                     rankPlayer[i] = playerName;
                 }
+            }
+        }
+
+        public void FileCheck()
+        {
+            if (!File.Exists("ranking.txt"))
+            {
+                StreamWriter sw = File.CreateText("ranking.txt");
+
+                for (int i = 0; i < rankNum; i++)
+                {
+                    sw.WriteLine("----,00000");
+                }
+
+                sw.Close();
             }
         }
 

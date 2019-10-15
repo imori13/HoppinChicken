@@ -131,7 +131,7 @@ namespace FliedChicken.SceneDevices
 
         private void Fly()
         {
-            cleartime += TimeSpeed.Time;
+            cleartime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
 
             if (player.IsDead == true)
             {
