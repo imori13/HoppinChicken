@@ -7,35 +7,63 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 using FliedChicken.Devices;
+using FliedChicken.Utilities;
 
 namespace FliedChicken.GameObjects.Objects
 {
+
+    enum EnemyDirection
+    {
+        LEFT = -1,
+        RIGHT = 1,
+    }
+
     struct LaneInfo
     {
+        public string enemyName;
+
         public float width;
         public float height;
 
-        public float enemyMoveSpeed;
-        public float spacePerEnemy;
-        //抽象エネミー
+        public float moveSpeed;
+        public float interval;
 
+        public EnemyDirection enemyDirection;
     }
 
     class EnemyLane : GameObject
     {
         public LaneInfo LaneInfo { get; private set; }
 
+        private Timer spawnTimer;
+        private List<Enemy> enemyList = new List<Enemy>();
+
         public EnemyLane()
         {
+            LaneInfo = GenerateLaneInfo();
+
+            spawnTimer = new Timer(LaneInfo.interval);
         }
 
         public override void Initialize()
         {
-            LaneInfo = GenerateLaneInfo();
+            spawnTimer.Reset();
+            PreGenerateEnemy();
         }
 
         public override void Update()
         {
+            if (spawnTimer.IsTime())
+            {
+                var newEnemy = EnemyFactory.Create(LaneInfo.enemyName);
+                newEnemy.Position = new Vector2(LaneInfo.width / 2 * -(int)LaneInfo.enemyDirection, Position.Y);
+                newEnemy.MoveSpeed = LaneInfo.moveSpeed;
+
+                enemyList.Add(newEnemy);
+                ObjectsManager.AddGameObject(newEnemy);
+
+                spawnTimer.Reset();
+            }
         }
 
         public override void Draw(Renderer renderer)
@@ -65,17 +93,46 @@ namespace FliedChicken.GameObjects.Objects
         public void Destory()
         {
             IsDead = true;
+            enemyList.ForEach(enemy => enemy.Destroy());
+        }
+
+        private void PreGenerateEnemy()
+        {
+            float basePos = LaneInfo.width / 2 * -(int)LaneInfo.enemyDirection;
+            float moveValue = LaneInfo.moveSpeed * LaneInfo.interval;
+
+            var newEnemy = EnemyFactory.Create(LaneInfo.enemyName);
+            newEnemy.Position = new Vector2(basePos + moveValue, Position.Y);
+            newEnemy.MoveSpeed = LaneInfo.moveSpeed;
+
+            enemyList.Add(newEnemy);
+            ObjectsManager.AddGameObject(newEnemy);
         }
 
         private LaneInfo GenerateLaneInfo()
         {
+            var random = GameDevice.Instance().Random;
+
+            EnemyDirection direction = EnemyDirection.LEFT;
+            if (random.Next(0, 2) == 0)
+                direction = EnemyDirection.LEFT;
+            else
+                direction = EnemyDirection.RIGHT;
+
+            string enemyName = RandomSelector.Select(EnemyFactory.GetEnemyNameList());
+            var selectEnemy = EnemyFactory.Create(enemyName);
+
             var laneInfo = new LaneInfo()
             {
-                width = 128 * 10,
-                height = 128,
-            };
+                width = Screen.WIDTH,
+                height = selectEnemy.Size.Y,
 
-            
+                enemyName = enemyName,
+                moveSpeed = selectEnemy.GetRandomizedSpeed() * (int)direction,
+                interval = selectEnemy.GetRandomizedInterval(),
+
+                enemyDirection = direction,
+            };
 
             return laneInfo;
         }
