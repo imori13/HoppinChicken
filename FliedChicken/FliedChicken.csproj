@@ -60,6 +60,7 @@
     <Compile Include="GameObjects\GameObjectTag.cs" />
     <Compile Include="GameObjects\ObjectsManager.cs" />
     <Compile Include="GameObjects\Objects\Coin.cs" />
+    <Compile Include="GameObjects\Objects\CoinManager.cs" />
     <Compile Include="GameObjects\Objects\DiveEnemy.cs" />
     <Compile Include="GameObjects\Objects\DiveEnemySpawner.cs" />
     <Compile Include="GameObjects\Objects\Enemy.cs" />
