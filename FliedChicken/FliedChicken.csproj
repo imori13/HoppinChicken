@@ -70,8 +70,11 @@
     <Compile Include="GameObjects\Objects\BackGround.cs" />
     <Compile Include="GameObjects\Objects\BackGroundObject.cs" />
     <Compile Include="GameObjects\Objects\EnemyLaneManager.cs" />
+    <Compile Include="GameObjects\Objects\HighSpeedEnemy.cs" />
+    <Compile Include="GameObjects\Objects\NormalEnemy.cs" />
     <Compile Include="GameObjects\Objects\ObjectLooper.cs" />
     <Compile Include="GameObjects\Objects\Player.cs" />
+    <Compile Include="GameObjects\Objects\SlowEnemy.cs" />
     <Compile Include="GameObjects\Particle\Particle2D.cs" />
     <Compile Include="GameObjects\Particle\RadiationParticle2D.cs" />
     <Compile Include="Program.cs" />
