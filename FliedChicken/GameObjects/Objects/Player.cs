@@ -31,6 +31,21 @@ namespace FliedChicken.GameObjects.Objects
 
         public PlayerState state;
 
+        private const float xExpandSpeed = 1.0f;
+        private const float xShrinkSpeed = 0.05f;
+
+        private const float yExpandSpeed = 0.05f;
+        private const float yShrinkSpeed = 1.0f;
+
+        private const float xMinScale = 0.75f;
+        private const float xMaxScale = 1.25f;
+
+        private const float yMinScale = 0.5f;
+        private const float yMaxScale = 1.5f;
+
+        private Vector2 preVelocity;
+        private Vector2 drawScale;
+
         public Player(Camera camera)
         {
             this.camera = camera;
@@ -44,6 +59,7 @@ namespace FliedChicken.GameObjects.Objects
             currentGrid = 6;
             inputflag = false;
             state = PlayerState.FLY;
+            drawScale = new Vector2(1, 1);
         }
 
         public override void Update()
@@ -57,6 +73,9 @@ namespace FliedChicken.GameObjects.Objects
                     ClearUpdate();
                     break;
             }
+
+            ChangeDrawScale();
+            preVelocity = Velocity;
         }
 
         public void FlyUpdate()
@@ -103,7 +122,7 @@ namespace FliedChicken.GameObjects.Objects
 
         public override void Draw(Renderer renderer)
         {
-            renderer.Draw2D("packman", Position, Color.White, 0, new Vector2(127, 132) / 2f, Vector2.One * 0.5f);
+            renderer.Draw2D("packman", Position, Color.White, 0, new Vector2(127, 132) / 2f, drawScale * 0.5f);
         }
         public override void HitAction(GameObject gameObject)
         {
@@ -111,6 +130,28 @@ namespace FliedChicken.GameObjects.Objects
             {
                 IsDead = true;
             }
+        }
+
+        private void ChangeDrawScale()
+        {
+            float newX = drawScale.X;
+            float newY = drawScale.Y;
+
+            //前フレームの速度より早い場合
+            if (Velocity.Y >= preVelocity.Y)
+            {
+                //縦に伸びて横に縮む
+                newX = MathHelper.Lerp(newX, xMinScale, xShrinkSpeed);
+                newY = MathHelper.Lerp(newY, yMaxScale, yExpandSpeed);
+            }
+            else
+            {
+                //横に伸びて縦に縮む
+                newX = MathHelper.Lerp(newX, xMaxScale, xExpandSpeed);
+                newY = MathHelper.Lerp(newY, yMinScale, yShrinkSpeed);
+            }
+
+            drawScale = new Vector2(newX, newY);
         }
     }
 }
