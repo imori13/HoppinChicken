@@ -1,6 +1,5 @@
 ﻿using FliedChicken.Devices;
 using FliedChicken.GameObjects.Objects;
-using FliedChicken.Objects;
 using FliedChicken.Particle;
 using FliedChicken.ScenesDevice;
 using Microsoft.Xna.Framework;
@@ -12,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FliedChicken.SceneDevices.Title;
+using FliedChicken.GameObjects;
 
 namespace FliedChicken.SceneDevices
 {

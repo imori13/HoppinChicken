@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
-using FliedChicken.Objects;
 using FliedChicken.Devices;
 using FliedChicken.Utilities;
 

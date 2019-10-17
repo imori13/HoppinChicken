@@ -1,5 +1,6 @@
 ﻿using FliedChicken.GameObjects;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,13 +78,13 @@ namespace FliedChicken.Devices.AnimationDevice
             }
         }
 
-        public void Draw(Renderer renderer, Vector2 offset)
+        public void Draw(Renderer renderer, Vector2 offset, SpriteEffects spriteEffects = SpriteEffects.None)
         {
             Rectangle rectangle = new Rectangle(
                 (int)size.X * count, 0,
                 (int)size.X, (int)size.Y);
 
-            renderer.Draw2D(assetName, GameObject.Position + offset, rectangle, Color.White, 0, size / 2f, Vector2.One * Screen.ScreenSize);
+            renderer.Draw2D(assetName, GameObject.Position + offset, rectangle, Color.White, 0, size / 2f, Vector2.One * Screen.ScreenSize, spriteEffects);
         }
     }
 }

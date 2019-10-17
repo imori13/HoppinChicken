@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using FliedChicken.GameObjects.Collision;
 using FliedChicken.Devices;
 using FliedChicken.Devices.AnimationDevice;
@@ -66,7 +67,13 @@ namespace FliedChicken.GameObjects.Objects
 
         public override void Draw(Renderer renderer)
         {
-            Animation.Draw(renderer, DrawOffset);
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (MoveSpeed > 0)
+            {
+                spriteEffects = SpriteEffects.FlipHorizontally;
+            }
+
+            Animation.Draw(renderer, DrawOffset,spriteEffects);
         }
 
         public override void HitAction(GameObject gameObject)

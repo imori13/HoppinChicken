@@ -72,44 +72,44 @@ namespace FliedChicken.Devices
         }
 
         // 通常描画
-        public void Draw2D(string name, Vector2 position, Color color)
+        public void Draw2D(string name, Vector2 position, Color color, SpriteEffects spriteEffects = SpriteEffects.None)
         {
             Debug.Assert(textures.ContainsKey(name), "アセット名[ " + name + " ]が見つかりません。ロードされてないかアセット名を間違えています");
 
-            Draw2D(name, position, color, 0.0f, Vector2.One);
+            Draw2D(name, position, color, 0.0f, Vector2.One, spriteEffects);
         }
 
         // 引数拡張
-        public void Draw2D(string name, Vector2 position, Color color, float rotation, Vector2 scale)
+        public void Draw2D(string name, Vector2 position, Color color, float rotation, Vector2 scale, SpriteEffects spriteEffects = SpriteEffects.None)
         {
             Debug.Assert(textures.ContainsKey(name), "アセット名[ " + name + " ]が見つかりません。ロードされてないかアセット名を間違えています");
 
-            Draw2D(name, position, null, color, rotation, scale);
+            Draw2D(name, position, null, color, rotation, scale, spriteEffects);
         }
 
-        public void Draw2D(string name, Vector2 position, Color color, float rotation, Vector2 origin, Vector2 scale)
+        public void Draw2D(string name, Vector2 position, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects spriteEffects = SpriteEffects.None)
         {
             Debug.Assert(textures.ContainsKey(name), "アセット名[ " + name + " ]が見つかりません。ロードされてないかアセット名を間違えています");
 
-            spriteBatch.Draw(textures[name], position, null, color, rotation, origin, scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(textures[name], position, null, color, rotation, origin, scale, spriteEffects, 0);
         }
 
-        public void Draw2D(string name, Vector2 position, Rectangle rectangle,Color color, float rotation, Vector2 origin, Vector2 scale)
+        public void Draw2D(string name, Vector2 position, Rectangle rectangle,Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects spriteEffects = SpriteEffects.None)
         {
             Debug.Assert(textures.ContainsKey(name), "アセット名[ " + name + " ]が見つかりません。ロードされてないかアセット名を間違えています");
 
-            spriteBatch.Draw(textures[name], position, rectangle, color, rotation, origin, scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(textures[name], position, rectangle, color, rotation, origin, scale, spriteEffects, 0);
         }
 
         // 矩形切り抜き描画
-        public void Draw2D(string name, Vector2 position, Rectangle? rectangle, Color color, float rotation, Vector2 scale)
+        public void Draw2D(string name, Vector2 position, Rectangle? rectangle, Color color, float rotation, Vector2 scale, SpriteEffects spriteEffects = SpriteEffects.None)
         {
             Debug.Assert(textures.ContainsKey(name), "アセット名[ " + name + " ]が見つかりません。ロードされてないかアセット名を間違えています");
 
             var texture = textures[name];
             Vector2 origin = new Vector2(texture.Width / 2f, texture.Height / 2f);
 
-            spriteBatch.Draw(textures[name], position, rectangle, color, MathHelper.ToRadians(rotation), origin, scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(textures[name], position, rectangle, color, MathHelper.ToRadians(rotation), origin, scale, spriteEffects, 0);
         }
 
         // 文字列描画

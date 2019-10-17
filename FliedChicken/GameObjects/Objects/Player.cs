@@ -37,11 +37,11 @@ namespace FliedChicken.GameObjects.Objects
         private const float yExpandSpeed = 0.05f;
         private const float yShrinkSpeed = 1.0f;
 
-        private const float xMinScale = 0.75f;
+        private const float xMinScale = 1.0f;
         private const float xMaxScale = 1.25f;
 
-        private const float yMinScale = 0.5f;
-        private const float yMaxScale = 1.5f;
+        private const float yMinScale = 0.7f;
+        private const float yMaxScale = 1.0f;
 
         private Vector2 preVelocity;
         private Vector2 drawScale;

@@ -1,6 +1,5 @@
 ﻿using FliedChicken.Devices;
 using FliedChicken.GameObjects.Collision;
-using FliedChicken.Objects;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

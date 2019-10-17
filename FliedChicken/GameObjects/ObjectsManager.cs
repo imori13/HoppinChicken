@@ -3,7 +3,7 @@ using FliedChicken.GameObjects;
 using FliedChicken.Particle;
 using System.Collections.Generic;
 
-namespace FliedChicken.Objects
+namespace FliedChicken.GameObjects
 {
     // 複数Managerをひとつにまとめて、1つの参照で複数のマネージャーにアクセスしたい
     // 保守性などない

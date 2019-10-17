@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using FliedChicken.GameObjects.Collision;
 using FliedChicken.Devices;
 
@@ -20,6 +21,8 @@ namespace FliedChicken.GameObjects.Objects
         private float speedX;
         private float speedY;
         private Vector2 basePosition;
+
+        private SpriteEffects spriteEffects;
 
         private Vector2 Size { get; set; }
 
@@ -48,12 +51,18 @@ namespace FliedChicken.GameObjects.Objects
             elapsedTime += deltaTime;
             float newX = sinWidth * (float)Math.Sin(MathHelper.ToRadians(speedX * elapsedTime));
 
+            spriteEffects = SpriteEffects.None;
+            if (newX < sinWidth / 2)
+                spriteEffects = SpriteEffects.None;
+            else if (newX > sinWidth / 2)
+                spriteEffects = SpriteEffects.FlipHorizontally;
+
             Position = basePosition + new Vector2(newX, speedY * elapsedTime);
         }
 
         public override void Draw(Renderer renderer)
         {
-            renderer.Draw2D("Pixel", Position, Color.Brown, 0.0f, Size);
+            renderer.Draw2D("packman", Position, Color.Brown, 0.0f, Vector2.One, spriteEffects);
         }
 
         public override void HitAction(GameObject gameObject)
