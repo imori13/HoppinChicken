@@ -12,17 +12,18 @@ namespace FliedChicken.GameObjects.Objects
     class HighSpeedEnemy : Enemy
     {
         public HighSpeedEnemy() : base
-            (width: 64 * 6,
-             height: 64 * 4,
-             collWidth: 64 * 6,
-             collHeight: 64 * 4,
-             minSpeed: 16,
-             maxSpeed: 18,
+            (width: 400 * 0.9f,
+             height: 140 * 0.9f,
+             collWidth: 400 * 0.8f,
+             collHeight: 140 * 0.55f,
+             minSpeed: 10,
+             maxSpeed: 13,
              minInterval: 7,
              maxInterval: 10)
         {
             Animation = new Animation("highspeed_enemy", new Vector2(400, 140), 6, 0.25f);
             Animation.GameObject = this;
+            Animation.Size = Vector2.One;
         }
 
         public override Enemy Clone()

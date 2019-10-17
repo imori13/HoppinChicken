@@ -12,10 +12,10 @@ namespace FliedChicken.GameObjects.Objects
     class SlowEnemy : Enemy
     {
         public SlowEnemy() : base
-            (width: 64 * 10,
-             height: 64 * 8,
-             collWidth: 64 * 10,
-             collHeight: 64 * 8,
+            (width: 445 * 0.9f,
+             height: 165 * 0.9f,
+             collWidth: 445 * 0.8f,
+             collHeight: 165 * 0.6f,
              minSpeed: 1,
              maxSpeed: 3,
              minInterval: 12,
@@ -23,6 +23,7 @@ namespace FliedChicken.GameObjects.Objects
         {
             Animation = new Animation("slowenemy", new Vector2(445, 165), 8, 0.25f);
             Animation.GameObject = this;
+            Animation.Size = Vector2.One;
         }
 
         public override Enemy Clone()

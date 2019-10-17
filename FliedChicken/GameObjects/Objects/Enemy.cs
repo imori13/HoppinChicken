@@ -23,10 +23,12 @@ namespace FliedChicken.GameObjects.Objects
         public int MinInterval { get; protected set; }
         public int MaxInterval { get; protected set; }
         public Animation Animation { get; protected set; }
-        
+
         public Vector2 DrawOffset { get; protected set; }
 
         private Vector2 colliderSize;
+
+        private SpriteEffects spriteEffects;
 
         protected Enemy(
             float width,
@@ -63,17 +65,17 @@ namespace FliedChicken.GameObjects.Objects
         {
             Position += new Vector2(MoveSpeed, 0) * TimeSpeed.Time;
             Animation.Update();
-        }
 
-        public override void Draw(Renderer renderer)
-        {
-            SpriteEffects spriteEffects = SpriteEffects.None;
+            spriteEffects = SpriteEffects.None;
             if (MoveSpeed > 0)
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
+        }
 
-            Animation.Draw(renderer, DrawOffset,spriteEffects);
+        public override void Draw(Renderer renderer)
+        {
+            Animation.Draw(renderer, DrawOffset, spriteEffects);
         }
 
         public override void HitAction(GameObject gameObject)

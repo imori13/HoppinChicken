@@ -70,8 +70,6 @@ namespace FliedChicken.GameObjects.Objects
             newObject.Position = new Vector2(player.Position.X, player.Position.Y - Screen.HEIGHT / 2 + 256);
             objectsManager.AddGameObject(newObject);
 
-
-
             instance = newObject;
         }
 
