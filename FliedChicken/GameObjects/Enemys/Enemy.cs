@@ -10,7 +10,7 @@ using FliedChicken.GameObjects.Collision;
 using FliedChicken.Devices;
 using FliedChicken.Devices.AnimationDevice;
 
-namespace FliedChicken.GameObjects.Objects
+namespace FliedChicken.GameObjects.Enemys
 {
     abstract class Enemy : GameObject
     {

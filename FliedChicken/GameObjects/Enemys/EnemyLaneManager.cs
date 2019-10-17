@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 using FliedChicken.Devices;
+using FliedChicken.GameObjects.Objects;
 
-namespace FliedChicken.GameObjects.Objects
+namespace FliedChicken.GameObjects.Enemys
 {
     class EnemyLaneManager : GameObject
     {

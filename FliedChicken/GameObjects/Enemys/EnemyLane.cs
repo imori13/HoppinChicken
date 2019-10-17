@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 using FliedChicken.Devices;
 using FliedChicken.Utilities;
 
-namespace FliedChicken.GameObjects.Objects
+namespace FliedChicken.GameObjects.Enemys
 {
 
     enum EnemyDirection

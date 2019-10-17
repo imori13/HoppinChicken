@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 using FliedChicken.Devices.AnimationDevice;
 using FliedChicken.Devices;
 
-namespace FliedChicken.GameObjects.Objects
+namespace FliedChicken.GameObjects.Enemys
 {
     class NormalEnemy : Enemy
     {

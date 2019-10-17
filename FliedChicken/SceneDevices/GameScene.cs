@@ -12,6 +12,8 @@ using System.Text;
 using System.Threading.Tasks;
 using FliedChicken.SceneDevices.Title;
 using FliedChicken.GameObjects;
+using FliedChicken.GameObjects.Enemys;
+using FliedChicken.GameObjects.PlayerDevices;
 
 namespace FliedChicken.SceneDevices
 {

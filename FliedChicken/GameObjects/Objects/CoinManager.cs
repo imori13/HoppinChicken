@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 using FliedChicken.Devices;
+using FliedChicken.GameObjects.Enemys;
 
 namespace FliedChicken.GameObjects.Objects
 {

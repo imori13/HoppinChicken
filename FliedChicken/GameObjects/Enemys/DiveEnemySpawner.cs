@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using FliedChicken.Devices;
 using FliedChicken.Utilities;
+using FliedChicken.GameObjects.Objects;
+using FliedChicken.GameObjects.PlayerDevices;
 
-namespace FliedChicken.GameObjects.Objects
+namespace FliedChicken.GameObjects.Enemys
 {
     class DiveEnemySpawner
     {
