@@ -55,6 +55,7 @@ namespace FliedChicken
             renderer.LoadTexture("slowenemy", "Texture/");
             renderer.LoadTexture("highspeed_enemy", "Texture/");
             renderer.LoadTexture("normal_enemy", "Texture/");
+            renderer.LoadTexture("DescentEnemy", "Texture/");
             
             sceneManager.AddScene(SceneEnum.GameScene, new GameScene());
 

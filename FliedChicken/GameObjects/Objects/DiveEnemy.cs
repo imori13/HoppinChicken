@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using FliedChicken.GameObjects.Collision;
 using FliedChicken.Devices;
+using FliedChicken.Devices.AnimationDevice;
 
 namespace FliedChicken.GameObjects.Objects
 {
@@ -24,25 +25,29 @@ namespace FliedChicken.GameObjects.Objects
 
         private SpriteEffects spriteEffects;
 
-        private Vector2 Size { get; set; }
+        private Animation Animation;
 
         public DiveEnemy(Camera camera)
         {
             this.camera = camera;
-
-            Size = new Vector2(64, 64);
-            Collider = new BoxCollider(this, Size);
+            
+            Collider = new BoxCollider(this, Vector2.One*3);
             GameObjectTag = GameObjectTag.Enemy;
 
             speedX = 2;
             speedY = 7;
             sinWidth = 64 * 8;
             elapsedTime = 0.0f;
+
+            Animation = new Animation("DescentEnemy", new Vector2(490, 320), 5, 0.1f);
+            Animation.Size = Vector2.One;
+            Animation.GameObject = this;
         }
 
         public override void Initialize()
         {
             basePosition = Position;
+            Animation.Initialize();
         }
 
         public override void Update()
@@ -58,11 +63,13 @@ namespace FliedChicken.GameObjects.Objects
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             Position = basePosition + new Vector2(newX, speedY * elapsedTime);
+
+            Animation.Update();
         }
 
         public override void Draw(Renderer renderer)
         {
-            renderer.Draw2D("packman", Position, Color.Brown, 0.0f, Vector2.One * 0.5f, spriteEffects);
+            Animation.Draw(renderer, Vector2.Zero, spriteEffects);
         }
 
         public override void HitAction(GameObject gameObject)
@@ -76,7 +83,9 @@ namespace FliedChicken.GameObjects.Objects
 
         public bool IsOutOfScreenUp()
         {
-            return Position.Y + Size.Y / 2 < camera.Position.Y - Screen.HEIGHT / 2;
+            //return Position.Y + Size.Y / 2 < camera.Position.Y - Screen.HEIGHT / 2;
+            // TODO : あほ
+            return false;
         }
     }
 }
