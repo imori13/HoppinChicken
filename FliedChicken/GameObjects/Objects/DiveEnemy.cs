@@ -62,7 +62,7 @@ namespace FliedChicken.GameObjects.Objects
 
         public override void Draw(Renderer renderer)
         {
-            renderer.Draw2D("packman", Position, Color.Brown, 0.0f, Vector2.One, spriteEffects);
+            renderer.Draw2D("packman", Position, Color.Brown, 0.0f, Vector2.One * 0.5f, spriteEffects);
         }
 
         public override void HitAction(GameObject gameObject)
