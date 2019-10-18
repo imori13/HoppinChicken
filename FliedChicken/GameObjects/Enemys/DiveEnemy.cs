@@ -83,23 +83,23 @@ namespace FliedChicken.GameObjects.Enemys
 
         private void Default()
         {
-            Position = new Vector2(Position.X, MathHelper.Clamp(Position.Y, Position.Y, player.Position.Y));
             Animation.Update();
         }
 
         private void Forming()
         {
             float deltaTime = TimeSpeed.Time;
-            elapsedTime += deltaTime;
-            float newX = sinWidth * (float)Math.Sin(MathHelper.ToRadians(speedX * elapsedTime));
+            //elapsedTime += deltaTime;
+            //float newX = sinWidth * (float)Math.Sin(MathHelper.ToRadians(speedX * elapsedTime));
 
             spriteEffects = SpriteEffects.None;
-            if (newX < sinWidth / 2)
-                spriteEffects = SpriteEffects.None;
-            else if (newX > sinWidth / 2)
-                spriteEffects = SpriteEffects.FlipHorizontally;
+            //if (newX < sinWidth / 2)
+            //    spriteEffects = SpriteEffects.None;
+            //else if (newX > sinWidth / 2)
+            //    spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Position = basePosition + new Vector2(newX, speedY * elapsedTime);
+            Position = new Vector2(player.Position.X, 
+                MathHelper.Clamp(basePosition.Y + speedY * deltaTime, basePosition.Y, player.Position.Y));
         }
 
         private void Stop()
