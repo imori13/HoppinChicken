@@ -9,6 +9,7 @@ using FliedChicken.Devices.AnimationDevice;
 using FliedChicken.Devices;
 using FliedChicken.GameObjects.Enemys.AttackModules;
 using FliedChicken.GameObjects.Enemys.MoveModules;
+using FliedChicken.GameObjects.Collision;
 
 namespace FliedChicken.GameObjects.Enemys
 {
@@ -18,21 +19,24 @@ namespace FliedChicken.GameObjects.Enemys
 
         public SlowEnemy(Camera camera) : base(camera)
         {
+            Size = new Vector2(445, 165);
+            Collider = new BoxCollider(this, Size);
+
             Animation = new Animation(this, "slowenemy", new Vector2(445, 165), 8, 0.25f);
             Animation.drawSize = Vector2.One;
-            Size = new Vector2(445, 165);
 
             GameObjectTag = GameObjectTag.OrangeEnemy;
-        }
-
-        public override void Initialize()
-        {
-            base.Initialize();
 
             var random = GameDevice.Instance().Random;
             moveDirection = random.Next(0, 2) == 0 ? -1 : 1;
             float speed = random.Next(5, 8) / 2;
             MoveModule = new Simple_MM(this, new Vector2(moveDirection, 0), speed);
+            spawnPosType = moveDirection < 0 ? SpawnPositionType.Right : SpawnPositionType.Left;
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
 
             AttackModule = new SimpleShoot_AM(this, ObjectsManager, new Vector2(64 * moveDirection, 0), new Vector2(0, 1));
 
@@ -54,7 +58,7 @@ namespace FliedChicken.GameObjects.Enemys
 
         protected override bool IsDestroy()
         {
-            float side = Position.Y + Size.X / 2 * -moveDirection;
+            float side = Position.X + Size.X / 2 * -moveDirection;
             float sideLimit = Camera.Position.X + Screen.WIDTH / 2 * moveDirection;
             bool isOverSide = moveDirection > 0 ? side > sideLimit : side < sideLimit;
 

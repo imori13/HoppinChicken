@@ -55,7 +55,7 @@
     <Compile Include="Devices\TimeSpeed.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameObjects\Bullets\Bullet.cs" />
-    <Compile Include="GameObjects\Bullets\SimpleBullet.cs" />
+    <Compile Include="GameObjects\Bullets\NormalBullet.cs" />
     <Compile Include="GameObjects\Collision\BoxCollider.cs" />
     <Compile Include="GameObjects\Collision\CircleCollider.cs" />
     <Compile Include="GameObjects\Collision\Collider.cs" />
@@ -104,6 +104,7 @@
     <Compile Include="UI\DiveEnemyUI.cs" />
     <Compile Include="Utilities\RandomSelector.cs" />
     <Compile Include="Utilities\Timer.cs" />
+    <Compile Include="Utilities\WeightSelectHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
