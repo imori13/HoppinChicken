@@ -44,11 +44,6 @@ namespace FliedChicken.SceneDevices
         RankingScreen rankingScreen;
         TitleDisplayMode titleDisplayMode;
 
-        //敵関連
-        EnemyLaneManager laneManager;
-        DiveEnemySpawner diveEnemySpawner;
-        float centerX;
-
         //コイン関連
         CoinManager coinManager;
 
@@ -76,10 +71,6 @@ namespace FliedChicken.SceneDevices
             state = GamePlayState.TITLE;
 
             titleDisplayMode.Initialize();
-
-            diveEnemySpawner = new DiveEnemySpawner(3.0f, objectsManager, player, camera);
-
-            EnemyFactory.Initialize();
 
             base.Initialize();
         }
@@ -169,30 +160,29 @@ namespace FliedChicken.SceneDevices
             if (titleDisplayMode.TitleFinishFlag)
             {
                 state = GamePlayState.FLY;
-
+                
                 // TODO : ここでマップを生成する
+                var hoge = new NormalEnemy(camera);
+                hoge.ObjectsManager = objectsManager;
+                hoge.Position = player.Position + new Vector2(0, -128);
+                objectsManager.AddGameObject(hoge);
             }
         }
 
         private void Fly()
         {
-            if (laneManager == null)
-            {
-                laneManager = new EnemyLaneManager(camera, 20, 10, coinManager);
-                laneManager.ObjectsManager = objectsManager;
-                laneManager.Position = new Vector2(centerX, player.Position.Y + Screen.HEIGHT);
-                objectsManager.AddGameObject(laneManager);
-            }
-
-            diveEnemySpawner.Update();
-
             if (player.IsDead == true)
             {
                 player.state = PlayerState.CLEAR;
                 state = GamePlayState.CLEAR;
             }
         }
-
+        
+        private void Restart()
+        {
+            ShutDown = true;
+        }
+        
         private void Clear()
         {
             if (Input.GetKeyDown(Keys.A))
@@ -204,14 +194,6 @@ namespace FliedChicken.SceneDevices
 
         private void Result()
         {
-            if (laneManager != null)
-            {
-                laneManager.Destroy();
-                laneManager = null;
-                diveEnemySpawner.Shutdown();
-                coinManager.ClearCoin();
-            }
-
             resultScreen.Update();
 
             if (resultScreen.IsDead)
