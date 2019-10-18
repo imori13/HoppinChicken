@@ -70,6 +70,10 @@ namespace FliedChicken.GameObjects.PlayerDevices
                     ClearUpdate();
                     break;
             }
+
+#if DEBUG
+            Dead();
+#endif
         }
 
         public void FlyUpdate()
@@ -108,6 +112,14 @@ namespace FliedChicken.GameObjects.PlayerDevices
             if (gameObject.GameObjectTag == GameObjectTag.OneChanceItem)
             {
                 onechanBomManager.AddCount();
+            }
+        }
+
+        private void Dead()
+        {
+            if (Input.GetKeyDown(Keys.D))
+            {
+                IsDead = true;
             }
         }
     }

@@ -94,6 +94,7 @@
     <Compile Include="SceneDevices\SceneManager.cs" />
     <Compile Include="SceneDevices\Title\TitleDisplayMode.cs" />
     <Compile Include="SceneDevices\Title\KeyInput.cs" />
+    <Compile Include="UI\DiveEnemyUI.cs" />
     <Compile Include="Utilities\RandomSelector.cs" />
     <Compile Include="Utilities\Timer.cs" />
   </ItemGroup>
