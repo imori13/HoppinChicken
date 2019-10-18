@@ -26,16 +26,18 @@ namespace FliedChicken.GameObjects.Enemys
             Animation = new Animation("normal_enemy", new Vector2(320, 320), 5, 0.25f);
             Animation.GameObject = this;
             Animation.Size = Vector2.One * 0.5f;
-        }
-
-        public override void Initialize()
-        {
-            base.Initialize();
 
             var random = GameDevice.Instance().Random;
             moveDirection = random.Next(0, 2) == 0 ? -1 : 1;
             float speed = random.Next(5, 8);
             MoveModule = new SimpleMoveModules(this, new Vector2(moveDirection, 0), speed);
+
+            spawnPosType = moveDirection < 0 ? SpawnPositionType.Right : SpawnPositionType.Left;
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
 
             AttackModule = new SimpleShoot(this, ObjectsManager, new Vector2(64 * moveDirection, 0), new Vector2(moveDirection, 0));
 
