@@ -34,7 +34,7 @@ namespace FliedChicken.GameObjects.Enemys.AttackModules
         {
             if (shootTimer.IsTime())
             {
-                var bullet = new SimpleBullet(shootDirection, 16.0f);
+                var bullet = new NormalBullet(shootDirection, 16.0f);
                 bullet.Position = shootPos + GameObject.Position;
                 objectsManager.AddGameObject(bullet);
                 shootTimer.Reset();

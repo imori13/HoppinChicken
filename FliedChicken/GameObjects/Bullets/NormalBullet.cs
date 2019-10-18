@@ -11,9 +11,9 @@ using FliedChicken.GameObjects.Enemys.MoveModules;
 
 namespace FliedChicken.GameObjects.Bullets
 {
-    class SimpleBullet : Bullet
+    class NormalBullet : Bullet
     {
-        public SimpleBullet(Vector2 moveDirection, float moveSpeed)
+        public NormalBullet(Vector2 moveDirection, float moveSpeed)
         {
             TextureName = "Pixel";
             MoveModule = new Simple_MM(this, moveDirection, moveSpeed);

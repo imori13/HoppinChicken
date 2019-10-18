@@ -54,7 +54,7 @@
     <Compile Include="Devices\TimeSpeed.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameObjects\Bullets\Bullet.cs" />
-    <Compile Include="GameObjects\Bullets\SimpleBullet.cs" />
+    <Compile Include="GameObjects\Bullets\NormalBullet.cs" />
     <Compile Include="GameObjects\Collision\BoxCollider.cs" />
     <Compile Include="GameObjects\Collision\CircleCollider.cs" />
     <Compile Include="GameObjects\Collision\Collider.cs" />
