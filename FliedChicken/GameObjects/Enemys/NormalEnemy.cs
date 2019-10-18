@@ -24,6 +24,8 @@ namespace FliedChicken.GameObjects.Enemys
             Animation = new Animation("normal_enemy", new Vector2(320, 320), 5, 0.25f);
             Animation.GameObject = this;
             Animation.Size = Vector2.One * 0.5f;
+
+            GameObjectTag = GameObjectTag.OrangeEnemy;
         }
 
         public override void Initialize()

@@ -61,6 +61,7 @@
     <Compile Include="GameObjects\Collision\ColliderEnum.cs" />
     <Compile Include="GameObjects\Enemys\AttackModules\SimpleShoot.cs" />
     <Compile Include="GameObjects\Enemys\MoveModules\SimpleMoveModules.cs" />
+    <Compile Include="GameObjects\Enemys\ThornEnemy.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\GameObjectTag.cs" />
     <Compile Include="GameObjects\ObjectsManager.cs" />

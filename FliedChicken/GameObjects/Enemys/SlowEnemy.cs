@@ -7,31 +7,69 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using FliedChicken.Devices.AnimationDevice;
 using FliedChicken.Devices;
+using FliedChicken.GameObjects.Enemys.AttackModules;
+using FliedChicken.GameObjects.Enemys.MoveModules;
 
 namespace FliedChicken.GameObjects.Enemys
 {
     class SlowEnemy : Enemy
     {
+        private float moveDirection;
+
         public SlowEnemy(Camera camera) : base(camera)
         {
+            Size = new Vector2(445, 165);
+
             Animation = new Animation("slowenemy", new Vector2(445, 165), 8, 0.25f);
             Animation.GameObject = this;
             Animation.Size = Vector2.One;
+
+            GameObjectTag = GameObjectTag.OrangeEnemy;
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+
+            var random = GameDevice.Instance().Random;
+            moveDirection = random.Next(0, 2) == 0 ? -1 : 1;
+            float speed = random.Next(5, 8) / 2;
+            MoveModule = new SimpleMoveModules(this, new Vector2(moveDirection, 0), speed);
+
+            AttackModule = new SimpleShoot(this, ObjectsManager, new Vector2(64 * moveDirection, 0), new Vector2(0, 1));
+
+            MoveModule.Initialize();
+            AttackModule.Initialize();
+        }
+
+        public override void Update()
+        {
+            base.Update();
+
+            MoveModule.Move();
+            AttackModule.Attack();
         }
 
         public override void HitAction(GameObject gameObject)
         {
-            throw new NotImplementedException();
         }
 
         protected override bool IsDestroy()
         {
-            throw new NotImplementedException();
+            float side = Position.Y + Size.X / 2 * -moveDirection;
+            float sideLimit = Camera.Position.X + Screen.WIDTH / 2 * moveDirection;
+            bool isOverSide = moveDirection > 0 ? side > sideLimit : side < sideLimit;
+
+            float down = Position.Y + Size.Y / 2;
+            float upLimit = Camera.Position.Y - Screen.HEIGHT / 2;
+            bool isOverDown = down < upLimit;
+
+            return isOverSide || isOverDown;
         }
 
         protected override void OnDestroy()
         {
-            throw new NotImplementedException();
+
         }
     }
 }

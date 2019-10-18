@@ -12,53 +12,37 @@ using FliedChicken.Devices.AnimationDevice;
 
 namespace FliedChicken.GameObjects.Enemys
 {
-    class HighSpeedEnemy : Enemy
+    class ThornEnemy : Enemy
     {
-        private float moveDirection;
-        public HighSpeedEnemy(Camera camera) : base(camera)
+        public ThornEnemy(Camera camera) : base(camera)
         {
-            Size = new Vector2(400, 160);
-
-            Animation = new Animation("highspeed_enemy", new Vector2(400, 140), 6, 0.25f);
-            Animation.GameObject = this;
-            Animation.Size = Vector2.One;
+            Size = new Vector2(80, 80);
 
             GameObjectTag = GameObjectTag.RedEnemy;
         }
+
         public override void Initialize()
         {
             base.Initialize();
-
-            var random = GameDevice.Instance().Random;
-            moveDirection = random.Next(0, 2) == 0 ? -1 : 1;
-            float speed = random.Next(5, 8) * 2;
-            MoveModule = new SimpleMoveModules(this, new Vector2(moveDirection, 0), speed);
-
-            MoveModule.Initialize();
         }
 
         public override void Update()
         {
             base.Update();
-
-            MoveModule.Move();
         }
 
         public override void HitAction(GameObject gameObject)
         {
+
         }
 
         protected override bool IsDestroy()
         {
-            float side = Position.Y + Size.X / 2 * -moveDirection;
-            float sideLimit = Camera.Position.X + Screen.WIDTH / 2 * moveDirection;
-            bool isOverSide = moveDirection > 0 ? side > sideLimit : side < sideLimit;
-
             float down = Position.Y + Size.Y / 2;
             float upLimit = Camera.Position.Y - Screen.HEIGHT / 2;
             bool isOverDown = down < upLimit;
 
-            return isOverSide || isOverDown;
+            return isOverDown;
         }
 
         protected override void OnDestroy()
