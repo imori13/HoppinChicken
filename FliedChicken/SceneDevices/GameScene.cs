@@ -22,7 +22,6 @@ namespace FliedChicken.SceneDevices
     {
         TITLE,
         FLY,
-        RESTART,
         CLEAR,
         RESULT,
         RANKING,
@@ -34,13 +33,6 @@ namespace FliedChicken.SceneDevices
         ObjectsManager objectsManager;
         //プレイヤー保存用
         Player player;
-        //ゲームクリアライン(一時的処置)
-        int gameclearLine;
-        //タイム保存用
-        float cleartime;
-
-        //プレイヤーネーム保存用
-        string playerName;
         //スコア保存用
         int score;
 
@@ -64,8 +56,8 @@ namespace FliedChicken.SceneDevices
             objectsManager = new ObjectsManager(camera);
             titleDisplayMode = new TitleDisplayMode();
 
-            resultScreen = new ResultScreen(camera);
-            rankingScreen = new RankingScreen(camera);
+            resultScreen = new ResultScreen();
+            rankingScreen = new RankingScreen();
 
             coinManager = new CoinManager(objectsManager, 0.5f);
         }
@@ -79,8 +71,6 @@ namespace FliedChicken.SceneDevices
             objectsManager.AddGameObject(player);
             camera.Position = player.Position;
 
-            cleartime = 0.0f;
-            gameclearLine = 500;
             state = GamePlayState.TITLE;
 
             titleDisplayMode.Initialize();
@@ -105,9 +95,6 @@ namespace FliedChicken.SceneDevices
                 case GamePlayState.FLY:
                     Fly();
                     break;
-                case GamePlayState.RESTART:
-                    Restart();
-                    break;
                 case GamePlayState.CLEAR:
                     Clear();
                     break;
@@ -124,7 +111,7 @@ namespace FliedChicken.SceneDevices
 
         public override void Draw(Renderer renderer)
         {
-            renderer.Begin(camera);
+            renderer.Begin();
 
             if (state == GamePlayState.RESULT)
             {
@@ -152,14 +139,6 @@ namespace FliedChicken.SceneDevices
 
 
             objectsManager.Draw(renderer);
-
-#if DEBUG
-            // デバッグ用
-            if (titleDisplayMode.TitleFinishFlag)
-            {
-                renderer.Draw2D("Pixel", new Vector2(player.Position.X, gameclearLine), Color.Red, 0, Vector2.One / 2f, new Vector2(2000, 10));
-            }
-#endif
 
             renderer.End();
 
@@ -189,11 +168,6 @@ namespace FliedChicken.SceneDevices
             {
                 state = GamePlayState.FLY;
 
-                // ゴールラインを設定
-                gameclearLine = (int)player.Position.Y + Screen.WIDTH * 5;
-                if (centerX == 0)
-                    centerX = player.Position.X;
-
                 // TODO : ここでマップを生成する
             }
         }
@@ -210,29 +184,10 @@ namespace FliedChicken.SceneDevices
 
             diveEnemySpawner.Update();
 
-            cleartime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
-
             if (player.IsDead == true)
-            {
-                state = GamePlayState.RESTART;
-            }
-
-            if (player.Position.Y >= gameclearLine)
             {
                 player.state = PlayerState.CLEAR;
                 state = GamePlayState.CLEAR;
-            }
-        }
-
-        private void Restart()
-        {
-            ShutDown = true;
-            if (laneManager != null)
-            {
-                laneManager.Destroy();
-                laneManager = null;
-                diveEnemySpawner.Shutdown();
-                coinManager.ClearCoin();
             }
         }
 
@@ -241,7 +196,7 @@ namespace FliedChicken.SceneDevices
             if (Input.GetKeyDown(Keys.A))
             {
                 state = GamePlayState.RESULT;
-                resultScreen.Initialize(cleartime, 0);
+                resultScreen.Initialize(score);
             }
         }
 
@@ -269,7 +224,7 @@ namespace FliedChicken.SceneDevices
         private void Ranking()
         {
             rankingScreen.Update();
-            if (Input.GetKeyDown(Keys.A))
+            if (rankingScreen.IsDead)
             {
                 rankingScreen.End();
                 ShutDown = true;

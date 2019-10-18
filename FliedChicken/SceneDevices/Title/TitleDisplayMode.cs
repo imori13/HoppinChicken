@@ -30,14 +30,13 @@ namespace FliedChicken.SceneDevices.Title
         float endingTime;
 
         RankingScreen rankingScreen;
-        Camera camera;
-        bool rankingIN;
+
+        bool rankingON;
 
         public TitleDisplayMode()
         {
             keyInput = new KeyInput();
-            camera = new Camera();
-            rankingScreen = new RankingScreen(camera);
+            rankingScreen = new RankingScreen();
         }
 
         public void Initialize()
@@ -58,21 +57,19 @@ namespace FliedChicken.SceneDevices.Title
             startBack01 = 0;
             startBack02 = 0;
 
-            rankingScreen.Initialize();
-            rankingIN = false;
+            rankingON = false;
         }
 
         public void Update()
         {
             if (!startFlag)
             {
-                if (rankingIN)
+                if (rankingON)
                 {
                     rankingScreen.Update();
-
                     if (rankingScreen.IsDead)
                     {
-                        rankingIN = false;
+                        rankingON = false;
                     }
                 }
                 else
@@ -97,7 +94,7 @@ namespace FliedChicken.SceneDevices.Title
                     if (Input.GetKeyDown(Keys.Enter))
                     {
                         rankingScreen.Initialize();
-                        rankingIN = true;
+                        rankingON = true;
                     }
                 }
             }
@@ -196,7 +193,7 @@ namespace FliedChicken.SceneDevices.Title
 
             keyInput.Draw(renderer, rate, inputKeyPos);
 
-            if (rankingIN)
+            if (rankingON)
             {
                 rankingScreen.Draw(renderer);
             }

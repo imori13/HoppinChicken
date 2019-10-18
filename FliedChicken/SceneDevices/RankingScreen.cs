@@ -23,10 +23,11 @@ namespace FliedChicken.SceneDevices
         {
             START,
             STATE01,
+            STATE02,
+            STATE03,
             FINISH,
         }
 
-        Camera camera;
         List<string> rankPlayer;
         List<int> rankScore;
 
@@ -42,14 +43,15 @@ namespace FliedChicken.SceneDevices
 
         ScreenState state;
 
+        float allAlpha;
+
         float startTime;
         float finishTime;
 
         public bool IsDead { get; private set; }
 
-        public RankingScreen(Camera camera)
+        public RankingScreen()
         {
-            this.camera = camera;
         }
 
         public void Initialize()
@@ -68,6 +70,8 @@ namespace FliedChicken.SceneDevices
             finishTime = 0.0f;
 
             IsDead = false;
+
+            allAlpha = 0.0f;
         }
 
         public void Update()
@@ -81,6 +85,12 @@ namespace FliedChicken.SceneDevices
                     break;
                 case ScreenState.STATE01:
                     State01();
+                    break;
+                case ScreenState.STATE02:
+                    State02();
+                    break;
+                case ScreenState.STATE03:
+                    State03();
                     break;
                 case ScreenState.FINISH:
                     Finish();
@@ -106,8 +116,28 @@ namespace FliedChicken.SceneDevices
 
         private void State01()
         {
-            if (Input.GetKeyDown(Keys.Enter))
+            allAlpha += TimeSpeed.Time * 0.01f;
+            if (allAlpha >= 1)
             {
+                allAlpha = 1.0f;
+                state = ScreenState.STATE02;
+            }
+        }
+
+        private void State02()
+        {
+            if (Input.GetKeyDown(Keys.A) || Input.GetKeyDown(Keys.Enter))
+            {
+                state = ScreenState.STATE03;
+            }
+        }
+
+        private void State03()
+        {
+            allAlpha -= TimeSpeed.Time * 0.01f;
+            if (allAlpha <= 0.0f)
+            {
+                allAlpha = 0.0f;
                 state = ScreenState.FINISH;
             }
         }
@@ -118,14 +148,15 @@ namespace FliedChicken.SceneDevices
             windowWidth = MathHelper.Lerp(windowWidth, 0, 0.05f);
             if (finishTime >= 1.5f)
             {
-                windowWidth = 0;
+                windowWidth = 0.0f;
+                RankingWrite();
                 IsDead = true;
             }
         }
 
         public void End()
         {
-            RankingWrite();
+            
         }
 
         /// <summary>
@@ -230,27 +261,27 @@ namespace FliedChicken.SceneDevices
                 Color.Black, 0.0f, new Vector2(windowWidth, windowHeight));
 
             renderer.DrawString(Fonts.Font12_32, "RANKING",
-                Screen.Vec2 / 2 - new Vector2(0, 400), Color.White * 1,
-                0.0f, Fonts.Font12_32.MeasureString("RESULT") / 2, new Vector2(2, 2));
+                Screen.Vec2 / 2 - new Vector2(0, 400), Color.White * allAlpha,
+                0.0f, Fonts.Font12_32.MeasureString("RANKING") / 2, new Vector2(2, 2));
 
             for (int i = 0; i < rankNum; i++)
             {
                 renderer.DrawString(Fonts.Font12_32, (i + 1).ToString() + '.',
-                    Screen.Vec2 / 2 - new Vector2(580, 300 - 200 * i), Color.White,
+                    Screen.Vec2 / 2 - new Vector2(580, 300 - 200 * i), Color.White * allAlpha,
                     0.0f, Vector2.Zero, new Vector2(2, 2));
             }
 
             for (int i = 0; i < rankNum; i++)
             {
                 renderer.DrawString(Fonts.Font12_32, rankPlayer[i],
-                    Screen.Vec2 / 2 - new Vector2(500, 300 - 200 * i), Color.White,
+                    Screen.Vec2 / 2 - new Vector2(500, 300 - 200 * i), Color.White * allAlpha,
                     0.0f, Vector2.Zero, new Vector2(2, 2));
             }
 
             for (int i = 0; i < rankNum; i++)
             {
                 renderer.DrawString(Fonts.Font12_32, rankScore[i].ToString(),
-                    Screen.Vec2 / 2 - new Vector2(-200, 300 - 200 * i), Color.White,
+                    Screen.Vec2 / 2 - new Vector2(-200, 300 - 200 * i), Color.White * allAlpha,
                     0.0f, Vector2.Zero, new Vector2(2, 2));
             }
         }

@@ -23,12 +23,11 @@ namespace FliedChicken.SceneDevices
             START,
             STATE01,
             STATE02,
+            STATE03,
             FINISH,
         }
 
-        private float cleartime;
-        private int coinNum;
-        private string timeText;
+        private float score;
 
         private float windowWidth;
         private float windowHeight;
@@ -38,25 +37,17 @@ namespace FliedChicken.SceneDevices
 
         private Vector2 maxWindowSize;
 
-        private float textSize01;
-        private float textSize02;
-        private float timeTextSize;
-
-        private float timeAlpha;
         private float allAlpha;
 
         public bool IsDead { get; private set; }
-
-        Camera camera;
 
         ScreenState state;
 
         float startTime;
         float finishTime;
 
-        public ResultScreen(Camera camera)
+        public ResultScreen()
         {
-            this.camera = camera;
         }
 
         /// <summary>
@@ -64,27 +55,20 @@ namespace FliedChicken.SceneDevices
         /// </summary>
         /// <param name="cleartime"></param>
         /// <param name="coinNum"></param>
-        public void SetScore(float cleartime, int coinNum)
+        public void SetScore(float score)
         {
-            this.cleartime = cleartime;
-            this.coinNum = coinNum;
-            ChangeTimerText();
+            this.score = score;
         }
 
-        public void Initialize(float cleatime, int coinNum)
+        public void Initialize(float  score)
         {
-            SetScore(cleatime, coinNum);
+            SetScore(score);
 
             windowWidth = 0.0f;
             windowHeight = maxWindowHeight;
             maxWindowSize = new Vector2(maxWindowWidth, maxWindowHeight);
 
-            textSize01 = 0.0f;
-            textSize02 = 0.0f;
-            timeTextSize = 3.0f;
-
-            timeAlpha = 0.0f;
-            allAlpha = 1.0f;
+            allAlpha = 0.0f;
 
             IsDead = false;
             state = ScreenState.START;
@@ -108,6 +92,9 @@ namespace FliedChicken.SceneDevices
                 case ScreenState.STATE02:
                     State02();
                     break;
+                case ScreenState.STATE03:
+                    State03();
+                    break;
                 case ScreenState.FINISH:
                     Finish();
                     break;
@@ -123,24 +110,19 @@ namespace FliedChicken.SceneDevices
         {
             startTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
             windowWidth = MathHelper.Lerp(windowWidth, maxWindowWidth, 0.05f);
-            textSize01 = MathHelper.Lerp(textSize01, 2, 0.05f);
-            textSize02 = MathHelper.Lerp(textSize02, 1.5f, 0.05f);
-            allAlpha += TimeSpeed.Time * 0.01f;
             if (startTime >= 1.5f)
             {
                 windowWidth = maxWindowWidth;
-                textSize01 = 2;
-                textSize02 = 1.5f;
-                allAlpha = 1.0f;
                 state = ScreenState.STATE01;
             }
         }
 
         private void State01()
         {
-            timeAlpha += TimeSpeed.Time * 0.01f;
-            if (timeAlpha >= 1)
+            allAlpha += TimeSpeed.Time * 0.01f;
+            if (allAlpha >= 1)
             {
+                allAlpha = 1.0f;
                 state = ScreenState.STATE02;
             }
         }
@@ -149,6 +131,16 @@ namespace FliedChicken.SceneDevices
         {
             if (Input.GetKeyDown(Keys.A))
             {
+                state = ScreenState.STATE03;
+            }
+        }
+
+        private void State03()
+        {
+            allAlpha -= TimeSpeed.Time * 0.01f;
+            if (allAlpha <= 0.0f)
+            {
+                allAlpha = 0.0f;
                 state = ScreenState.FINISH;
             }
         }
@@ -157,16 +149,9 @@ namespace FliedChicken.SceneDevices
         {
             finishTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
             windowWidth = MathHelper.Lerp(windowWidth, 0, 0.05f);
-            textSize01 = MathHelper.Lerp(textSize01, 0, 0.05f);
-            textSize02 = MathHelper.Lerp(textSize02, 0, 0.05f);
-            timeTextSize = MathHelper.Lerp(timeTextSize, 0, 0.05f);
-            allAlpha -= TimeSpeed.Time * 0.01f;
             if (finishTime >= 1.5f)
             {
-                windowWidth = 0;
-                textSize01 = 0;
-                textSize02 = 0;
-                timeTextSize = 0;
+                windowWidth = 0.0f;
                 IsDead = true;
             }
         }
@@ -176,33 +161,22 @@ namespace FliedChicken.SceneDevices
 
         }
 
-        /// <summary>
-        /// タイム表示
-        /// </summary>
-        public void ChangeTimerText()
-        {
-            string min = (((int)cleartime) / 60).ToString();
-            string se = (((int)cleartime) - int.Parse(min) * 60).ToString("00");
-            string f = (cleartime - ((int)cleartime)).ToString("F2").TrimStart('0');
-            timeText = min + ":" + se + f;
-        }
-
         public void Draw(Renderer renderer)
         {
-            renderer.Draw2D("Pixel", new Vector2(camera.Position.X, camera.Position.Y),
+            renderer.Draw2D("Pixel", Screen.Vec2 / 2,
                 Color.Black, 0.0f, new Vector2(windowWidth, windowHeight));
 
             renderer.DrawString(Fonts.Font12_32, "RESULT",
-                new Vector2(camera.Position.X, camera.Position.Y - 400), Color.White * allAlpha,
-                0.0f, Fonts.Font12_32.MeasureString("RESULT") / 2, new Vector2(textSize01, 2));
+                Screen.Vec2 / 2 - new Vector2(0, 400), Color.White * allAlpha,
+                0.0f, Fonts.Font12_32.MeasureString("RESULT") / 2, new Vector2(2, 2));
 
-            renderer.DrawString(Fonts.Font12_32, "TIME",
-                new Vector2(camera.Position.X, camera.Position.Y - 300), Color.White * allAlpha,
-                0.0f, Fonts.Font12_32.MeasureString("TIME") / 2, new Vector2(textSize02, 1.5f));
+            renderer.DrawString(Fonts.Font12_32, "SCORE",
+                Screen.Vec2 / 2 - new Vector2(0, 300), Color.White * allAlpha,
+                0.0f, Fonts.Font12_32.MeasureString("SCORE") / 2, new Vector2(1.5f, 1.5f));
 
-            renderer.DrawString(Fonts.Font12_32, timeText,
-                new Vector2(camera.Position.X, camera.Position.Y - 200), Color.White * allAlpha * timeAlpha,
-                0.0f, Fonts.Font12_32.MeasureString(timeText) / 2, new Vector2(timeTextSize, 3));
+            renderer.DrawString(Fonts.Font12_32, score.ToString("F2"),
+                Screen.Vec2 / 2 - new Vector2(0, 200), Color.White * allAlpha,
+                0.0f, Fonts.Font12_32.MeasureString(score.ToString("F2")) / 2, new Vector2(3, 3));
         }
     }
 }
