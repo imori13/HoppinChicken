@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using FliedChicken.GameObjects.Collision;
+using FliedChicken.GameObjects.PlayerDevices;
 using FliedChicken.Devices;
 using FliedChicken.Devices.AnimationDevice;
 
@@ -14,7 +15,14 @@ namespace FliedChicken.GameObjects.Enemys
 {
     class DiveEnemy : GameObject
     {
+        enum State
+        {
+            FORMING,
+            STOP
+        }
+
         private Camera camera;
+        private Player player;
 
         private float sinWidth;
         private float elapsedTime;
@@ -27,12 +35,18 @@ namespace FliedChicken.GameObjects.Enemys
 
         private Animation Animation;
 
-        public DiveEnemy(Camera camera)
+        private readonly float stopTime = 2.0f;
+        private float stopCount;
+
+        State state;
+
+        public DiveEnemy(Camera camera, Player player)
         {
             this.camera = camera;
+            this.player = player;
 
             Collider = new BoxCollider(this, Vector2.One*3);
-            GameObjectTag = GameObjectTag.OrangeEnemy;
+            GameObjectTag = GameObjectTag.DiveEnemy;
 
             speedX = 2;
             speedY = 7;
@@ -47,23 +61,54 @@ namespace FliedChicken.GameObjects.Enemys
         {
             basePosition = Position;
             Animation.Initialize();
+
+            state = State.FORMING;
+            stopCount = 0.0f;
         }
 
         public override void Update()
         {
+            Default();
+            switch (state)
+            {
+                case State.FORMING:
+                    Forming();
+                    break;
+                case State.STOP:
+                    Stop();
+                    break;
+            }
+        }
+
+        private void Default()
+        {
+            Animation.Update();
+        }
+
+        private void Forming()
+        {
             float deltaTime = TimeSpeed.Time;
-            elapsedTime += deltaTime;
-            float newX = sinWidth * (float)Math.Sin(MathHelper.ToRadians(speedX * elapsedTime));
+            //elapsedTime += deltaTime;
+            //float newX = sinWidth * (float)Math.Sin(MathHelper.ToRadians(speedX * elapsedTime));
 
             spriteEffects = SpriteEffects.None;
-            if (newX < sinWidth / 2)
-                spriteEffects = SpriteEffects.None;
-            else if (newX > sinWidth / 2)
-                spriteEffects = SpriteEffects.FlipHorizontally;
+            //if (newX < sinWidth / 2)
+            //    spriteEffects = SpriteEffects.None;
+            //else if (newX > sinWidth / 2)
+            //    spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Position = basePosition + new Vector2(newX, speedY * elapsedTime);
+            Position = new Vector2(player.Position.X, 
+                MathHelper.Clamp(basePosition.Y + speedY * deltaTime, basePosition.Y, player.Position.Y));
+        }
 
-            Animation.Update();
+        private void Stop()
+        {
+            stopCount += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
+            if (stopCount >= stopTime)
+            {
+                stopCount = 0.0f;
+                state = State.FORMING;
+            }
         }
 
         public override void Draw(Renderer renderer)
@@ -73,6 +118,10 @@ namespace FliedChicken.GameObjects.Enemys
 
         public override void HitAction(GameObject gameObject)
         {
+            if (gameObject.GameObjectTag == GameObjectTag.RedEnemy)
+            {
+                state = State.STOP;
+            }
         }
 
         public void Destroy()
