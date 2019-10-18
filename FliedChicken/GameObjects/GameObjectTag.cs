@@ -10,6 +10,7 @@ namespace FliedChicken.GameObjects
     {
         None,   // タグなし
         Player, // プレイヤー
-        Enemy, //敵
+        OrengeEnemy, // 当たっても死なない敵
+        RedEnemy,   // 当たったら死ぬ敵
     }
 }

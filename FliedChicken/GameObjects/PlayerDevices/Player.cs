@@ -50,8 +50,8 @@ namespace FliedChicken.GameObjects.PlayerDevices
                     // プレイヤーのぼよんぼよんする挙動
                     playerScale.Update();
                     // プレイヤーの移動処理
-                    Position = playerMove.Update();
-                    Velocity = playerMove.Velocity;
+                    Velocity = playerMove.Velocity();
+                    Position = playerMove.Move();
                     // カメラの移動処理
                     camera.Position = Vector2.Lerp(camera.Position, Position + Vector2.UnitY * Screen.HEIGHT / 5f, 0.1f);
                     break;
@@ -79,9 +79,14 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
         public override void HitAction(GameObject gameObject)
         {
-            if (gameObject.GameObjectTag == GameObjectTag.Enemy)
+            if (gameObject.GameObjectTag == GameObjectTag.OrengeEnemy)
             {
-                IsDead = true;
+                BoundBoxCollision(gameObject);
+            }
+
+            if (gameObject.GameObjectTag == GameObjectTag.RedEnemy)
+            {
+                //IsDead = true;
             }
         }
     }

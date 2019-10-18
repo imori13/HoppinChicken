@@ -43,7 +43,7 @@ namespace FliedChicken.GameObjects.Enemys
             Size = new Vector2(width, height);
             colliderSize = new Vector2(collWidth, collHeight);
             Collider = new BoxCollider(this, colliderSize);
-            GameObjectTag = GameObjectTag.Enemy;
+            GameObjectTag = GameObjectTag.OrengeEnemy;
 
             MinSpeed = minSpeed;
             MaxSpeed = maxSpeed;

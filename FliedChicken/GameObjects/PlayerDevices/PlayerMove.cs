@@ -1,11 +1,6 @@
 ﻿using FliedChicken.Devices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FliedChicken.GameObjects.PlayerDevices
 {
@@ -13,13 +8,14 @@ namespace FliedChicken.GameObjects.PlayerDevices
     {
         Player player;
 
-        private static readonly float FALLMAXSPEED = 10;
+        private float fallSpeed;
 
-        public Vector2 Velocity { get; private set; }   // 保守性がなくてすまんが！！！これをPlayerクラスでVelocity = playerMove.Velocityするのを忘れないでくれ！！！
         private Vector2 destPosition;
 
         private float time;
         private bool inputflag;
+
+        private float fallTime;
 
         public PlayerMove(Player player)
         {
@@ -29,16 +25,47 @@ namespace FliedChicken.GameObjects.PlayerDevices
         public void Initialize()
         {
             inputflag = false;
+            fallSpeed = 10;
         }
 
-        public Vector2 Update()
+        public Vector2 Velocity()
         {
             time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
 
-            Vector2 Vel = player.Velocity;
+            Vector2 Velocity = player.Velocity;
 
             // 落下処理
-            Vel = Vector2.Lerp(Vel, Vector2.UnitY * FALLMAXSPEED, 0.25f);
+            bool fallFlag = false;
+            float destFallSpeed = 10;
+            if (Input.GetKey(Keys.Space))
+            {
+                fallTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
+
+                if (fallTime > 0.2f)
+                {
+                    destFallSpeed = 20;
+                    fallFlag = true;
+                }
+            }
+            else if (Input.GetKeyUp(Keys.Space))
+            {
+                fallTime = 0;
+            }
+
+            fallSpeed = MathHelper.Lerp(fallSpeed, destFallSpeed, 0.1f);
+
+            // 左右移動
+
+            float speed = (fallFlag) ? (1) : (5);
+            if (Input.GetKey(Keys.Right))
+            {
+                Velocity = new Vector2(Velocity.X + speed, Velocity.Y) * TimeSpeed.Time;
+            }
+
+            if (Input.GetKey(Keys.Left))
+            {
+                Velocity = new Vector2(Velocity.X - speed, Velocity.Y) * TimeSpeed.Time;
+            }
 
             // ジャンプ処理
             if (Input.GetKeyDown(Keys.Space) || inputflag)
@@ -47,7 +74,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 {
                     time = 0;
                     inputflag = false;
-                    Vel = new Vector2(Vel.X, -25);
+                    Velocity = new Vector2(Velocity.X, -15);
                 }
                 else
                 {
@@ -55,21 +82,14 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 }
             }
 
-            float speed = 5;
+            Velocity = Vector2.Lerp(Velocity, Vector2.UnitY * fallSpeed, 0.25f);
 
-            if (Input.GetKey(Keys.Right))
-            {
-                Vel = new Vector2(Vel.X + speed, Vel.Y) * TimeSpeed.Time;
-            }
+            return Velocity;
+        }
 
-            if (Input.GetKey(Keys.Left))
-            {
-                Vel = new Vector2(Vel.X - speed, Vel.Y) * TimeSpeed.Time;
-            }
-
-            destPosition += Vel;
-
-            this.Velocity = Vel;
+        public Vector2 Move()
+        {
+            destPosition += player.Velocity;
 
             return Vector2.Lerp(player.Position, destPosition, 0.2f);
         }
