@@ -47,6 +47,8 @@ namespace FliedChicken.SceneDevices
         //コイン関連
         CoinManager coinManager;
 
+        EnemySpawner enemySpawner;
+
         public GameScene()
         {
             camera = new Camera();
@@ -71,6 +73,9 @@ namespace FliedChicken.SceneDevices
             state = GamePlayState.TITLE;
 
             titleDisplayMode.Initialize();
+
+            enemySpawner = new EnemySpawner(player, camera, objectsManager, 64 * -3, 64 * 10, 2, 4);
+            enemySpawner.Initialize();
 
             base.Initialize();
         }
@@ -130,7 +135,9 @@ namespace FliedChicken.SceneDevices
             // オブジェクトを描画
             renderer.Begin(camera);
 
-
+#if DEBUG
+            enemySpawner.DebugDraw(renderer);
+#endif
             objectsManager.Draw(renderer);
 
             renderer.End();
@@ -162,10 +169,6 @@ namespace FliedChicken.SceneDevices
                 state = GamePlayState.FLY;
                 
                 // TODO : ここでマップを生成する
-                var hoge = new NormalEnemy(camera);
-                hoge.ObjectsManager = objectsManager;
-                hoge.Position = player.Position + new Vector2(0, -128);
-                objectsManager.AddGameObject(hoge);
             }
         }
 
@@ -176,6 +179,8 @@ namespace FliedChicken.SceneDevices
                 player.state = PlayerState.CLEAR;
                 state = GamePlayState.CLEAR;
             }
+
+            enemySpawner.Update();
         }
         
         private void Restart()

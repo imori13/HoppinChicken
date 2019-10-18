@@ -65,6 +65,7 @@
     <Compile Include="GameObjects\Enemys\MoveModules\Killer_MM.cs" />
     <Compile Include="GameObjects\Enemys\MoveModules\Simple_MM.cs" />
     <Compile Include="GameObjects\Enemys\ThornEnemy.cs" />
+    <Compile Include="GameObjects\Enemys\EnemySpawner.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\GameObjectTag.cs" />
     <Compile Include="GameObjects\ObjectsManager.cs" />

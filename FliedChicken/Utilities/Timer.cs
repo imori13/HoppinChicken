@@ -21,7 +21,7 @@ namespace FliedChicken.Utilities
                     gameTime = GameDevice.Instance().GameTime;
                     return 0;
                 }
-                return gameTime.TotalGameTime.Seconds;
+                return (float)gameTime.TotalGameTime.TotalSeconds;
             }
         }
 

@@ -14,6 +14,12 @@ using FliedChicken.Devices.AnimationDevice;
 
 namespace FliedChicken.GameObjects.Enemys
 {
+    enum SpawnPositionType
+    {
+        Left,
+        Right,
+    }
+
     abstract class Enemy : GameObject
     {
         /// <summary>
@@ -28,6 +34,8 @@ namespace FliedChicken.GameObjects.Enemys
 
         public Vector2 Size { get; protected set; }
         public Vector2 DrawOffset { get; protected set; }
+
+        public SpawnPositionType spawnPosType { get; protected set; }
 
         protected AttackModule AttackModule { get; set; }
         protected MoveModule MoveModule { get; set; }
@@ -57,7 +65,7 @@ namespace FliedChicken.GameObjects.Enemys
 
             if (IsDestroy())
             {
-                //IsDead = true;
+                IsDead = true;
                 OnDestroy();
             }
 
