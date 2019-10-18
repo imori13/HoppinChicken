@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using FliedChicken.GameObjects.Collision;
+using FliedChicken.GameObjects.Enemys.AttackModules;
+using FliedChicken.GameObjects.Enemys.MoveModules;
 using FliedChicken.Devices;
 using FliedChicken.Devices.AnimationDevice;
 
@@ -14,89 +16,80 @@ namespace FliedChicken.GameObjects.Enemys
 {
     abstract class Enemy : GameObject
     {
-        public float MoveSpeed { get; set; }
-        public Vector2 Size { get; protected set; }
+        /// <summary>
+        /// テクスチャ名。Animationが設定されている場合は無視される。
+        /// </summary>
+        protected string TextureName { get; set; }
 
-        public int MinSpeed { get; protected set; }
-        public int MaxSpeed { get; protected set; }
-
-        public int MinInterval { get; protected set; }
-        public int MaxInterval { get; protected set; }
+        /// <summary>
+        /// nullの場合はTextureNameで指定された画像を描画する。
+        /// </summary>
         public Animation Animation { get; protected set; }
 
+        public Vector2 Size { get; protected set; }
         public Vector2 DrawOffset { get; protected set; }
 
-        private Vector2 colliderSize;
+        protected AttackModule AttackModule { get; set; }
+        protected MoveModule MoveModule { get; set; }
 
-        private SpriteEffects spriteEffects;
+        protected SpriteEffects SpriteEffects { get; set; }
 
-        protected Enemy(
-            float width,
-            float height,
-            float collWidth,
-            float collHeight,
-            int minSpeed,
-            int maxSpeed,
-            int minInterval,
-            int maxInterval)
+        protected Camera Camera { get; set; }
+
+        private Vector2 previousPosition;
+
+        public Enemy(Camera camera)
         {
-            Size = new Vector2(width, height);
-            colliderSize = new Vector2(collWidth, collHeight);
-            Collider = new BoxCollider(this, colliderSize);
+            Camera = camera;
             GameObjectTag = GameObjectTag.Enemy;
-
-            MinSpeed = minSpeed;
-            MaxSpeed = maxSpeed;
-
-            MinInterval = minInterval;
-            MaxInterval = maxInterval;
-
-            DrawOffset = new Vector2(0.5f, 0.5f);
         }
-
-        public abstract Enemy Clone();
 
         public override void Initialize()
         {
-            Animation.Initialize();
+            if (Animation != null)
+                Animation.Initialize();
         }
 
         public override void Update()
         {
-            Position += new Vector2(MoveSpeed, 0) * TimeSpeed.Time;
-            Animation.Update();
+            if (Animation != null)
+                Animation.Update();
 
-            spriteEffects = SpriteEffects.None;
-            if (MoveSpeed > 0)
+            if (IsDestroy())
             {
-                spriteEffects = SpriteEffects.FlipHorizontally;
+                //IsDead = true;
+                OnDestroy();
             }
+
+            SetDrawDirection();
+            previousPosition = Position;
         }
 
         public override void Draw(Renderer renderer)
         {
-            Animation.Draw(renderer, DrawOffset, spriteEffects);
+            if (Animation == null)
+                renderer.Draw2D(TextureName, Position, Color.White, SpriteEffects);
+            else
+                Animation.Draw(renderer, DrawOffset, SpriteEffects);
         }
 
-        public override void HitAction(GameObject gameObject)
+        protected void SetDrawDirection()
         {
+            if (previousPosition.X < Position.X)
+                SpriteEffects = SpriteEffects.FlipHorizontally;
+            else
+                SpriteEffects = SpriteEffects.None;
         }
 
-        public void Destroy()
-        {
-            IsDead = true;
-        }
+        /// <summary>
+        /// 死亡条件メソッド
+        /// </summary>
+        /// <returns></returns>
+        protected abstract bool IsDestroy();
 
-        public float GetRandomizedSpeed()
-        {
-            Random rand = GameDevice.Instance().Random;
-            return rand.Next(MinSpeed, MaxSpeed + 1) + (float)rand.NextDouble();
-        }
-
-        public float GetRandomizedInterval()
-        {
-            Random rand = GameDevice.Instance().Random;
-            return rand.Next(MinInterval, MaxInterval + 1) + (float)rand.NextDouble();
-        }
+        /// <summary>
+        /// 死亡時に呼び出されるコールバック
+        /// </summary>
+        protected abstract void OnDestroy();
     }
 }

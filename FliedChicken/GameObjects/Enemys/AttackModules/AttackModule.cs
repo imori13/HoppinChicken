@@ -4,19 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FliedChicken.GameObjects.Enemys.MoveModules
+namespace FliedChicken.GameObjects.Enemys.AttackModules
 {
-    abstract class MoveModules
+    abstract class AttackModule
     {
         public GameObject GameObject { get; private set; }
 
-        public MoveModules(GameObject GameObject)
+        public AttackModule(GameObject GameObject)
         {
             this.GameObject = GameObject;
         }
 
         public abstract void Initialize();
 
-        public abstract void Move();
+        public abstract void Attack();
     }
 }

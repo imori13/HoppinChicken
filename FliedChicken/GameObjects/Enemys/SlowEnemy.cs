@@ -6,29 +6,32 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 using FliedChicken.Devices.AnimationDevice;
+using FliedChicken.Devices;
 
 namespace FliedChicken.GameObjects.Enemys
 {
     class SlowEnemy : Enemy
     {
-        public SlowEnemy() : base
-            (width: 445 * 0.9f,
-             height: 165 * 0.9f,
-             collWidth: 445 * 0.8f,
-             collHeight: 165 * 0.6f,
-             minSpeed: 1,
-             maxSpeed: 3,
-             minInterval: 12,
-             maxInterval: 15)
+        public SlowEnemy(Camera camera) : base(camera)
         {
             Animation = new Animation("slowenemy", new Vector2(445, 165), 8, 0.25f);
             Animation.GameObject = this;
             Animation.Size = Vector2.One;
         }
 
-        public override Enemy Clone()
+        public override void HitAction(GameObject gameObject)
         {
-            return new SlowEnemy();
+            throw new NotImplementedException();
+        }
+
+        protected override bool IsDestroy()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void OnDestroy()
+        {
+            throw new NotImplementedException();
         }
     }
 }

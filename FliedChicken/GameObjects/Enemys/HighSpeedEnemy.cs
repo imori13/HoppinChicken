@@ -6,29 +6,32 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 using FliedChicken.Devices.AnimationDevice;
+using FliedChicken.Devices;
 
 namespace FliedChicken.GameObjects.Enemys
 {
     class HighSpeedEnemy : Enemy
     {
-        public HighSpeedEnemy() : base
-            (width: 400 * 0.9f,
-             height: 140 * 0.9f,
-             collWidth: 400 * 0.8f,
-             collHeight: 140 * 0.55f,
-             minSpeed: 10,
-             maxSpeed: 13,
-             minInterval: 7,
-             maxInterval: 10)
+        public HighSpeedEnemy(Camera camera) : base(camera)
         {
             Animation = new Animation("highspeed_enemy", new Vector2(400, 140), 6, 0.25f);
             Animation.GameObject = this;
             Animation.Size = Vector2.One;
         }
 
-        public override Enemy Clone()
+        public override void HitAction(GameObject gameObject)
         {
-            return new HighSpeedEnemy();
+            throw new NotImplementedException();
+        }
+
+        protected override bool IsDestroy()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void OnDestroy()
+        {
+            throw new NotImplementedException();
         }
     }
 }
