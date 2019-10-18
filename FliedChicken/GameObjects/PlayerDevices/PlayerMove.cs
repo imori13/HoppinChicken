@@ -41,12 +41,12 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
         public Vector2 Velocity()
         {
-            if (DebugMode.DebugFlag)
-            {
+            //if (DebugMode.DebugFlag)
+            //{
                 return DebugEditVelocity();
-            }
+            //}
 
-            return EditVelocity();
+            //return EditVelocity();
         }
 
         public Vector2 Move()

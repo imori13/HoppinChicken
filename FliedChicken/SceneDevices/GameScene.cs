@@ -78,6 +78,8 @@ namespace FliedChicken.SceneDevices
             enemySpawner = new EnemySpawner(player, camera, objectsManager, 64 * 2, 64 * 10, 1, 1);
             enemySpawner.Initialize();
 
+            objectsManager.AddGameObject(new DiveEnemy(camera, player));
+
             base.Initialize();
         }
 
@@ -171,7 +173,7 @@ namespace FliedChicken.SceneDevices
             if (titleDisplayMode.TitleFinishFlag)
             {
                 state = GamePlayState.FLY;
-                
+
                 // TODO : ここでマップを生成する
             }
         }
@@ -191,7 +193,7 @@ namespace FliedChicken.SceneDevices
 
             enemySpawner.Update();
         }
-        
+
         private void Clear()
         {
             if (Input.GetKeyDown(Keys.A))

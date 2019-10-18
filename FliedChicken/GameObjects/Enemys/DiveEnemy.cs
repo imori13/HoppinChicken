@@ -53,7 +53,7 @@ namespace FliedChicken.GameObjects.Enemys
             sinWidth = 64 * 8;
             elapsedTime = 0.0f;
 
-            Animation = new Animation(this, "DescentEnemy", new Vector2(490, 320), 5, 0.1f);
+            Animation = new Animation(this, "DiveEnemy", new Vector2(297, 192), 5, 0.1f);
             Animation.drawSize = Vector2.One;
         }
 
