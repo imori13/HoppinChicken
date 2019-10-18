@@ -107,7 +107,7 @@ namespace FliedChicken.GameObjects.Enemys
             switch (enemy.spawnPosType)
             {
                 case SpawnPositionType.Left:
-                    basePosition = 0;
+                    basePosition = -Screen.WIDTH / 2.0f - enemy.Size.X / 2;
                     break;
                 case SpawnPositionType.Right:
                     basePosition = Screen.WIDTH / 2.0f + enemy.Size.X / 2;
