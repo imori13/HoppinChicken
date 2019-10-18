@@ -47,7 +47,8 @@ namespace FliedChicken.GameObjects.Collision
         {
             Vector2 nearPoint =
                 Vector2.Clamp(
-                    gameobject.Position, collider.gameobject.Position - collider.Size/2f,
+                    gameobject.Position,
+                    collider.gameobject.Position - collider.Size/2f,
                     collider.gameobject.Position + collider.Size/2f);
 
             if (Vector2.DistanceSquared(nearPoint, gameobject.Position) < (Radius * Radius))

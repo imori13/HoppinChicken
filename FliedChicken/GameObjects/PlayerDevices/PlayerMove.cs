@@ -41,7 +41,24 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
         public Vector2 Velocity()
         {
-            time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
+            if (DebugMode.DebugFlag)
+            {
+                return DebugEditVelocity();
+            }
+
+            return EditVelocity();
+        }
+
+        public Vector2 Move()
+        {
+            destPosition += player.Velocity;
+
+            return Vector2.Lerp(player.Position, destPosition, 0.2f);
+        }
+
+        Vector2 EditVelocity()
+        {
+            time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds * TimeSpeed.Time;
 
             Vector2 Velocity = player.Velocity;
 
@@ -93,9 +110,8 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
                     PlayerMoveState = PlayerMoveState.Jump;
 
-                    player.animation = new Animation(player, "PlayerFly", Vector2.One * 32, 3, 0.1f);
+                    player.animation = new Animation(player, "PlayerFly", Vector2.One * 114, 3, 0.1f);
                     player.animation.RepeatFlag = false;
-                    player.animation.drawSize = Vector2.One * 2.5f;
                 }
                 else
                 {
@@ -110,11 +126,37 @@ namespace FliedChicken.GameObjects.PlayerDevices
             return Velocity;
         }
 
-        public Vector2 Move()
+        Vector2 DebugEditVelocity()
         {
-            destPosition += player.Velocity;
+            Vector2 destVelocity = Vector2.Zero;
 
-            return Vector2.Lerp(player.Position, destPosition, 0.2f);
+            float speed = 10;
+
+            if (Input.GetKey(Keys.Right))
+            {
+                destVelocity.X = speed;
+            }
+
+            if (Input.GetKey(Keys.Left))
+            {
+                destVelocity.X = -speed;
+            }
+
+            if (Input.GetKey(Keys.Down))
+            {
+                destVelocity.Y = speed;
+            }
+
+            if (Input.GetKey(Keys.Up))
+            {
+                destVelocity.Y = -speed;
+            }
+
+            Vector2 Velocity = player.Velocity;
+
+            Velocity = Vector2.Lerp(Velocity, destVelocity, 0.2f);
+
+            return Velocity;
         }
     }
 }

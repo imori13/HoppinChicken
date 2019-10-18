@@ -36,8 +36,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
             playerScale = new PlayerScale(this);
             playerMove = new PlayerMove(this);
             onechanBomManager = new OnechanBomManager(this);
-            animation = new Animation(this, "PlayerIdol", Vector2.One * 32, 3, 0.1f);
-            animation.drawSize = Vector2.One * 2.5f;
+            animation = new Animation(this, "PlayerIdol", Vector2.One * 114, 3, 0.1f);
         }
 
         public override void Initialize()
@@ -55,9 +54,8 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
             if (animation.FinishFlag)
             {
-                animation = new Animation(this, "PlayerIdol", Vector2.One * 32, 3, 0.1f);
+                animation = new Animation(this, "PlayerIdol", Vector2.One * 114, 3, 0.1f);
                 animation.RepeatFlag = true;
-                animation.drawSize = Vector2.One * 2.5f;
             }
 
             switch (state)

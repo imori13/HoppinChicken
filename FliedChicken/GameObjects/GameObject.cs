@@ -38,9 +38,9 @@ namespace FliedChicken.GameObjects
             // 相手から見たオブジェクトの方向
             BoxCollider box = gameObject.Collider as BoxCollider;
             Vector2 nearPos = new Vector2(
-                MathHelper.Clamp(Position.X, -box.Size.X / 2f, box.Size.X / 2f),
-                MathHelper.Clamp(Position.Y, -box.Size.Y / 2f, box.Size.Y / 2f));
-            Vector2 direction = nearPos - Position;
+                MathHelper.Clamp(Position.X, gameObject.Position.X - box.Size.X / 2f, gameObject.Position.X + box.Size.X / 2f),
+                MathHelper.Clamp(Position.Y, gameObject.Position.Y - box.Size.Y / 2f, gameObject.Position.Y + box.Size.Y / 2f));
+            Vector2 direction = Position - nearPos;
             direction.Normalize();
 
             int count = 0;

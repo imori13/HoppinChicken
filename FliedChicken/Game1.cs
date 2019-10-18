@@ -59,7 +59,7 @@ namespace FliedChicken
             renderer.LoadTexture("PlayerIdol", "Texture/");
             renderer.LoadTexture("PlayerFly", "Texture/");
             renderer.LoadTexture("PlayerDead", "Texture/");
-            
+
             sceneManager.AddScene(SceneEnum.GameScene, new GameScene());
 
             sceneManager.ChangeScene(SceneEnum.GameScene);
@@ -78,6 +78,7 @@ namespace FliedChicken
             GameDevice.Instance().Update(gameTime);
             TimeSpeed.Update();
             Screen.Update(graphics, Window);
+            DebugMode.Update();
 
             sceneManager.Update();
 
