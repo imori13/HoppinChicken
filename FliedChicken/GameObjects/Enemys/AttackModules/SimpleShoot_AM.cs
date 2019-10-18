@@ -11,14 +11,14 @@ using FliedChicken.GameObjects.Bullets;
 
 namespace FliedChicken.GameObjects.Enemys.AttackModules
 {
-    class SimpleShoot : AttackModule
+    class SimpleShoot_AM : AttackModule
     {
         private ObjectsManager objectsManager;
         private Timer shootTimer;
         private Vector2 shootPos;
         private Vector2 shootDirection;
 
-        public SimpleShoot(
+        public SimpleShoot_AM(
             GameObject GameObject,
             ObjectsManager objectsManager,
             Vector2 shootPos,

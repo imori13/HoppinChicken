@@ -14,9 +14,8 @@ namespace FliedChicken.GameObjects.Enemys
     {
         public HighSpeedEnemy(Camera camera) : base(camera)
         {
-            Animation = new Animation("highspeed_enemy", new Vector2(400, 140), 6, 0.25f);
-            Animation.GameObject = this;
-            Animation.Size = Vector2.One;
+            Animation = new Animation(this, "highspeed_enemy", new Vector2(400, 140), 6, 0.25f);
+            Animation.drawSize = Vector2.One;
         }
 
         public override void HitAction(GameObject gameObject)

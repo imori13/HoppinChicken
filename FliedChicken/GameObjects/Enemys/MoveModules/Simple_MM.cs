@@ -9,12 +9,12 @@ using FliedChicken.Devices;
 
 namespace FliedChicken.GameObjects.Enemys.MoveModules
 {
-    class SimpleMoveModules : MoveModule
+    class Simple_MM : MoveModule
     {
         public Vector2 MoveDirection { get; set; }
         public float MoveSpeed { get; set; }
 
-        public SimpleMoveModules(GameObject GameObject, Vector2 moveDirection, float moveSpeed) : base(GameObject)
+        public Simple_MM(GameObject GameObject, Vector2 moveDirection, float moveSpeed) : base(GameObject)
         {
             MoveDirection = Vector2.Normalize(moveDirection);
             MoveSpeed = moveSpeed;

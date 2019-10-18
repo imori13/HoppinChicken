@@ -21,9 +21,8 @@ namespace FliedChicken.GameObjects.Enemys
         {
             Size = new Vector2(320, 320) * 0.5f;
 
-            Animation = new Animation("normal_enemy", new Vector2(320, 320), 5, 0.25f);
-            Animation.GameObject = this;
-            Animation.Size = Vector2.One * 0.5f;
+            Animation = new Animation(this, "normal_enemy", new Vector2(320, 320), 5, 0.25f);
+            Animation.drawSize = Vector2.One * 0.5f;
         }
 
         public override void Initialize()
@@ -33,9 +32,9 @@ namespace FliedChicken.GameObjects.Enemys
             var random = GameDevice.Instance().Random;
             moveDirection = random.Next(0, 2) == 0 ? -1 : 1;
             float speed = random.Next(5, 8);
-            MoveModule = new SimpleMoveModules(this, new Vector2(moveDirection, 0), speed);
+            MoveModule = new Simple_MM(this, new Vector2(moveDirection, 0), speed);
 
-            AttackModule = new SimpleShoot(this, ObjectsManager, new Vector2(64 * moveDirection, 0), new Vector2(moveDirection, 0));
+            AttackModule = new SimpleShoot_AM(this, ObjectsManager, new Vector2(64 * moveDirection, 0), new Vector2(moveDirection, 0));
 
             MoveModule.Initialize();
             AttackModule.Initialize();

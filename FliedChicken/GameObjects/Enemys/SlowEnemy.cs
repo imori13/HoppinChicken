@@ -14,9 +14,8 @@ namespace FliedChicken.GameObjects.Enemys
     {
         public SlowEnemy(Camera camera) : base(camera)
         {
-            Animation = new Animation("slowenemy", new Vector2(445, 165), 8, 0.25f);
-            Animation.GameObject = this;
-            Animation.Size = Vector2.One;
+            Animation = new Animation(this, "slowenemy", new Vector2(445, 165), 8, 0.25f);
+            Animation.drawSize = Vector2.One;
         }
 
         public override void HitAction(GameObject gameObject)
