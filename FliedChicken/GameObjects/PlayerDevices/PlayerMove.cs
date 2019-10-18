@@ -110,9 +110,8 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
                     PlayerMoveState = PlayerMoveState.Jump;
 
-                    player.animation = new Animation(player, "PlayerFly", Vector2.One * 32, 3, 0.1f);
+                    player.animation = new Animation(player, "PlayerFly", Vector2.One * 114, 3, 0.1f);
                     player.animation.RepeatFlag = false;
-                    player.animation.drawSize = Vector2.One * 2.5f;
                 }
                 else
                 {
