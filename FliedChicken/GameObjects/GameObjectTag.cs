@@ -12,6 +12,7 @@ namespace FliedChicken.GameObjects
         Player, // プレイヤー
         OrangeEnemy, // 当たっても死なない敵
         RedEnemy,   // 当たったら死ぬ敵
+        DiveEnemy,
         OneChanceItem,  // ワンチャンスボムの発動条件のアイテム
         OneChanBom, // ワンちゃんボム
     }

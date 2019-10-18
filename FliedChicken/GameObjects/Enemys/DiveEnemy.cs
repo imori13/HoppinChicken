@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using FliedChicken.GameObjects.Collision;
+using FliedChicken.GameObjects.PlayerDevices;
 using FliedChicken.Devices;
 using FliedChicken.Devices.AnimationDevice;
 
@@ -14,7 +15,14 @@ namespace FliedChicken.GameObjects.Enemys
 {
     class DiveEnemy : GameObject
     {
+        enum State
+        {
+            FORMING,
+            STOP
+        }
+
         private Camera camera;
+        private Player player;
 
         private float sinWidth;
         private float elapsedTime;
@@ -27,12 +35,18 @@ namespace FliedChicken.GameObjects.Enemys
 
         private Animation Animation;
 
-        public DiveEnemy(Camera camera)
+        private readonly float stopTime = 2.0f;
+        private float stopCount;
+
+        State state;
+
+        public DiveEnemy(Camera camera, Player player)
         {
             this.camera = camera;
+            this.player = player;
             
             Collider = new BoxCollider(this, Vector2.One*3);
-            GameObjectTag = GameObjectTag.OrangeEnemy;
+            GameObjectTag = GameObjectTag.DiveEnemy;
 
             speedX = 2;
             speedY = 7;
@@ -48,9 +62,32 @@ namespace FliedChicken.GameObjects.Enemys
         {
             basePosition = Position;
             Animation.Initialize();
+
+            state = State.FORMING;
+            stopCount = 0.0f;
         }
 
         public override void Update()
+        {
+            Default();
+            switch (state)
+            {
+                case State.FORMING:
+                    Forming();
+                    break;
+                case State.STOP:
+                    Stop();
+                    break;
+            }
+        }
+
+        private void Default()
+        {
+            Position = new Vector2(Position.X, MathHelper.Clamp(Position.Y, Position.Y, player.Position.Y));
+            Animation.Update();
+        }
+
+        private void Forming()
         {
             float deltaTime = TimeSpeed.Time;
             elapsedTime += deltaTime;
@@ -63,8 +100,16 @@ namespace FliedChicken.GameObjects.Enemys
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             Position = basePosition + new Vector2(newX, speedY * elapsedTime);
+        }
 
-            Animation.Update();
+        private void Stop()
+        {
+            stopCount += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
+            if (stopCount >= stopTime)
+            {
+                stopCount = 0.0f;
+                state = State.FORMING;
+            }
         }
 
         public override void Draw(Renderer renderer)
@@ -74,6 +119,10 @@ namespace FliedChicken.GameObjects.Enemys
 
         public override void HitAction(GameObject gameObject)
         {
+            if (gameObject.GameObjectTag == GameObjectTag.RedEnemy)
+            {
+                state = State.STOP;
+            }
         }
 
         public void Destroy()
