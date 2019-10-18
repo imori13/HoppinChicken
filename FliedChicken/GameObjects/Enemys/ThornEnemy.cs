@@ -16,7 +16,8 @@ namespace FliedChicken.GameObjects.Enemys
     {
         public ThornEnemy(Camera camera) : base(camera)
         {
-            Size = new Vector2(80, 80);
+            Size = new Vector2(64, 64);
+            TextureName = "thorn";
 
             GameObjectTag = GameObjectTag.RedEnemy;
         }
