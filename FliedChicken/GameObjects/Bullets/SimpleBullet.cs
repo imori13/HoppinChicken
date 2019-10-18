@@ -16,7 +16,7 @@ namespace FliedChicken.GameObjects.Bullets
         public SimpleBullet(Vector2 moveDirection, float moveSpeed)
         {
             TextureName = "Pixel";
-            MoveModule = new SimpleMoveModules(this, moveDirection, moveSpeed);
+            MoveModule = new Simple_MM(this, moveDirection, moveSpeed);
             Collider = new BoxCollider(this, new Vector2(128, 128));
         }
 

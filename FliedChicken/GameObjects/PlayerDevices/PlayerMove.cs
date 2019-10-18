@@ -1,4 +1,5 @@
 ﻿using FliedChicken.Devices;
+using FliedChicken.Devices.AnimationDevice;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -91,6 +92,10 @@ namespace FliedChicken.GameObjects.PlayerDevices
                     Velocity = new Vector2(Velocity.X, -15);
 
                     PlayerMoveState = PlayerMoveState.Jump;
+
+                    player.animation = new Animation(player, "PlayerFly", Vector2.One * 32, 3, 0.1f);
+                    player.animation.RepeatFlag = false;
+                    player.animation.drawSize = Vector2.One * 2.5f;
                 }
                 else
                 {

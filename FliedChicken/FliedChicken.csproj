@@ -59,9 +59,13 @@
     <Compile Include="GameObjects\Collision\CircleCollider.cs" />
     <Compile Include="GameObjects\Collision\Collider.cs" />
     <Compile Include="GameObjects\Collision\ColliderEnum.cs" />
-    <Compile Include="GameObjects\Enemys\AttackModules\SimpleShoot.cs" />
+    <Compile Include="GameObjects\Enemys\AttackModules\NotAttack_AM.cs" />
+    <Compile Include="GameObjects\Enemys\AttackModules\SimpleShoot_AM.cs" />
+    <Compile Include="GameObjects\Enemys\Killer.cs" />
+    <Compile Include="GameObjects\Enemys\MoveModules\Killer_MM.cs" />
+    <Compile Include="GameObjects\Enemys\MoveModules\Simple_MM.cs" />
+    <Compile Include="GameObjects\Enemys\ThornEnemy.cs" />
     <Compile Include="GameObjects\Enemys\EnemySpawner.cs" />
-    <Compile Include="GameObjects\Enemys\MoveModules\SimpleMoveModules.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\GameObjectTag.cs" />
     <Compile Include="GameObjects\ObjectsManager.cs" />
@@ -99,6 +103,7 @@
     <Compile Include="UI\DiveEnemyUI.cs" />
     <Compile Include="Utilities\RandomSelector.cs" />
     <Compile Include="Utilities\Timer.cs" />
+    <Compile Include="Utilities\WeightSelectHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

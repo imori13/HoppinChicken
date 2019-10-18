@@ -21,25 +21,25 @@ namespace FliedChicken.GameObjects.Enemys
             : base(camera)
         {
             Size = new Vector2(320, 320) * 0.5f;
-            Collider = new BoxCollider(this, Size);
-
-            Animation = new Animation("normal_enemy", new Vector2(320, 320), 5, 0.25f);
-            Animation.GameObject = this;
-            Animation.Size = Vector2.One * 0.5f;
-
-            var random = GameDevice.Instance().Random;
-            moveDirection = random.Next(0, 2) == 0 ? -1 : 1;
-            float speed = random.Next(5, 8);
-            MoveModule = new SimpleMoveModules(this, new Vector2(moveDirection, 0), speed);
-
-            spawnPosType = moveDirection < 0 ? SpawnPositionType.Right : SpawnPositionType.Left;
+            
+            Animation = new Animation(this, "normal_enemy", new Vector2(320, 320), 5, 0.25f);
+            Animation.drawSize = Vector2.One * 0.5f;
+            GameObjectTag = GameObjectTag.OrangeEnemy;
         }
 
         public override void Initialize()
         {
             base.Initialize();
 
-            AttackModule = new SimpleShoot(this, ObjectsManager, new Vector2(64 * moveDirection, 0), new Vector2(moveDirection, 0));
+            Collider = new BoxCollider(this, Size);
+
+            var random = GameDevice.Instance().Random;
+            moveDirection = random.Next(0, 2) == 0 ? -1 : 1;
+            float speed = random.Next(5, 8);
+            MoveModule = new Simple_MM(this, new Vector2(moveDirection, 0), speed);
+            
+            AttackModule = new SimpleShoot_AM(this, ObjectsManager, new Vector2(64 * moveDirection, 0), new Vector2(moveDirection, 0));
+            spawnPosType = moveDirection < 0 ? SpawnPositionType.Right : SpawnPositionType.Left;
 
             MoveModule.Initialize();
             AttackModule.Initialize();

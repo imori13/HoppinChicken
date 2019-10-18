@@ -30,18 +30,17 @@ namespace FliedChicken.GameObjects.Enemys
         public DiveEnemy(Camera camera)
         {
             this.camera = camera;
-            
+
             Collider = new BoxCollider(this, Vector2.One*3);
-            GameObjectTag = GameObjectTag.OrengeEnemy;
+            GameObjectTag = GameObjectTag.OrangeEnemy;
 
             speedX = 2;
             speedY = 7;
             sinWidth = 64 * 8;
             elapsedTime = 0.0f;
 
-            Animation = new Animation("DescentEnemy", new Vector2(490, 320), 5, 0.1f);
-            Animation.Size = Vector2.One;
-            Animation.GameObject = this;
+            Animation = new Animation(this, "DescentEnemy", new Vector2(490, 320), 5, 0.1f);
+            Animation.drawSize = Vector2.One;
         }
 
         public override void Initialize()

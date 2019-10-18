@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FliedChicken.Devices;
+using FliedChicken.Devices.AnimationDevice;
 using FliedChicken.GameObjects.Collision;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace FliedChicken.GameObjects.PlayerDevices
@@ -24,6 +26,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
         PlayerScale playerScale;
         PlayerMove playerMove;
         OnechanBomManager onechanBomManager;
+        public Animation animation;
 
         public Player(Camera camera)
         {
@@ -33,6 +36,8 @@ namespace FliedChicken.GameObjects.PlayerDevices
             playerScale = new PlayerScale(this);
             playerMove = new PlayerMove(this);
             onechanBomManager = new OnechanBomManager(this);
+            animation = new Animation(this, "PlayerIdol", Vector2.One * 32, 3, 0.1f);
+            animation.drawSize = Vector2.One * 2.5f;
         }
 
         public override void Initialize()
@@ -41,18 +46,18 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
             playerScale.Initialize();
             playerMove.Initialize();
+            animation.Initialize();
         }
 
         public override void Update()
         {
-            if (Input.GetKeyDown(Keys.H))
-            {
-                onechanBomManager.AddCount();
-            }
+            animation.Update();
 
-            if (Input.GetKeyDown(Keys.G))
+            if (animation.FinishFlag)
             {
-                onechanBomManager.Bom();
+                animation = new Animation(this, "PlayerIdol", Vector2.One * 32, 3, 0.1f);
+                animation.RepeatFlag = true;
+                animation.drawSize = Vector2.One * 2.5f;
             }
 
             switch (state)
@@ -89,12 +94,13 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
         public override void Draw(Renderer renderer)
         {
-            renderer.Draw2D("packman", Position, Color.White, 0, new Vector2(127, 132) / 2f, playerScale.DrawScale * 0.5f);
+            //renderer.Draw2D("packman", Position, Color.White, 0, new Vector2(127, 132) / 2f, playerScale.DrawScale * 0.5f);
+            animation.Draw(renderer, Vector2.Zero);
         }
 
         public override void HitAction(GameObject gameObject)
         {
-            if (gameObject.GameObjectTag == GameObjectTag.OrengeEnemy)
+            if (gameObject.GameObjectTag == GameObjectTag.OrangeEnemy)
             {
                 BoundBoxCollision(gameObject);
             }

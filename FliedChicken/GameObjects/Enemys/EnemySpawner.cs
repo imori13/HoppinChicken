@@ -26,6 +26,8 @@ namespace FliedChicken.GameObjects.Enemys
 
         private Timer spawnTimer;
 
+        private WeightSelectHelper<Func<Enemy>>[] spawnFunctions;
+
         /// <summary>
         /// 難易度
         /// </summary>
@@ -55,6 +57,13 @@ namespace FliedChicken.GameObjects.Enemys
         public void Initialize()
         {
             RandomizeTimer();
+
+            spawnFunctions = new[]
+                {
+                    new WeightSelectHelper<Func<Enemy>>(1, new Func<Enemy>(() => new NormalEnemy(camera))),
+                    new WeightSelectHelper<Func<Enemy>>(3, new Func<Enemy>(() => new HighSpeedEnemy(camera))),
+                    new WeightSelectHelper<Func<Enemy>>(2, new Func<Enemy>(() => new SlowEnemy(camera)))
+                };
         }
 
         public void Update()
@@ -62,7 +71,7 @@ namespace FliedChicken.GameObjects.Enemys
             if (spawnTimer.IsTime())
             {
                 //仮置きで標準のやつだけ
-                var enemy = new NormalEnemy(camera);
+                var enemy = RandomSelector.WeightSelect(spawnFunctions).Invoke();
 
                 float posX = GetPosX(enemy) + camera.Position.X;
                 float posY = GetPosY() + camera.Position.Y;
@@ -98,10 +107,10 @@ namespace FliedChicken.GameObjects.Enemys
             switch (enemy.spawnPosType)
             {
                 case SpawnPositionType.Left:
-                    basePosition = -Screen.WIDTH / 2 + enemy.Size.X / 2;
+                    basePosition = 0;
                     break;
                 case SpawnPositionType.Right:
-                    basePosition = Screen.WIDTH / 2 - enemy.Size.X / 2;
+                    basePosition = Screen.WIDTH / 2.0f + enemy.Size.X / 2;
                     break;
             }
 

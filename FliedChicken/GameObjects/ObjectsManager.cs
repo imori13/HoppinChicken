@@ -1,5 +1,7 @@
 ﻿using FliedChicken.Devices;
 using FliedChicken.GameObjects;
+using FliedChicken.GameObjects.Enemys;
+using FliedChicken.GameObjects.PlayerDevices;
 using FliedChicken.Particle;
 using System.Collections.Generic;
 
@@ -16,6 +18,9 @@ namespace FliedChicken.GameObjects
 
         private List<GameObject> addGameObjects = new List<GameObject>();
         private List<Particle2D> addParticles = new List<Particle2D>();
+
+        public Player Player { get; private set; }
+        public DiveEnemy DiveEnemy { get; private set; }
 
         public ObjectsManager(Camera camera)
         {
@@ -36,6 +41,9 @@ namespace FliedChicken.GameObjects
 
             gameobject.ObjectsManager = this;
             addGameObjects.Add(gameobject);
+
+            if (Player == null && gameobject is Player) { Player = gameobject as Player; }
+            if (DiveEnemy == null && gameobject is DiveEnemy) { DiveEnemy = gameobject as DiveEnemy; }
         }
 
         public void AddParticle(Particle2D particle)
