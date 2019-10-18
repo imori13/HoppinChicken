@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
+using FliedChicken.GameObjects.Collision;
 using FliedChicken.GameObjects.Enemys.AttackModules;
 using FliedChicken.GameObjects.Enemys.MoveModules;
 using FliedChicken.Devices;
@@ -20,6 +21,7 @@ namespace FliedChicken.GameObjects.Enemys
             : base(camera)
         {
             Size = new Vector2(320, 320) * 0.5f;
+            Collider = new BoxCollider(this, Size);
 
             Animation = new Animation("normal_enemy", new Vector2(320, 320), 5, 0.25f);
             Animation.GameObject = this;
@@ -55,7 +57,7 @@ namespace FliedChicken.GameObjects.Enemys
 
         protected override bool IsDestroy()
         {
-            float side = Position.Y + Size.X / 2 * -moveDirection;
+            float side = Position.X + Size.X / 2 * -moveDirection;
             float sideLimit = Camera.Position.X + Screen.WIDTH / 2 * moveDirection;
             bool isOverSide = moveDirection > 0 ? side > sideLimit : side < sideLimit;
 

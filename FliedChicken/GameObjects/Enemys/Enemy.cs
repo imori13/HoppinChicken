@@ -57,7 +57,7 @@ namespace FliedChicken.GameObjects.Enemys
 
             if (IsDestroy())
             {
-                //IsDead = true;
+                IsDead = true;
                 OnDestroy();
             }
 
