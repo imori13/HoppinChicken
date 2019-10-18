@@ -174,9 +174,9 @@ namespace FliedChicken.SceneDevices
                 Screen.Vec2 / 2 - new Vector2(0, 300), Color.White * allAlpha,
                 0.0f, Fonts.Font12_32.MeasureString("SCORE") / 2, new Vector2(1.5f, 1.5f));
 
-            renderer.DrawString(Fonts.Font12_32, score.ToString("F2"),
+            renderer.DrawString(Fonts.Font12_32, score.ToString("F2") + "m",
                 Screen.Vec2 / 2 - new Vector2(0, 200), Color.White * allAlpha,
-                0.0f, Fonts.Font12_32.MeasureString(score.ToString("F2")) / 2, new Vector2(3, 3));
+                0.0f, Fonts.Font12_32.MeasureString(score.ToString("F2") + "m") / 2, new Vector2(3, 3));
         }
     }
 }

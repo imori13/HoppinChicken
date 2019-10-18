@@ -94,6 +94,9 @@ namespace FliedChicken.GameObjects.Objects
             }
 
             camera.Position = Vector2.Lerp(camera.Position, Position + Vector2.UnitY * Screen.HEIGHT / 5f, 0.1f);
+#if DEBUG
+            Dead();
+#endif
         }
 
         public void ClearUpdate()
@@ -108,6 +111,14 @@ namespace FliedChicken.GameObjects.Objects
         public override void HitAction(GameObject gameObject)
         {
             if (gameObject.GameObjectTag == GameObjectTag.Enemy)
+            {
+                IsDead = true;
+            }
+        }
+
+        private void Dead()
+        {
+            if (Input.GetKeyDown(Keys.D))
             {
                 IsDead = true;
             }

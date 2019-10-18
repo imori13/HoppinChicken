@@ -15,7 +15,9 @@ namespace FliedChicken.UI
 {
     class DiveEnemyUI
     {
+        //表示するかどうか
         bool display;
+
         Vector2 position;
         DiveEnemy diveEnemy;
         Camera camera;
@@ -49,7 +51,7 @@ namespace FliedChicken.UI
                 display = false;
             }
         }
-
+        
         private void DisplayOFF()
         {
             position = Vector2.Zero;

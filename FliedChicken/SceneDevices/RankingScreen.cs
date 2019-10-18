@@ -280,7 +280,7 @@ namespace FliedChicken.SceneDevices
 
             for (int i = 0; i < rankNum; i++)
             {
-                renderer.DrawString(Fonts.Font12_32, rankScore[i].ToString(),
+                renderer.DrawString(Fonts.Font12_32, rankScore[i].ToString() + "m",
                     Screen.Vec2 / 2 - new Vector2(-200, 300 - 200 * i), Color.White * allAlpha,
                     0.0f, Vector2.Zero, new Vector2(2, 2));
             }
