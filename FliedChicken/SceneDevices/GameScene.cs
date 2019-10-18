@@ -74,7 +74,7 @@ namespace FliedChicken.SceneDevices
 
             titleDisplayMode.Initialize();
 
-            enemySpawner = new EnemySpawner(player, camera, objectsManager, 64 * -3, 64 * 10, 1, 1);
+            enemySpawner = new EnemySpawner(player, camera, objectsManager, 64 * 2, 64 * 10, 1, 1);
             enemySpawner.Initialize();
 
             base.Initialize();
