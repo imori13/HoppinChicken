@@ -41,7 +41,7 @@ namespace FliedChicken.GameObjects.Enemys
         public Enemy(Camera camera)
         {
             Camera = camera;
-            GameObjectTag = GameObjectTag.OrengeEnemy;
+            GameObjectTag = GameObjectTag.OrangeEnemy;
         }
 
         public override void Initialize()

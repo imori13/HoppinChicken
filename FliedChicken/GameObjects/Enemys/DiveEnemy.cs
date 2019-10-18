@@ -32,7 +32,7 @@ namespace FliedChicken.GameObjects.Enemys
             this.camera = camera;
             
             Collider = new BoxCollider(this, Vector2.One*3);
-            GameObjectTag = GameObjectTag.OrengeEnemy;
+            GameObjectTag = GameObjectTag.OrangeEnemy;
 
             speedX = 2;
             speedY = 7;

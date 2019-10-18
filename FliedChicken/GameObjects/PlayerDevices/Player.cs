@@ -94,7 +94,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
         public override void HitAction(GameObject gameObject)
         {
-            if (gameObject.GameObjectTag == GameObjectTag.OrengeEnemy)
+            if (gameObject.GameObjectTag == GameObjectTag.OrangeEnemy)
             {
                 BoundBoxCollision(gameObject);
             }
