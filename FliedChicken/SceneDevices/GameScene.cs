@@ -23,6 +23,7 @@ namespace FliedChicken.SceneDevices
     enum GamePlayState
     {
         TITLE,
+        BEFOREFLY,
         FLY,
         CLEAR,
         RESULT,
@@ -84,6 +85,9 @@ namespace FliedChicken.SceneDevices
             {
                 case GamePlayState.TITLE:
                     Title();
+                    break;
+                case GamePlayState.BEFOREFLY:
+                    BeforeFly();
                     break;
                 case GamePlayState.FLY:
                     Fly();
@@ -169,6 +173,11 @@ namespace FliedChicken.SceneDevices
             }
         }
 
+        private void BeforeFly()
+        {
+
+        }
+
         private void Fly()
         {
             if (player.IsDead == true)
@@ -176,11 +185,6 @@ namespace FliedChicken.SceneDevices
                 player.state = PlayerState.CLEAR;
                 state = GamePlayState.CLEAR;
             }
-        }
-        
-        private void Restart()
-        {
-            ShutDown = true;
         }
         
         private void Clear()
