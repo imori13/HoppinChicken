@@ -4,8 +4,17 @@ using Microsoft.Xna.Framework.Input;
 
 namespace FliedChicken.GameObjects.PlayerDevices
 {
+    public enum PlayerMoveState
+    {
+        None,
+        Fall,
+        Jump,
+    }
+
     class PlayerMove
     {
+        public PlayerMoveState PlayerMoveState { get; private set; }
+
         Player player;
 
         private float fallSpeed;
@@ -24,6 +33,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
         public void Initialize()
         {
+            PlayerMoveState = PlayerMoveState.None;
             inputflag = false;
             fallSpeed = 10;
         }
@@ -33,6 +43,8 @@ namespace FliedChicken.GameObjects.PlayerDevices
             time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
 
             Vector2 Velocity = player.Velocity;
+
+            PlayerMoveState = PlayerMoveState.None;
 
             // 落下処理
             bool fallFlag = false;
@@ -45,6 +57,8 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 {
                     destFallSpeed = 20;
                     fallFlag = true;
+
+                    PlayerMoveState = PlayerMoveState.Fall;
                 }
             }
             else if (Input.GetKeyUp(Keys.Space))
@@ -75,10 +89,14 @@ namespace FliedChicken.GameObjects.PlayerDevices
                     time = 0;
                     inputflag = false;
                     Velocity = new Vector2(Velocity.X, -15);
+
+                    PlayerMoveState = PlayerMoveState.Jump;
                 }
                 else
                 {
                     inputflag = true;
+
+                    PlayerMoveState = PlayerMoveState.Jump;
                 }
             }
 

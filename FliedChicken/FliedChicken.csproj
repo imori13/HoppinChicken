@@ -75,6 +75,9 @@
     <Compile Include="GameObjects\Enemys\MoveModules\MoveModules.cs" />
     <Compile Include="GameObjects\Enemys\NormalEnemy.cs" />
     <Compile Include="GameObjects\Objects\ObjectLooper.cs" />
+    <Compile Include="GameObjects\Objects\OneChanItem.cs" />
+    <Compile Include="GameObjects\PlayerDevices\OnechanBom.cs" />
+    <Compile Include="GameObjects\PlayerDevices\OnechanBomManager.cs" />
     <Compile Include="GameObjects\PlayerDevices\Player.cs" />
     <Compile Include="GameObjects\Enemys\SlowEnemy.cs" />
     <Compile Include="GameObjects\Particle\Particle2D.cs" />

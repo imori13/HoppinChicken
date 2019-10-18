@@ -23,15 +23,16 @@ namespace FliedChicken.GameObjects.PlayerDevices
         // モジュール
         PlayerScale playerScale;
         PlayerMove playerMove;
+        OnechanBomManager onechanBomManager;
 
         public Player(Camera camera)
         {
             this.camera = camera;
             GameObjectTag = GameObjectTag.Player;
             Collider = new CircleCollider(this, 30);
-            //Collider = new BoxCollider(this, new Vector2(127, 132) / 2f);
             playerScale = new PlayerScale(this);
             playerMove = new PlayerMove(this);
+            onechanBomManager = new OnechanBomManager(this);
         }
 
         public override void Initialize()
@@ -44,6 +45,16 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
         public override void Update()
         {
+            if (Input.GetKeyDown(Keys.H))
+            {
+                onechanBomManager.AddCount();
+            }
+
+            if (Input.GetKeyDown(Keys.G))
+            {
+                onechanBomManager.Bom();
+            }
+
             switch (state)
             {
                 case PlayerState.FLY:
@@ -87,6 +98,16 @@ namespace FliedChicken.GameObjects.PlayerDevices
             if (gameObject.GameObjectTag == GameObjectTag.RedEnemy)
             {
                 //IsDead = true;
+                if (onechanBomManager.OneChanceFlag)
+                {
+                    // ワンちゃんボム発動！！！
+                    onechanBomManager.Bom();
+                }
+            }
+
+            if (gameObject.GameObjectTag == GameObjectTag.OneChanceItem)
+            {
+                onechanBomManager.AddCount();
             }
         }
     }
