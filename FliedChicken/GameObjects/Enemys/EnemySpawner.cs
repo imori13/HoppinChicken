@@ -60,9 +60,10 @@ namespace FliedChicken.GameObjects.Enemys
 
             spawnFunctions = new[]
                 {
-                    new WeightSelectHelper<Func<Enemy>>(1, new Func<Enemy>(() => new NormalEnemy(camera))),
+                    new WeightSelectHelper<Func<Enemy>>(5, new Func<Enemy>(() => new NormalEnemy(camera))),
                     new WeightSelectHelper<Func<Enemy>>(3, new Func<Enemy>(() => new HighSpeedEnemy(camera))),
-                    new WeightSelectHelper<Func<Enemy>>(2, new Func<Enemy>(() => new SlowEnemy(camera)))
+                    new WeightSelectHelper<Func<Enemy>>(1, new Func<Enemy>(() => new SlowEnemy(camera))),
+                    new WeightSelectHelper<Func<Enemy>>(2, new Func<Enemy>(() => new ThornEnemy(camera)))
                 };
         }
 
@@ -70,13 +71,13 @@ namespace FliedChicken.GameObjects.Enemys
         {
             if (spawnTimer.IsTime())
             {
-                //仮置きで標準のやつだけ
                 var enemy = RandomSelector.WeightSelect(spawnFunctions).Invoke();
 
-                float posX = GetPosX(enemy) + camera.Position.X;
-                float posY = GetPosY() + camera.Position.Y;
+                Vector2 randomPos = new Vector2(0, GetPosY());
+                if (enemy is ThornEnemy)    //仮置きでクラスごとに判定
+                    randomPos = Vector2.Zero;
 
-                enemy.Position = new Vector2(posX, posY);
+                enemy.Position = enemy.SpawnPosFunc.Invoke(enemy.Size) + camera.Position + randomPos;
                 enemy.ObjectsManager = objectsManager;
                 objectsManager.AddGameObject(enemy);
 
@@ -98,23 +99,6 @@ namespace FliedChicken.GameObjects.Enemys
         {
             var random = GameDevice.Instance().Random;
             spawnTimer = new Timer(random.Next(spawnInterval_Min, spawnInterval_Max + 1) + (float)random.NextDouble());
-        }
-
-        private float GetPosX(Enemy enemy)
-        {
-            float basePosition = 0.0f;
-
-            switch (enemy.spawnPosType)
-            {
-                case SpawnPositionType.Left:
-                    basePosition = -Screen.WIDTH / 2.0f - enemy.Size.X / 2;
-                    break;
-                case SpawnPositionType.Right:
-                    basePosition = Screen.WIDTH / 2.0f + enemy.Size.X / 2;
-                    break;
-            }
-
-            return basePosition;
         }
 
         private float GetPosY()

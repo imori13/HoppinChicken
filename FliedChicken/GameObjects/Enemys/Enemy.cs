@@ -14,11 +14,6 @@ using FliedChicken.Devices.AnimationDevice;
 
 namespace FliedChicken.GameObjects.Enemys
 {
-    enum SpawnPositionType
-    {
-        Left,
-        Right,
-    }
 
     abstract class Enemy : GameObject
     {
@@ -35,7 +30,7 @@ namespace FliedChicken.GameObjects.Enemys
         public Vector2 Size { get; protected set; }
         public Vector2 DrawOffset { get; protected set; }
 
-        public SpawnPositionType spawnPosType { get; protected set; }
+        public Func<Vector2, Vector2> SpawnPosFunc { get; protected set; }
 
         protected AttackModule AttackModule { get; set; }
         protected MoveModule MoveModule { get; set; }

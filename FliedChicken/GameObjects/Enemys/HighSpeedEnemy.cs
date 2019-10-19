@@ -16,6 +16,7 @@ namespace FliedChicken.GameObjects.Enemys
     class HighSpeedEnemy : Enemy
     {
         private float moveDirection;
+
         public HighSpeedEnemy(Camera camera) : base(camera)
         {
             Size = new Vector2(400, 140);
@@ -30,7 +31,11 @@ namespace FliedChicken.GameObjects.Enemys
             moveDirection = random.Next(0, 2) == 0 ? -1 : 1;
             float speed = random.Next(5, 8) * 2;
             MoveModule = new Simple_MM(this, new Vector2(moveDirection, 0), speed);
-            spawnPosType = moveDirection < 0 ? SpawnPositionType.Right : SpawnPositionType.Left;
+
+            if (moveDirection < 0)
+                SpawnPosFunc = SpawnPosition.ScreenRight;
+            else
+                SpawnPosFunc = SpawnPosition.ScreenLeft;
         }
         public override void Initialize()
         {
