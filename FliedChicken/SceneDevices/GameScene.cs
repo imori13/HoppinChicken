@@ -23,6 +23,7 @@ namespace FliedChicken.SceneDevices
     enum GamePlayState
     {
         TITLE,
+        BEFOREFLY,
         FLY,
         CLEAR,
         RESULT,
@@ -77,6 +78,8 @@ namespace FliedChicken.SceneDevices
             enemySpawner = new EnemySpawner(player, camera, objectsManager, 64 * 2, 64 * 10, 1, 1);
             enemySpawner.Initialize();
 
+            objectsManager.AddGameObject(new DiveEnemy(camera, player));
+
             base.Initialize();
         }
 
@@ -89,6 +92,9 @@ namespace FliedChicken.SceneDevices
             {
                 case GamePlayState.TITLE:
                     Title();
+                    break;
+                case GamePlayState.BEFOREFLY:
+                    BeforeFly();
                     break;
                 case GamePlayState.FLY:
                     Fly();
@@ -167,9 +173,14 @@ namespace FliedChicken.SceneDevices
             if (titleDisplayMode.TitleFinishFlag)
             {
                 state = GamePlayState.FLY;
-                
+
                 // TODO : ここでマップを生成する
             }
+        }
+
+        private void BeforeFly()
+        {
+
         }
 
         private void Fly()
@@ -182,12 +193,7 @@ namespace FliedChicken.SceneDevices
 
             enemySpawner.Update();
         }
-        
-        private void Restart()
-        {
-            ShutDown = true;
-        }
-        
+
         private void Clear()
         {
             if (Input.GetKeyDown(Keys.A))

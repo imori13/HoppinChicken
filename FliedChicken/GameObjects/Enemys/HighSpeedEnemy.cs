@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
+using FliedChicken.GameObjects.Collision;
 using FliedChicken.GameObjects.Enemys.AttackModules;
 using FliedChicken.GameObjects.Enemys.MoveModules;
 using FliedChicken.Devices;
@@ -18,6 +19,7 @@ namespace FliedChicken.GameObjects.Enemys
         public HighSpeedEnemy(Camera camera) : base(camera)
         {
             Size = new Vector2(400, 140);
+            Collider = new BoxCollider(this, Size);
 
             Animation = new Animation(this, "highspeed_enemy", new Vector2(400, 140), 6, 0.25f);
             Animation.drawSize = Vector2.One;

@@ -68,7 +68,7 @@ namespace FliedChicken.GameObjects.Enemys
             if (instance != null)
                 instance.Destroy();
 
-            var newObject = new DiveEnemy(camera);
+            var newObject = new DiveEnemy(camera, player);
             newObject.Position = new Vector2(player.Position.X, player.Position.Y - Screen.HEIGHT / 2 + 256);
             objectsManager.AddGameObject(newObject);
 

@@ -9,6 +9,7 @@ using FliedChicken.Devices.AnimationDevice;
 using FliedChicken.Devices;
 using FliedChicken.GameObjects.Enemys.AttackModules;
 using FliedChicken.GameObjects.Enemys.MoveModules;
+using FliedChicken.GameObjects.Collision;
 
 namespace FliedChicken.GameObjects.Enemys
 {
@@ -19,6 +20,7 @@ namespace FliedChicken.GameObjects.Enemys
         public SlowEnemy(Camera camera) : base(camera)
         {
             Size = new Vector2(445, 165);
+            Collider = new BoxCollider(this, Size);
 
             Animation = new Animation(this, "slowenemy", new Vector2(445, 165), 8, 0.25f);
             Animation.drawSize = Vector2.One;
