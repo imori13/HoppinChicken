@@ -45,16 +45,16 @@ namespace FliedChicken.GameObjects.Enemys
             this.camera = camera;
             this.player = player;
 
-            Collider = new BoxCollider(this, Vector2.One*3);
+            Collider = new BoxCollider(this, Vector2.One * 3);
             GameObjectTag = GameObjectTag.DiveEnemy;
 
             speedX = 2;
-            speedY = 7;
+            speedY = 10;
             sinWidth = 64 * 8;
             elapsedTime = 0.0f;
 
             Animation = new Animation(this, "DiveEnemy", new Vector2(297, 192), 5, 0.1f);
-            Animation.drawSize = Vector2.One;
+            Animation.drawSize = Vector2.One * 0.5f;
         }
 
         public override void Initialize()
@@ -97,7 +97,7 @@ namespace FliedChicken.GameObjects.Enemys
             //else if (newX > sinWidth / 2)
             //    spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Position = new Vector2(player.Position.X, 
+            Position = new Vector2(MathHelper.Lerp(Position.X, player.Position.X, 0.025f),
                 MathHelper.Clamp(basePosition.Y + speedY * deltaTime, basePosition.Y, player.Position.Y));
         }
 

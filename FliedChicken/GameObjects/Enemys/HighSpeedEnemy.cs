@@ -18,11 +18,11 @@ namespace FliedChicken.GameObjects.Enemys
         private float moveDirection;
         public HighSpeedEnemy(Camera camera) : base(camera)
         {
-            Size = new Vector2(400, 140);
+            Size = new Vector2(150,50);
             Collider = new BoxCollider(this, Size);
 
             Animation = new Animation(this, "highspeed_enemy", new Vector2(400, 140), 6, 0.25f);
-            Animation.drawSize = Vector2.One;
+            Animation.drawSize = Vector2.One * 0.5f;
 
             GameObjectTag = GameObjectTag.RedEnemy;
 

@@ -19,11 +19,11 @@ namespace FliedChicken.GameObjects.Enemys
 
         public SlowEnemy(Camera camera) : base(camera)
         {
-            Size = new Vector2(445, 165);
+            Size = new Vector2(250,90);
             Collider = new BoxCollider(this, Size);
 
             Animation = new Animation(this, "slowenemy", new Vector2(445, 165), 8, 0.25f);
-            Animation.drawSize = Vector2.One;
+            Animation.drawSize = Vector2.One * 0.75f;
 
             GameObjectTag = GameObjectTag.OrangeEnemy;
 

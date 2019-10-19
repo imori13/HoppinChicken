@@ -62,7 +62,8 @@ namespace FliedChicken.GameObjects.Enemys
                 {
                     new WeightSelectHelper<Func<Enemy>>(1, new Func<Enemy>(() => new NormalEnemy(camera))),
                     new WeightSelectHelper<Func<Enemy>>(3, new Func<Enemy>(() => new HighSpeedEnemy(camera))),
-                    new WeightSelectHelper<Func<Enemy>>(2, new Func<Enemy>(() => new SlowEnemy(camera)))
+                    new WeightSelectHelper<Func<Enemy>>(2, new Func<Enemy>(() => new SlowEnemy(camera))),
+                    new WeightSelectHelper<Func<Enemy>>(5, new Func<Enemy>(() => new KillerEnemy(camera)))
                 };
         }
 
@@ -77,7 +78,6 @@ namespace FliedChicken.GameObjects.Enemys
                 float posY = GetPosY() + camera.Position.Y;
 
                 enemy.Position = new Vector2(posX, posY);
-                enemy.ObjectsManager = objectsManager;
                 objectsManager.AddGameObject(enemy);
 
                 RandomizeTimer();
@@ -97,7 +97,8 @@ namespace FliedChicken.GameObjects.Enemys
         private void RandomizeTimer()
         {
             var random = GameDevice.Instance().Random;
-            spawnTimer = new Timer(random.Next(spawnInterval_Min, spawnInterval_Max + 1) + (float)random.NextDouble());
+            //spawnTimer = new Timer(random.Next(spawnInterval_Min, spawnInterval_Max + 1) + (float)random.NextDouble());
+            spawnTimer = new Timer(0.5f);
         }
 
         private float GetPosX(Enemy enemy)

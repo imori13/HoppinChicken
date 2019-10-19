@@ -32,11 +32,12 @@ namespace FliedChicken.GameObjects.PlayerDevices
         {
             this.camera = camera;
             GameObjectTag = GameObjectTag.Player;
-            Collider = new CircleCollider(this, 30);
+            Collider = new CircleCollider(this, 15);
             playerScale = new PlayerScale(this);
             playerMove = new PlayerMove(this);
             onechanBomManager = new OnechanBomManager(this);
             animation = new Animation(this, "PlayerIdol", Vector2.One * 114, 3, 0.1f);
+            animation.drawSize = Vector2.One * 0.5f;
         }
 
         public override void Initialize()
@@ -56,6 +57,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
             {
                 animation = new Animation(this, "PlayerIdol", Vector2.One * 114, 3, 0.1f);
                 animation.RepeatFlag = true;
+                animation.drawSize = Vector2.One * 0.5f;
             }
 
             switch (state)

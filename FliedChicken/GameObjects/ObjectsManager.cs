@@ -1,8 +1,8 @@
 ﻿using FliedChicken.Devices;
 using FliedChicken.GameObjects;
 using FliedChicken.GameObjects.Enemys;
+using FliedChicken.GameObjects.Particle;
 using FliedChicken.GameObjects.PlayerDevices;
-using FliedChicken.Particle;
 using System.Collections.Generic;
 
 namespace FliedChicken.GameObjects
@@ -14,10 +14,12 @@ namespace FliedChicken.GameObjects
         private Camera camera;
 
         private List<GameObject> gameobjects = new List<GameObject>();
-        private List<Particle2D> particles = new List<Particle2D>();
+        private List<Particle2D> backParticles = new List<Particle2D>();
+        private List<Particle2D> frontParticles = new List<Particle2D>();
 
         private List<GameObject> addGameObjects = new List<GameObject>();
-        private List<Particle2D> addParticles = new List<Particle2D>();
+        private List<Particle2D> addBackParticles = new List<Particle2D>();
+        private List<Particle2D> addFrontParticles = new List<Particle2D>();
 
         public Player Player { get; private set; }
         public DiveEnemy DiveEnemy { get; private set; }
@@ -30,44 +32,60 @@ namespace FliedChicken.GameObjects
         public void Initialize()
         {
             gameobjects.Clear();
-            particles.Clear();
+            backParticles.Clear();
+            addBackParticles.Clear();
+            frontParticles.Clear();
+            addFrontParticles.Clear();
         }
 
         public void AddGameObject(GameObject gameobject)
         {
             if (gameobject == null) { return; }
 
-            gameobject.Initialize();
-
             gameobject.ObjectsManager = this;
             addGameObjects.Add(gameobject);
+
+            gameobject.Initialize();
 
             if (Player == null && gameobject is Player) { Player = gameobject as Player; }
             if (DiveEnemy == null && gameobject is DiveEnemy) { DiveEnemy = gameobject as DiveEnemy; }
         }
 
-        public void AddParticle(Particle2D particle)
+        public void AddBackParticle(Particle2D particle)
         {
             if (particle == null) { return; }
 
             particle.Initialize();
-            addParticles.Add(particle);
+            addBackParticles.Add(particle);
+        }
+
+        public void AddFrontParticle(Particle2D particle)
+        {
+            if (particle == null) { return; }
+
+            particle.Initialize();
+            addFrontParticles.Add(particle);
         }
 
         public void Update()
         {
-            gameobjects.ForEach(g => g.Update());
             gameobjects.AddRange(addGameObjects);
             addGameObjects.Clear();
+            gameobjects.ForEach(g => g.Update());
 
-            particles.ForEach(p => p.Update());
-            particles.AddRange(addParticles);
-            addParticles.Clear();
+            frontParticles.AddRange(addFrontParticles);
+            addFrontParticles.Clear();
+            frontParticles.ForEach(p => p.Update());
+
+            backParticles.AddRange(addBackParticles);
+            addBackParticles.Clear();
+            backParticles.ForEach(p => p.Update());
 
             CheckCollision();
 
             gameobjects.RemoveAll(g => g.IsDead);
-            particles.RemoveAll(p => p.IsDead);
+            frontParticles.RemoveAll(p => p.IsDead);
+            backParticles.RemoveAll(p => p.IsDead);
         }
 
         public void CheckCollision()
@@ -91,7 +109,9 @@ namespace FliedChicken.GameObjects
 
         public void Draw(Renderer renderer)
         {
+            backParticles.ForEach(p => p.Draw(renderer));
             gameobjects.ForEach(g => g.Draw(renderer));
+
             foreach (var g in gameobjects)
             {
                 if (g.Collider != null)
@@ -99,7 +119,8 @@ namespace FliedChicken.GameObjects
                     g.Collider.Draw(renderer);
                 }
             }
-            particles.ForEach(p => p.Draw(renderer));
+
+            frontParticles.ForEach(p => p.Draw(renderer));
         }
     }
 }
