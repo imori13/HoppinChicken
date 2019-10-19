@@ -84,6 +84,7 @@
     <Compile Include="GameObjects\Enemys\NormalEnemy.cs" />
     <Compile Include="GameObjects\Objects\ObjectLooper.cs" />
     <Compile Include="GameObjects\Objects\OneChanItem.cs" />
+    <Compile Include="GameObjects\Particle\LingerRotateParticle2D.cs" />
     <Compile Include="GameObjects\PlayerDevices\OnechanBom.cs" />
     <Compile Include="GameObjects\PlayerDevices\OnechanBomManager.cs" />
     <Compile Include="GameObjects\PlayerDevices\Player.cs" />

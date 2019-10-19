@@ -6,16 +6,18 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 using FliedChicken.GameObjects.Collision;
-using FliedChicken.GameObjects.Enemys.AttackModules;
 using FliedChicken.GameObjects.Enemys.MoveModules;
 using FliedChicken.Devices;
 using FliedChicken.Devices.AnimationDevice;
+using FliedChicken.Utilities;
 
 namespace FliedChicken.GameObjects.Enemys
 {
     class HighSpeedEnemy : Enemy
     {
         private float moveDirection;
+
+        private Timer particleTimer;
 
         public HighSpeedEnemy(Camera camera) : base(camera)
         {
@@ -41,6 +43,8 @@ namespace FliedChicken.GameObjects.Enemys
         {
             base.Initialize();
 
+            particleTimer = new Timer(0.2f);
+
             MoveModule.Initialize();
         }
 
@@ -49,6 +53,15 @@ namespace FliedChicken.GameObjects.Enemys
             base.Update();
 
             MoveModule.Move();
+
+            if (particleTimer.IsTime())
+            {
+                var particlePos = Position + new Vector2(Size.X * 0.25f * -moveDirection, Size.Y * 0.6f);
+
+                ObjectsManager.AddParticle(new Particle.LingerRotateParticle2D(particlePos, GameDevice.Instance().Random));
+                particleTimer.MaxTime = GameDevice.Instance().Random.Next(3, 5 + 1) * 0.01f;
+                particleTimer.Reset();
+            }
         }
 
         public override void HitAction(GameObject gameObject)
