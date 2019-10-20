@@ -32,6 +32,8 @@ namespace FliedChicken.GameObjects
         public abstract void Draw(Renderer renderer);
         public abstract void HitAction(GameObject gameObject);  // 衝突を検知した時に呼ばれる処理
 
+        int num;
+
         // "相手がボックスの時"のバウンド処理
         public void BoundBoxCollision(GameObject gameObject)
         {
@@ -41,16 +43,24 @@ namespace FliedChicken.GameObjects
                 MathHelper.Clamp(Position.X, gameObject.Position.X - box.Size.X / 2f, gameObject.Position.X + box.Size.X / 2f),
                 MathHelper.Clamp(Position.Y, gameObject.Position.Y - box.Size.Y / 2f, gameObject.Position.Y + box.Size.Y / 2f));
             Vector2 direction = Position - nearPos;
-            direction.Normalize();
+
+            if (direction.Length() != 0)
+            {
+                direction.Normalize();
+            }
 
             int count = 0;
-            while (Collider.IsCollision(gameObject.Collider))
-            {
-                count++;
-                // 押し出す
-                Position += direction * 1f;
 
-                if (count > 100) { break; }
+            if (direction != null)
+            {
+                while (Collider.IsCollision(gameObject.Collider))
+                {
+                    count++;
+                    // 押し出す
+                    Position += direction * 1f;
+
+                    if (count > 100) { break; }
+                }
             }
 
             // 押し出したら移動量を与える

@@ -2,7 +2,7 @@
 using FliedChicken.Devices;
 using Microsoft.Xna.Framework;
 
-namespace FliedChicken.Particle
+namespace FliedChicken.GameObjects.Particle
 {
     class RadiationParticle2D : Particle2D
     {

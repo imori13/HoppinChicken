@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using FliedChicken.Devices;
 using Microsoft.Xna.Framework;
 
-namespace FliedChicken.Particle
+namespace FliedChicken.GameObjects.Particle
 {
     class LingerRotateParticle2D : Particle2D
     {

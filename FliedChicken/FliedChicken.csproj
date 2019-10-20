@@ -62,7 +62,7 @@
     <Compile Include="GameObjects\Collision\ColliderEnum.cs" />
     <Compile Include="GameObjects\Enemys\AttackModules\NotAttack_AM.cs" />
     <Compile Include="GameObjects\Enemys\AttackModules\SimpleShoot_AM.cs" />
-    <Compile Include="GameObjects\Enemys\Killer.cs" />
+    <Compile Include="GameObjects\Enemys\KillerEnemy.cs" />
     <Compile Include="GameObjects\Enemys\MoveModules\Killer_MM.cs" />
     <Compile Include="GameObjects\Enemys\MoveModules\Simple_MM.cs" />
     <Compile Include="GameObjects\Enemys\SpawnPosition.cs" />
@@ -84,6 +84,7 @@
     <Compile Include="GameObjects\Enemys\NormalEnemy.cs" />
     <Compile Include="GameObjects\Objects\ObjectLooper.cs" />
     <Compile Include="GameObjects\Objects\OneChanItem.cs" />
+    <Compile Include="GameObjects\Particle\KillerTrajectory_Particle.cs" />
     <Compile Include="GameObjects\Particle\LingerRotateParticle2D.cs" />
     <Compile Include="GameObjects\PlayerDevices\OnechanBom.cs" />
     <Compile Include="GameObjects\PlayerDevices\OnechanBomManager.cs" />

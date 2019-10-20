@@ -1,6 +1,5 @@
 ﻿using FliedChicken.Devices;
 using FliedChicken.GameObjects.Objects;
-using FliedChicken.Particle;
 using FliedChicken.ScenesDevice;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -80,6 +79,8 @@ namespace FliedChicken.SceneDevices
 
             objectsManager.AddGameObject(new DiveEnemy(camera, player));
 
+            objectsManager.AddGameObject(new KillerEnemy(camera));
+            
             base.Initialize();
         }
 

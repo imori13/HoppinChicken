@@ -78,6 +78,7 @@ namespace FliedChicken
             GameDevice.Instance().Update(gameTime);
             TimeSpeed.Update();
             Screen.Update(graphics, Window);
+            DebugMode.Update();
 
             sceneManager.Update();
 

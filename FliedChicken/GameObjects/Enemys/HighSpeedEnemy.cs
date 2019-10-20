@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 using FliedChicken.GameObjects.Collision;
+using FliedChicken.GameObjects.Particle;
 using FliedChicken.GameObjects.Enemys.MoveModules;
 using FliedChicken.Devices;
 using FliedChicken.Devices.AnimationDevice;
@@ -21,11 +22,11 @@ namespace FliedChicken.GameObjects.Enemys
 
         public HighSpeedEnemy(Camera camera) : base(camera)
         {
-            Size = new Vector2(400, 140);
+            Size = new Vector2(150,50);
             Collider = new BoxCollider(this, Size);
 
             Animation = new Animation(this, "highspeed_enemy", new Vector2(400, 140), 6, 0.25f);
-            Animation.drawSize = Vector2.One;
+            Animation.drawSize = Vector2.One * 0.5f;
 
             GameObjectTag = GameObjectTag.RedEnemy;
 
@@ -58,7 +59,7 @@ namespace FliedChicken.GameObjects.Enemys
             {
                 var particlePos = Position + new Vector2(Size.X * 0.25f * -moveDirection, Size.Y * 0.6f);
 
-                ObjectsManager.AddParticle(new Particle.LingerRotateParticle2D(particlePos, GameDevice.Instance().Random));
+                ObjectsManager.AddBackParticle(new LingerRotateParticle2D(particlePos, GameDevice.Instance().Random));
                 particleTimer.MaxTime = GameDevice.Instance().Random.Next(3, 5 + 1) * 0.01f;
                 particleTimer.Reset();
             }

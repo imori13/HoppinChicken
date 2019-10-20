@@ -15,6 +15,8 @@ namespace FliedChicken.Devices.AnimationDevice
         public bool FinishFlag { get; private set; }    // リピートがオフの時、終了したことを知らせるフラグ
         string assetName;
         Vector2 rectSize;
+        public Color Color { get; set; }
+        public float Radian { get; set; }   // ラジアン角度
         public Vector2 drawSize { get; set; }
         int maxCount;
         float updateTime;
@@ -31,6 +33,10 @@ namespace FliedChicken.Devices.AnimationDevice
             this.updateTime = updateTime;
             GameObject = gameObject;
             drawSize = Vector2.One;
+            count = 0;
+            FinishFlag = false;
+            RepeatFlag = true;
+            Color = Color.White;
         }
 
         public Animation Clone()
@@ -46,6 +52,7 @@ namespace FliedChicken.Devices.AnimationDevice
             count = 0;
             FinishFlag = false;
             RepeatFlag = true;
+            Color = Color.White;
         }
 
         public void Update()
@@ -89,7 +96,7 @@ namespace FliedChicken.Devices.AnimationDevice
                 (int)rectSize.X * count, 0,
                 (int)rectSize.X, (int)rectSize.Y);
 
-            renderer.Draw2D(assetName, GameObject.Position + offset, rectangle, Color.White, 0, rectSize / 2f, Vector2.One * drawSize * Screen.ScreenSize, spriteEffects);
+            renderer.Draw2D(assetName, GameObject.Position + offset, rectangle, Color, Radian, rectSize / 2f, Vector2.One * drawSize * Screen.ScreenSize, spriteEffects);
         }
     }
 }

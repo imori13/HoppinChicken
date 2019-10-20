@@ -41,12 +41,12 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
         public Vector2 Velocity()
         {
-            //if (DebugMode.DebugFlag)
-            //{
+            if (DebugMode.DebugFlag)
+            {
                 return DebugEditVelocity();
-            //}
+            }
 
-            //return EditVelocity();
+            return EditVelocity();
         }
 
         public Vector2 Move()
@@ -66,14 +66,14 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
             // 落下処理
             bool fallFlag = false;
-            float destFallSpeed = 10;
+            float destFallSpeed = 5;
             if (Input.GetKey(Keys.Space))
             {
                 fallTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
 
                 if (fallTime > 0.2f)
                 {
-                    destFallSpeed = 20;
+                    destFallSpeed = 10;
                     fallFlag = true;
 
                     PlayerMoveState = PlayerMoveState.Fall;
@@ -88,7 +88,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
             // 左右移動
 
-            float speed = (fallFlag) ? (1) : (5);
+            float speed = (fallFlag) ? (0.5f) : (2.5f);
             if (Input.GetKey(Keys.Right))
             {
                 Velocity = new Vector2(Velocity.X + speed, Velocity.Y) * TimeSpeed.Time;
@@ -111,6 +111,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
                     PlayerMoveState = PlayerMoveState.Jump;
 
                     player.animation = new Animation(player, "PlayerFly", Vector2.One * 114, 3, 0.1f);
+                    player.animation.drawSize = Vector2.One * 0.5f;
                     player.animation.RepeatFlag = false;
                 }
                 else

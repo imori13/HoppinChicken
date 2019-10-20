@@ -20,10 +20,10 @@ namespace FliedChicken.GameObjects.Enemys
         public NormalEnemy(Camera camera)
             : base(camera)
         {
-            Size = new Vector2(320, 320) * 0.5f;
+            Size = new Vector2(60, 60);
             
             Animation = new Animation(this, "normal_enemy", new Vector2(320, 320), 5, 0.25f);
-            Animation.drawSize = Vector2.One * 0.5f;
+            Animation.drawSize = Vector2.One * 0.5f * 0.5f;
 
             GameObjectTag = GameObjectTag.OrangeEnemy;
 

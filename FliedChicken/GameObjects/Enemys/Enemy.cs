@@ -35,7 +35,7 @@ namespace FliedChicken.GameObjects.Enemys
         protected AttackModule AttackModule { get; set; }
         protected MoveModule MoveModule { get; set; }
 
-        protected SpriteEffects SpriteEffects { get; set; }
+        protected SpriteEffects SpriteEffect { get; set; }
         
         protected Camera Camera { get; set; }
 
@@ -70,17 +70,17 @@ namespace FliedChicken.GameObjects.Enemys
         public override void Draw(Renderer renderer)
         {
             if (Animation == null)
-                renderer.Draw2D(TextureName, Position, Color.White, SpriteEffects);
+                renderer.Draw2D(TextureName, Position, Color.White, SpriteEffect);
             else
-                Animation.Draw(renderer, DrawOffset, SpriteEffects);
+                Animation.Draw(renderer, DrawOffset, SpriteEffect);
         }
 
         protected void SetDrawDirection()
         {
             if (previousPosition.X < Position.X)
-                SpriteEffects = SpriteEffects.FlipHorizontally;
+                SpriteEffect = SpriteEffects.FlipHorizontally;
             else
-                SpriteEffects = SpriteEffects.None;
+                SpriteEffect = SpriteEffects.None;
         }
 
         /// <summary>

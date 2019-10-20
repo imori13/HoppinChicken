@@ -1,7 +1,7 @@
 ﻿using FliedChicken.Devices;
 using Microsoft.Xna.Framework;
 
-namespace FliedChicken.Particle
+namespace FliedChicken.GameObjects.Particle
 {
     // エフェクトの基本パラメータを描いた、抽象クラス
     abstract class Particle2D
@@ -19,7 +19,7 @@ namespace FliedChicken.Particle
         protected Vector2 scale;  // エフェクトの拡縮値
 
         protected float rotation;   // エフェクトの回転値(度数) 描画時に親でラジアンに変換してるので気にせず度数法のまま使ってOK
-        protected float rotation_rotate; // 死亡時にどれくらい回転するか。rotation=180でdest_rotation90なら、生成時180,死亡時270まで回転する
+        protected float rotation_speed; // 死亡時にどれくらい回転するか。rotation=180でdest_rotation90なら、生成時180,死亡時270まで回転する
         protected Vector2 origin;   // エフェクトの回転するときの中心 (50px*50pxだったら,Vec2(25,25)みたいな)
 
         protected float aliveTime;  // 生成時から時間を数える変数
@@ -57,7 +57,7 @@ namespace FliedChicken.Particle
             this.alpha = alpha;
             this.scale = scale;
             this.rotation = rotation;
-            this.rotation_rotate = rotation_speed;
+            this.rotation_speed = rotation_speed;
             this.origin = origin;
 
             IsDead = false;
@@ -66,7 +66,7 @@ namespace FliedChicken.Particle
 
         public virtual void Initialize()
         {
-            rotation_dest = rotation + rotation_rotate;
+            rotation_dest = rotation + rotation_speed;
             rotation_start = rotation;
         }
 
