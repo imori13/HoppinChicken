@@ -21,7 +21,7 @@ namespace FliedChicken.GameObjects.Particle
             : base(
                   "Pixel",
                   rand.Next(1, 3 + 1) + (float)rand.NextDouble(),
-                  position * Screen.ScreenSize,
+                  position,
                   Vector2.Zero,
                   0,
                   0,

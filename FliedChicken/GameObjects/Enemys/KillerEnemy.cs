@@ -25,6 +25,8 @@ namespace FliedChicken.GameObjects.Enemys
             Animation.drawSize = Vector2.One * 0.5f * 0.5f;
 
             GameObjectTag = GameObjectTag.OrangeEnemy;
+
+            SpawnPosFunc = SpawnPosition.ScreenDownRandomX;
         }
 
         public override void Initialize()

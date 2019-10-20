@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using FliedChicken.GameObjects.Collision;
+using FliedChicken.GameObjects.Particle;
 using FliedChicken.GameObjects.Enemys.AttackModules;
 using FliedChicken.GameObjects.Enemys.MoveModules;
 using FliedChicken.Devices;
@@ -81,6 +81,24 @@ namespace FliedChicken.GameObjects.Enemys
                 SpriteEffect = SpriteEffects.FlipHorizontally;
             else
                 SpriteEffect = SpriteEffects.None;
+        }
+
+        /// <summary>
+        /// 死亡時エフェクト
+        /// </summary>
+        protected virtual void DestroyEffect(Vector2 scale)
+        {
+            var random = GameDevice.Instance().Random;
+            int rotation = 360;
+            while (rotation > 0)
+            {
+                Vector2 direction = MyMath.DegToVec2(rotation);
+                direction = new Vector2(direction.X * scale.X, direction.Y * scale.Y);
+                direction *= 0.3f;
+                var newParicle = new RadiationParticle2D(Position, Color.Orange, direction, random);
+                ObjectsManager.AddBackParticle(newParicle);
+                rotation -= random.Next(0, 30 + 1);
+            }
         }
 
         /// <summary>

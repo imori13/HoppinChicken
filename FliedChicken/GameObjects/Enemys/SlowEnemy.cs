@@ -58,6 +58,15 @@ namespace FliedChicken.GameObjects.Enemys
 
         public override void HitAction(GameObject gameObject)
         {
+            if (gameObject.GameObjectTag != GameObjectTag.Player) return;
+            //突進検出用に仮置き
+            if (!Input.GetKey(Microsoft.Xna.Framework.Input.Keys.Space)) return;
+
+
+            var random = GameDevice.Instance().Random;
+
+            DestroyEffect(new Vector2(2.5f, 1.5f));
+            IsDead = true;
         }
 
         protected override bool IsDestroy()
