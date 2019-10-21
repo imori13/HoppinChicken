@@ -109,13 +109,13 @@ namespace FliedChicken.SceneDevices.Title
                         // 背景がどきはじめる
                         finishingFlag = true;
 
-                        finishBack01 = MathHelper.Lerp(finishBack01, 0, 0.05f);
-                        if (endingTime > 3.1f)
+                        finishBack01 = MathHelper.Lerp(finishBack01, 0, 0.1f);
+                        if (endingTime > 3.25f)
                         {
-                            finishBack02 = MathHelper.Lerp(finishBack02, 0, 0.05f);
-                            if (endingTime > 3.2f)
+                            finishBack02 = MathHelper.Lerp(finishBack02, 0, 0.11f);
+                            if (endingTime > 3.5f)
                             {
-                                finishBack03 = MathHelper.Lerp(finishBack03, 0, 0.05f);
+                                finishBack03 = MathHelper.Lerp(finishBack03, 0, 0.12f);
 
                                 if (endingTime > 5)
                                 {
@@ -154,7 +154,7 @@ namespace FliedChicken.SceneDevices.Title
                 font = Fonts.Font10_128;
                 text = "FliedChicken";
                 size = font.MeasureString(text);
-                renderer.DrawString(font, text, new Vector2(Screen.WIDTH / 2f, 200 * Screen.ScreenSize), Color.White, 0, size / 2f, Vector2.One * Screen.ScreenSize);
+                renderer.DrawString(font, text, new Vector2(Screen.WIDTH / 2f, 200 * Screen.ScreenSize), new Color(50, 50, 50), 0, size / 2f, Vector2.One * Screen.ScreenSize);
 
                 font = Fonts.Font12_32;
                 text = "PlayerName";

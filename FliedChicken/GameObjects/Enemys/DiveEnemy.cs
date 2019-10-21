@@ -49,7 +49,7 @@ namespace FliedChicken.GameObjects.Enemys
             GameObjectTag = GameObjectTag.DiveEnemy;
 
             speedX = 2;
-            speedY = 10;
+            speedY = 100;
             sinWidth = 64 * 8;
             elapsedTime = 0.0f;
 

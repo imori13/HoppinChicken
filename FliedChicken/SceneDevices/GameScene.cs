@@ -13,6 +13,7 @@ using FliedChicken.SceneDevices.Title;
 using FliedChicken.GameObjects;
 using FliedChicken.GameObjects.Enemys;
 using FliedChicken.GameObjects.PlayerDevices;
+using FliedChicken.GameObjects.Clouds;
 
 namespace FliedChicken.SceneDevices
 {
@@ -49,6 +50,9 @@ namespace FliedChicken.SceneDevices
 
         EnemySpawner enemySpawner;
 
+        // 雲
+        CloudManager cloudManager;
+
         public GameScene()
         {
             camera = new Camera();
@@ -59,6 +63,7 @@ namespace FliedChicken.SceneDevices
             rankingScreen = new RankingScreen();
 
             coinManager = new CoinManager(objectsManager, 0.5f);
+            cloudManager = new CloudManager(objectsManager);
         }
 
         public override void Initialize()
@@ -80,7 +85,9 @@ namespace FliedChicken.SceneDevices
             objectsManager.AddGameObject(new DiveEnemy(camera, player));
 
             objectsManager.AddGameObject(new KillerEnemy(camera));
-            
+
+            cloudManager.Initialize();
+
             base.Initialize();
         }
 
@@ -116,8 +123,8 @@ namespace FliedChicken.SceneDevices
 
         public override void Draw(Renderer renderer)
         {
+            // ---------------------------------------------
             renderer.Begin();
-
             if (state == GamePlayState.RESULT)
             {
                 ResultScreen(renderer);
@@ -127,9 +134,12 @@ namespace FliedChicken.SceneDevices
             {
                 RankingScreen(renderer);
             }
-
             renderer.End();
-
+            // ---------------------------------------------
+            renderer.BeginCloud(camera);
+            cloudManager.BackDraw(renderer);
+            renderer.End();
+            // ---------------------------------------------
             // タイトル画面を描画
             if (state == GamePlayState.TITLE)
             {
@@ -137,18 +147,24 @@ namespace FliedChicken.SceneDevices
                 titleDisplayMode.Draw(renderer);
                 renderer.End();
             }
+            // ---------------------------------------------
 
             // タイトル画面の黒幕よりもプレイヤーを上に描画させたいのでこの描画順
             // オブジェクトを描画
             renderer.Begin(camera);
-
 #if DEBUG
             enemySpawner.DebugDraw(renderer);
 #endif
             objectsManager.Draw(renderer);
 
             renderer.End();
+            // ---------------------------------------------
 
+            renderer.BeginCloud(camera);
+            cloudManager.FrontDraw(renderer);
+            renderer.End();
+
+            // ---------------------------------------------
 #if DEBUG
             // デバッグ用描画 現在のGamePlayStateの状態を表示
             renderer.Begin();
@@ -158,7 +174,7 @@ namespace FliedChicken.SceneDevices
             renderer.DrawString(font, text, new Vector2(Screen.WIDTH / 2f, 100 * Screen.ScreenSize), Color.White * 0.5f, 0, size / 2f, Vector2.One * Screen.ScreenSize);
             renderer.End();
 #endif
-
+            // ---------------------------------------------
             base.Draw(renderer);
         }
 
@@ -166,6 +182,7 @@ namespace FliedChicken.SceneDevices
         {
             camera.Update();
             objectsManager.Update();
+            cloudManager.Update();
         }
 
         private void Title()

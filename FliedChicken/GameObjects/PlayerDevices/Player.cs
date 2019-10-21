@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FliedChicken.Devices;
 using FliedChicken.Devices.AnimationDevice;
 using FliedChicken.GameObjects.Collision;
+using FliedChicken.GameObjects.Particle;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -27,6 +28,8 @@ namespace FliedChicken.GameObjects.PlayerDevices
         PlayerMove playerMove;
         OnechanBomManager onechanBomManager;
         public Animation animation;
+
+        Random rand = GameDevice.Instance().Random;
 
         public Player(Camera camera)
         {
@@ -69,11 +72,21 @@ namespace FliedChicken.GameObjects.PlayerDevices
                     Velocity = playerMove.Velocity();
                     Position = playerMove.Move();
                     // カメラの移動処理
-                    camera.Position = Vector2.Lerp(camera.Position, Position + Vector2.UnitY * Screen.HEIGHT / 5f, 0.1f);
+                    camera.Position = Vector2.Lerp(camera.Position, Position+Vector2.UnitY*50f, 0.1f);
                     break;
                 case PlayerState.CLEAR:
                     ClearUpdate();
                     break;
+            }
+
+
+            if (playerMove.PlayerMoveState == PlayerMoveState.Fall)
+            {
+                ObjectsManager.AddBackParticle(new FallParticle2D(Position + MyMath.RandomCircleVec2()*20f - Vector2.UnitY * 100f, Color.Blue, Vector2.UnitY, rand));
+            }
+            else
+            {
+                ObjectsManager.AddBackParticle(new PlayerTrajectory_Particle(Position + MyMath.RandomCircleVec2() * 10f, -Velocity / 100f, rand));
             }
 
 #if DEBUG

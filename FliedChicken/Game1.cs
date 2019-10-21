@@ -59,7 +59,7 @@ namespace FliedChicken
             renderer.LoadTexture("PlayerIdol", "Texture/");
             renderer.LoadTexture("PlayerFly", "Texture/");
             renderer.LoadTexture("PlayerDead", "Texture/");
-            
+
             sceneManager.AddScene(SceneEnum.GameScene, new GameScene());
 
             sceneManager.ChangeScene(SceneEnum.GameScene);
@@ -87,7 +87,7 @@ namespace FliedChicken
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(new Color(155, 190, 225));
 
             sceneManager.Draw(renderer);
 
