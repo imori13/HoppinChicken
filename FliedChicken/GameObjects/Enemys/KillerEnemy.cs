@@ -42,6 +42,8 @@ namespace FliedChicken.GameObjects.Enemys
             AttackModule.Attack();
             MoveModule.Move();
             Animation.Update();
+
+            base.Update();
         }
 
         public override void Draw(Renderer renderer)
@@ -56,7 +58,16 @@ namespace FliedChicken.GameObjects.Enemys
 
         protected override bool IsDestroy()
         {
-            return false;
+            float rightLimit = Camera.Position.X + Screen.WIDTH / 2f + 500f;
+            float leftLimit = Camera.Position.X - Screen.WIDTH / 2f - 500f;
+            float downLimit = Camera.Position.Y + Screen.WIDTH / 2f + 500f;
+
+            // ダイブエネミーにもキラーが当たってほしいので、ダイブエネミーにもあたるように分岐
+            float up01 = Camera.Position.Y - Screen.WIDTH / 2f - 500f;  // カメラの上
+            float up02 = ObjectsManager.DiveEnemy.Position.Y - 1000f;// ダイブエネミーの上
+            float upLimit = (up01 < up02) ? (up01) : (up02); // より小さい方を選択
+
+            return ((Position.X > rightLimit) || (Position.X < leftLimit) || (Position.Y > downLimit) || (Position.Y < upLimit));
         }
 
         protected override void OnDestroy()

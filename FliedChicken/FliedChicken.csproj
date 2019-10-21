@@ -56,6 +56,10 @@
     <Compile Include="Game1.cs" />
     <Compile Include="GameObjects\Bullets\Bullet.cs" />
     <Compile Include="GameObjects\Bullets\NormalBullet.cs" />
+    <Compile Include="GameObjects\Clouds\BackCloud.cs" />
+    <Compile Include="GameObjects\Clouds\Cloud.cs" />
+    <Compile Include="GameObjects\Clouds\CloudManager.cs" />
+    <Compile Include="GameObjects\Clouds\FrontCloud.cs" />
     <Compile Include="GameObjects\Collision\BoxCollider.cs" />
     <Compile Include="GameObjects\Collision\CircleCollider.cs" />
     <Compile Include="GameObjects\Collision\Collider.cs" />
@@ -84,8 +88,10 @@
     <Compile Include="GameObjects\Enemys\NormalEnemy.cs" />
     <Compile Include="GameObjects\Objects\ObjectLooper.cs" />
     <Compile Include="GameObjects\Objects\OneChanItem.cs" />
+    <Compile Include="GameObjects\Particle\PlayerTrajectory_Particle.cs" />
     <Compile Include="GameObjects\Particle\KillerTrajectory_Particle.cs" />
     <Compile Include="GameObjects\Particle\LingerRotateParticle2D.cs" />
+    <Compile Include="GameObjects\Particle\FallParticle2D.cs" />
     <Compile Include="GameObjects\PlayerDevices\OnechanBom.cs" />
     <Compile Include="GameObjects\PlayerDevices\OnechanBomManager.cs" />
     <Compile Include="GameObjects\PlayerDevices\Player.cs" />

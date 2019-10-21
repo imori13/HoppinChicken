@@ -36,6 +36,19 @@ namespace FliedChicken.Devices
             spriteBatch.Begin();
         }
 
+        // 描画順をレイヤーごとにわけるBegin
+        public void BeginCloud(Camera camera)
+        {
+            spriteBatch.Begin(
+                     SpriteSortMode.FrontToBack,
+                     BlendState.AlphaBlend,
+                     SamplerState.LinearClamp,
+                     DepthStencilState.None,
+                     RasterizerState.CullCounterClockwise,
+                     null,
+                     camera.Matrix);
+        }
+
         // 描画開始
         public void Begin(Camera camera)
         {
@@ -87,14 +100,14 @@ namespace FliedChicken.Devices
             Draw2D(name, position, null, color, rotation, scale, spriteEffects);
         }
 
-        public void Draw2D(string name, Vector2 position, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects spriteEffects = SpriteEffects.None)
+        public void Draw2D(string name, Vector2 position, Color color, float rotation, Vector2 origin, Vector2 scale, float layer = 1, SpriteEffects spriteEffects = SpriteEffects.None)
         {
             Debug.Assert(textures.ContainsKey(name), "アセット名[ " + name + " ]が見つかりません。ロードされてないかアセット名を間違えています");
 
-            spriteBatch.Draw(textures[name], position, null, color, rotation, origin, scale, spriteEffects, 0);
+            spriteBatch.Draw(textures[name], position, null, color, rotation, origin, scale, spriteEffects, layer);
         }
 
-        public void Draw2D(string name, Vector2 position, Rectangle rectangle,Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects spriteEffects = SpriteEffects.None)
+        public void Draw2D(string name, Vector2 position, Rectangle rectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects spriteEffects = SpriteEffects.None)
         {
             Debug.Assert(textures.ContainsKey(name), "アセット名[ " + name + " ]が見つかりません。ロードされてないかアセット名を間違えています");
 

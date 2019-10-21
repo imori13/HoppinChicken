@@ -32,8 +32,6 @@ namespace FliedChicken.GameObjects
         public abstract void Draw(Renderer renderer);
         public abstract void HitAction(GameObject gameObject);  // 衝突を検知した時に呼ばれる処理
 
-        int num;
-
         // "相手がボックスの時"のバウンド処理
         public void BoundBoxCollision(GameObject gameObject)
         {

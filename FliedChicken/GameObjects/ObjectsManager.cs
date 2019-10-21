@@ -11,8 +11,6 @@ namespace FliedChicken.GameObjects
     // 保守性などない
     class ObjectsManager
     {
-        private Camera camera;
-
         private List<GameObject> gameobjects = new List<GameObject>();
         private List<Particle2D> backParticles = new List<Particle2D>();
         private List<Particle2D> frontParticles = new List<Particle2D>();
@@ -23,10 +21,11 @@ namespace FliedChicken.GameObjects
 
         public Player Player { get; private set; }
         public DiveEnemy DiveEnemy { get; private set; }
+        public Camera Camera { get; private set; }
 
         public ObjectsManager(Camera camera)
         {
-            this.camera = camera;
+            this.Camera = camera;
         }
 
         public void Initialize()

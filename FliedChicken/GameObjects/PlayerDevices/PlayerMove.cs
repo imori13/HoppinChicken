@@ -46,7 +46,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 return DebugEditVelocity();
             }
 
-            return EditVelocity();
+            return MoveVelocity();
         }
 
         public Vector2 Move()
@@ -56,7 +56,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
             return Vector2.Lerp(player.Position, destPosition, 0.2f);
         }
 
-        Vector2 EditVelocity()
+        Vector2 MoveVelocity()
         {
             time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds * TimeSpeed.Time;
 
@@ -73,7 +73,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
                 if (fallTime > 0.2f)
                 {
-                    destFallSpeed = 10;
+                    destFallSpeed = 30;
                     fallFlag = true;
 
                     PlayerMoveState = PlayerMoveState.Fall;
