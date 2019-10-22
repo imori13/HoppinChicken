@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
-using FliedChicken.Devices.AnimationDevice;
 using FliedChicken.Devices;
 using FliedChicken.GameObjects.Enemys.AttackModules;
 using FliedChicken.GameObjects.Enemys.MoveModules;
 using FliedChicken.GameObjects.Collision;
+using FliedChicken.GameObjects.PlayerDevices;
 
 namespace FliedChicken.GameObjects.Enemys
 {
@@ -59,8 +59,8 @@ namespace FliedChicken.GameObjects.Enemys
         public override void HitAction(GameObject gameObject)
         {
             if (gameObject.GameObjectTag != GameObjectTag.Player) return;
-            //突進検出用に仮置き
-            if (!Input.GetKey(Microsoft.Xna.Framework.Input.Keys.Space)) return;
+
+            if ((gameObject as Player).PlayerMove.PlayerMoveState != PlayerMoveState.Fall) return;
 
 
             var random = GameDevice.Instance().Random;

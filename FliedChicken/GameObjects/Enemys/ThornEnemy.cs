@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework;
 using FliedChicken.GameObjects.Enemys.AttackModules;
 using FliedChicken.GameObjects.Enemys.MoveModules;
 using FliedChicken.Devices;
-using FliedChicken.Devices.AnimationDevice;
 
 namespace FliedChicken.GameObjects.Enemys
 {

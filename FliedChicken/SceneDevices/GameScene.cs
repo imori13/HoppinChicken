@@ -14,6 +14,7 @@ using FliedChicken.GameObjects;
 using FliedChicken.GameObjects.Enemys;
 using FliedChicken.GameObjects.PlayerDevices;
 using FliedChicken.GameObjects.Clouds;
+using FliedChicken.GameObjects.Particle;
 
 namespace FliedChicken.SceneDevices
 {
@@ -93,6 +94,27 @@ namespace FliedChicken.SceneDevices
 
         public override void Update()
         {
+
+            if (Input.GetKeyDown(Keys.G))
+            {
+                var random = GameDevice.Instance().Random;
+                int rotation = 360;
+                while (rotation > 0)
+                {
+                    Vector2 direction = MyMath.DegToVec2(rotation);
+                    direction = new Vector2(direction.X, direction.Y);
+                    direction *= 0.3f;
+                    var newParicle = new RadiationParticle2D(objectsManager.Player.Position, Color.Red, direction, random);
+                    objectsManager.AddBackParticle(newParicle);
+                    rotation -= random.Next(0, 30 + 1);
+                }
+
+                for (int i = 0; i < 100; i++)
+                {
+                    objectsManager.AddBackParticle(new ExplosionParticle2D(objectsManager.Player.Position, MyMath.RandomCircleVec2(), Color.Red, random));
+                }
+            }
+
             Default();
 
             //状態によって動くUpdateメソッド
@@ -123,18 +145,6 @@ namespace FliedChicken.SceneDevices
 
         public override void Draw(Renderer renderer)
         {
-            // ---------------------------------------------
-            renderer.Begin();
-            if (state == GamePlayState.RESULT)
-            {
-                ResultScreen(renderer);
-            }
-
-            if (state == GamePlayState.RANKING)
-            {
-                RankingScreen(renderer);
-            }
-            renderer.End();
             // ---------------------------------------------
             renderer.BeginCloud(camera);
             cloudManager.BackDraw(renderer);
@@ -174,6 +184,19 @@ namespace FliedChicken.SceneDevices
             renderer.DrawString(font, text, new Vector2(Screen.WIDTH / 2f, 100 * Screen.ScreenSize), Color.White * 0.5f, 0, size / 2f, Vector2.One * Screen.ScreenSize);
             renderer.End();
 #endif
+
+            // ---------------------------------------------
+            renderer.Begin();
+            if (state == GamePlayState.RESULT)
+            {
+                ResultScreen(renderer);
+            }
+
+            if (state == GamePlayState.RANKING)
+            {
+                RankingScreen(renderer);
+            }
+            renderer.End();
             // ---------------------------------------------
             base.Draw(renderer);
         }
@@ -203,9 +226,8 @@ namespace FliedChicken.SceneDevices
 
         private void Fly()
         {
-            if (player.IsDead == true)
+            if (player.HitFlag == true)
             {
-                player.state = PlayerState.CLEAR;
                 state = GamePlayState.CLEAR;
             }
 
@@ -214,7 +236,7 @@ namespace FliedChicken.SceneDevices
 
         private void Clear()
         {
-            if (Input.GetKeyDown(Keys.A))
+            if (Input.GetKeyDown(Keys.Space))
             {
                 state = GamePlayState.RESULT;
                 resultScreen.Initialize(score);

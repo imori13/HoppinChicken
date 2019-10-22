@@ -30,7 +30,7 @@ namespace FliedChicken.GameObjects.Particle
                   Vector2.One * rand.Next(16, 32 + 1),
                   rand.Next(-180, 180),
                   rand.Next(120, 180),
-                  new Vector2(0.5f, 1))
+                  new Vector2(0.5f, 0.5f))
         {
             this.rand = rand;
             originScale = scale;

@@ -1,5 +1,4 @@
 ﻿using FliedChicken.Devices;
-using FliedChicken.Devices.AnimationDevice;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -73,7 +72,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
                 if (fallTime > 0.2f)
                 {
-                    destFallSpeed = 30;
+                    destFallSpeed = 15;
                     fallFlag = true;
 
                     PlayerMoveState = PlayerMoveState.Fall;

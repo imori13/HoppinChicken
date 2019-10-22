@@ -21,8 +21,8 @@ namespace FliedChicken.GameObjects.Particle
                   rand.Next(2, 4) + (float)rand.NextDouble(),
                   position,
                   direction + (MyMath.DegToVec2(rand.Next(-360, 360) + (float)rand.NextDouble()))*0.5f,
-                  rand.Next(2, 4) + (float)rand.NextDouble(),
-                  0.98f,
+                  rand.Next(1,2) + (float)rand.NextDouble(),
+                  0.95f,
                   Color.Lerp(Color.White, Color.Blue, (float)rand.NextDouble()),
                   1,
                   Vector2.One * (rand.Next(5, 15) + (float)rand.NextDouble()),   // size

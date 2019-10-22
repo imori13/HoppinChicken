@@ -81,10 +81,10 @@ namespace FliedChicken.GameObjects.Particle
             }
 
             // 回転速度を回転パラメータにぶち込み続ける
-            rotation = MathHelper.Lerp(rotation_start, rotation_dest, GetAliveRate() * TimeSpeed.Time);
+            rotation = MathHelper.Lerp(rotation_start, rotation_dest, GetAliveRate());
 
             // 速度*摩擦 どんどん移動速度が落ちるとかに
-            speed *= friction * TimeSpeed.Time;
+            speed *= friction;
 
             // 座標=移動角度*速度
             position += direction * speed * TimeSpeed.Time;
@@ -97,7 +97,8 @@ namespace FliedChicken.GameObjects.Particle
                 position,
                 color,
                 MathHelper.ToRadians(rotation),
-                scale);
+                origin,
+                scale * Screen.ScreenSize);
         }
 
         public float GetAliveRate()

@@ -16,9 +16,9 @@ namespace FliedChicken.GameObjects.Particle
             : base(
                   "Pixel",
                   rand.Next(1, 10) + (float)rand.NextDouble(),
-                  position + direction * (rand.Next(80,100) + (float)rand.NextDouble()*Screen.ScreenSize),
+                  position + direction * (rand.Next(80, 100) + (float)rand.NextDouble() * Screen.ScreenSize),
                   direction,
-                  rand.Next(0, 10) + (float)rand.NextDouble(), // speed
+                  rand.Next(50,150) + (float)rand.NextDouble(), // speed
                   0.9f,    // friction
                   Color.Lerp(Color.White, color, (float)rand.NextDouble()),
                   0,
@@ -44,18 +44,8 @@ namespace FliedChicken.GameObjects.Particle
                 IsDead = true;
             }
 
-            scale = new Vector2(scale.X + speed * 0.01f, scale.Y + speed);
+            scale = new Vector2(scale.X + speed * 0.01f, scale.Y + speed*0.1f);
             scale = Vector2.Lerp(scale, Vector2.Zero, aliveRate);
-        }
-
-        public override void Draw(Renderer renderer)
-        {
-            renderer.Draw2D(
-                   assetName,
-                   position,
-                   color,
-                   rotation,
-                   scale * Screen.ScreenSize);
         }
     }
 }
