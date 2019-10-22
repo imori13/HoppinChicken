@@ -79,7 +79,7 @@ namespace FliedChicken.SceneDevices
 
             titleDisplayMode.Initialize();
 
-            enemySpawner = new EnemySpawner(player, camera, objectsManager, 64 * 2, 64 * 10, 1, 1);
+            enemySpawner = new EnemySpawner(player, camera, objectsManager, 64 * 2, 64 * 10, 0, 0);
             enemySpawner.Initialize();
 
             objectsManager.AddGameObject(new DiveEnemy(camera, player));
