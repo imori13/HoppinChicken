@@ -47,7 +47,6 @@ namespace FliedChicken.GameObjects.Particle
             base.Update();
 
             alpha = MathHelper.Clamp(1.0f - aliveRate, 0.0f, 0.8f);
-            var colorVector = color.ToVector3();
             color = Color.White * alpha;
             scale = Easing2D.SineOut(aliveTime, aliveLimit, originScale, maxScale);
         }
