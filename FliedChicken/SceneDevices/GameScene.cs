@@ -54,6 +54,8 @@ namespace FliedChicken.SceneDevices
         // 雲
         CloudManager cloudManager;
 
+        float time = 0;
+
         public GameScene()
         {
             camera = new Camera();
@@ -88,6 +90,8 @@ namespace FliedChicken.SceneDevices
             objectsManager.AddGameObject(new KillerEnemy(camera));
 
             cloudManager.Initialize();
+
+            time = 0;
 
             base.Initialize();
         }
@@ -228,7 +232,13 @@ namespace FliedChicken.SceneDevices
         {
             if (player.HitFlag == true)
             {
-                state = GamePlayState.CLEAR;
+                time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
+                float limit = 1f;
+
+                if (time >= limit)
+                {
+                    state = GamePlayState.CLEAR;
+                }
             }
 
             enemySpawner.Update();
