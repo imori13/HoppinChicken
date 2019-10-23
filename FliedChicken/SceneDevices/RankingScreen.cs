@@ -43,9 +43,6 @@ namespace FliedChicken.SceneDevices
 
         float allAlpha;
 
-        float startTime;
-        float finishTime;
-
         public bool IsDead { get; private set; }
 
         public RankingScreen()
@@ -63,9 +60,6 @@ namespace FliedChicken.SceneDevices
             windowHeight = maxWindowHeight;
 
             state = ScreenState.START;
-
-            startTime = 0.0f;
-            finishTime = 0.0f;
 
             IsDead = false;
 
@@ -103,9 +97,8 @@ namespace FliedChicken.SceneDevices
 
         private void Start()
         {
-            startTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
             windowWidth = MathHelper.Lerp(windowWidth, maxWindowWidth, 0.05f);
-            if (startTime >= 1.5f)
+            if (Math.Abs(windowWidth - maxWindowWidth) <= 0.1f)
             {
                 windowWidth = maxWindowWidth;
                 state = ScreenState.STATE01;
@@ -124,7 +117,7 @@ namespace FliedChicken.SceneDevices
 
         private void State02()
         {
-            if (Input.GetKeyDown(Keys.A) || Input.GetKeyDown(Keys.Enter))
+            if (Input.GetKeyDown(Keys.Space) || Input.GetKeyDown(Keys.Enter))
             {
                 state = ScreenState.STATE03;
             }
@@ -142,9 +135,8 @@ namespace FliedChicken.SceneDevices
 
         private void Finish()
         {
-            finishTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
-            windowWidth = MathHelper.Lerp(windowWidth, 0, 0.05f);
-            if (finishTime >= 1.5f)
+            windowWidth = MathHelper.Lerp(windowWidth, 0, 0.1f);
+            if (Math.Abs(windowWidth - 0) <= 0.1f)
             {
                 windowWidth = 0.0f;
                 RankingWrite();
@@ -154,7 +146,7 @@ namespace FliedChicken.SceneDevices
 
         public void End()
         {
-            
+
         }
 
         /// <summary>
@@ -174,7 +166,7 @@ namespace FliedChicken.SceneDevices
                 rankPlayer.Add(value[0]);
                 rankScore.Add(int.Parse(value[1]));
             }
-            
+
             sr.Close();
         }
 

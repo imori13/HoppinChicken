@@ -41,9 +41,6 @@ namespace FliedChicken.SceneDevices
 
         ScreenState state;
 
-        float startTime;
-        float finishTime;
-
         public ResultScreen()
         {
         }
@@ -58,7 +55,7 @@ namespace FliedChicken.SceneDevices
             this.score = score;
         }
 
-        public void Initialize(float  score)
+        public void Initialize(float score)
         {
             SetScore(score);
 
@@ -70,9 +67,6 @@ namespace FliedChicken.SceneDevices
 
             IsDead = false;
             state = ScreenState.START;
-
-            startTime = 0.0f;
-            finishTime = 0.0f;
         }
 
         public void Update()
@@ -106,9 +100,8 @@ namespace FliedChicken.SceneDevices
 
         private void Start()
         {
-            startTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
-            windowWidth = MathHelper.Lerp(windowWidth, maxWindowWidth, 0.05f);
-            if (startTime >= 1.5f)
+            windowWidth = MathHelper.Lerp(windowWidth, maxWindowWidth, 0.1f);
+            if (Math.Abs(windowWidth - maxWindowWidth) <= 0.1f)
             {
                 windowWidth = maxWindowWidth;
                 state = ScreenState.STATE01;
@@ -127,7 +120,7 @@ namespace FliedChicken.SceneDevices
 
         private void State02()
         {
-            if (Input.GetKeyDown(Keys.A))
+            if (Input.GetKeyDown(Keys.Space))
             {
                 state = ScreenState.STATE03;
             }
@@ -145,9 +138,8 @@ namespace FliedChicken.SceneDevices
 
         private void Finish()
         {
-            finishTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
-            windowWidth = MathHelper.Lerp(windowWidth, 0, 0.05f);
-            if (finishTime >= 1.5f)
+            windowWidth = MathHelper.Lerp(windowWidth, 0, 0.1f);
+            if (Math.Abs(windowWidth - 0) <= 0.1f)
             {
                 windowWidth = 0.0f;
                 IsDead = true;

@@ -58,18 +58,6 @@
 /processorParam:TextureFormat=Compressed
 /build:Font/pixelMplus10_size128.spritefont
 
-#begin Texture/PlayerDead.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Texture/PlayerDead.png
-
 #begin Texture/highspeed_enemy.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -153,4 +141,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Texture/DiveEnemy.png
+
+#begin Texture/PlayerDead.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Texture/PlayerDead.png
 

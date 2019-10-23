@@ -9,7 +9,6 @@ using FliedChicken.GameObjects.Collision;
 using FliedChicken.GameObjects.Particle;
 using FliedChicken.GameObjects.Enemys.MoveModules;
 using FliedChicken.Devices;
-using FliedChicken.Devices.AnimationDevice;
 using FliedChicken.Utilities;
 
 namespace FliedChicken.GameObjects.Enemys

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FliedChicken.Devices;
-using FliedChicken.Devices.AnimationDevice;
 using FliedChicken.GameObjects.Collision;
 using FliedChicken.GameObjects.Particle;
 using Microsoft.Xna.Framework;
@@ -13,23 +12,23 @@ using Microsoft.Xna.Framework.Input;
 
 namespace FliedChicken.GameObjects.PlayerDevices
 {
-    enum PlayerState
-    {
-        FLY,
-        CLEAR,
-    }
     class Player : GameObject
     {
         Camera camera;
-        public PlayerState state;
 
         // モジュール
         PlayerScale playerScale;
-        PlayerMove playerMove;
+        public PlayerMove PlayerMove { get; private set; }
         OnechanBomManager onechanBomManager;
         public Animation animation;
+        PlayerDeath playerDeath;
 
         Random rand = GameDevice.Instance().Random;
+
+        // ヒットしたかどうか
+        public bool HitFlag { get; private set; }
+
+        float time = 0;
 
         public Player(Camera camera)
         {
@@ -37,78 +36,48 @@ namespace FliedChicken.GameObjects.PlayerDevices
             GameObjectTag = GameObjectTag.Player;
             Collider = new CircleCollider(this, 15);
             playerScale = new PlayerScale(this);
-            playerMove = new PlayerMove(this);
+            PlayerMove = new PlayerMove(this);
             onechanBomManager = new OnechanBomManager(this);
             animation = new Animation(this, "PlayerIdol", Vector2.One * 114, 3, 0.1f);
             animation.drawSize = Vector2.One * 0.5f;
+            playerDeath = new PlayerDeath(this);
         }
 
         public override void Initialize()
         {
-            state = PlayerState.FLY;
-
             playerScale.Initialize();
-            playerMove.Initialize();
+            PlayerMove.Initialize();
             animation.Initialize();
+            playerDeath.Initialize();
+
+            HitFlag = false;
+
+            time = 0;
         }
 
         public override void Update()
         {
-            animation.Update();
+            // カメラの移動処理
+            camera.Position = Vector2.Lerp(camera.Position, Position + Vector2.UnitY * 50f, 0.1f);
 
-            if (animation.FinishFlag)
+            if (Input.GetKeyDown(Keys.H))
             {
-                animation = new Animation(this, "PlayerIdol", Vector2.One * 114, 3, 0.1f);
-                animation.RepeatFlag = true;
-                animation.drawSize = Vector2.One * 0.5f;
+                HitFlag = true;
             }
 
-            switch (state)
-            {
-                case PlayerState.FLY:
-                    // プレイヤーのぼよんぼよんする挙動
-                    playerScale.Update();
-                    // プレイヤーの移動処理
-                    Velocity = playerMove.Velocity();
-                    Position = playerMove.Move();
-                    // カメラの移動処理
-                    camera.Position = Vector2.Lerp(camera.Position, Position+Vector2.UnitY*50f, 0.1f);
-                    break;
-                case PlayerState.CLEAR:
-                    ClearUpdate();
-                    break;
-            }
-
-
-            if (playerMove.PlayerMoveState == PlayerMoveState.Fall)
-            {
-                ObjectsManager.AddBackParticle(new FallParticle2D(Position + MyMath.RandomCircleVec2()*20f - Vector2.UnitY * 100f, Color.Blue, Vector2.UnitY, rand));
-            }
+            if (!HitFlag)
+                Default();
             else
-            {
-                ObjectsManager.AddBackParticle(new PlayerTrajectory_Particle(Position + MyMath.RandomCircleVec2() * 10f, -Velocity / 100f, rand));
-            }
-
-#if DEBUG
-            Dead();
-#endif
-        }
-
-        public void FlyUpdate()
-        {
-
-
-        }
-
-        public void ClearUpdate()
-        {
-
+                playerDeath.Update();
         }
 
         public override void Draw(Renderer renderer)
         {
-            //renderer.Draw2D("packman", Position, Color.White, 0, new Vector2(127, 132) / 2f, playerScale.DrawScale * 0.5f);
-            animation.Draw(renderer, Vector2.Zero);
+
+            if (!HitFlag)
+                animation.Draw(renderer, Vector2.Zero);
+            else
+                playerDeath.Draw(renderer);
         }
 
         public override void HitAction(GameObject gameObject)
@@ -126,6 +95,10 @@ namespace FliedChicken.GameObjects.PlayerDevices
                     // ワンちゃんボム発動！！！
                     onechanBomManager.Bom();
                 }
+                else
+                {
+                    HitFlag = true;
+                }
             }
 
             if (gameObject.GameObjectTag == GameObjectTag.OneChanceItem)
@@ -134,11 +107,36 @@ namespace FliedChicken.GameObjects.PlayerDevices
             }
         }
 
-        private void Dead()
+        void Default()
         {
-            if (Input.GetKeyDown(Keys.D))
+            animation.Update();
+
+            if (animation.FinishFlag)
             {
-                IsDead = true;
+                animation = new Animation(this, "PlayerIdol", Vector2.One * 114, 3, 0.1f);
+                animation.RepeatFlag = true;
+                animation.drawSize = Vector2.One * 0.5f;
+            }
+
+            // プレイヤーのぼよんぼよんする挙動
+            playerScale.Update();
+            // プレイヤーの移動処理
+            Velocity = PlayerMove.Velocity();
+            Position = PlayerMove.Move();
+
+            if (PlayerMove.PlayerMoveState == PlayerMoveState.Fall)
+            {
+                ObjectsManager.AddBackParticle(new FallParticle2D(Position + MyMath.RandomCircleVec2() * 20f - Vector2.UnitY * 100f, Color.Blue, Vector2.UnitY, rand));
+            }
+            else
+            {
+                float limit = 0.1f;
+                time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
+                while (time >= limit)
+                {
+                    time -= limit;
+                    ObjectsManager.AddBackParticle(new PlayerTrajectory_Particle(Position + MyMath.RandomCircleVec2() * 10f, -Velocity / 100f, rand));
+                }
             }
         }
     }

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FliedChicken.Devices;
-using FliedChicken.Devices.AnimationDevice;
 using FliedChicken.GameObjects.Enemys.AttackModules;
 using FliedChicken.GameObjects.Enemys.MoveModules;
 using FliedChicken.GameObjects.PlayerDevices;
@@ -60,7 +59,7 @@ namespace FliedChicken.GameObjects.Enemys
         {
             float rightLimit = Camera.Position.X + Screen.WIDTH / 2f + 500f;
             float leftLimit = Camera.Position.X - Screen.WIDTH / 2f - 500f;
-            float downLimit = Camera.Position.Y + Screen.WIDTH / 2f + 500f;
+            float downLimit = Camera.Position.Y + Screen.HEIGHT / 2f + 500f;
 
             // ダイブエネミーにもキラーが当たってほしいので、ダイブエネミーにもあたるように分岐
             float up01 = Camera.Position.Y - Screen.WIDTH / 2f - 500f;  // カメラの上

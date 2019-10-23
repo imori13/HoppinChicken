@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FliedChicken.Devices.AnimationDevice
+namespace FliedChicken.Devices
 {
     class Animation
     {
@@ -57,7 +57,7 @@ namespace FliedChicken.Devices.AnimationDevice
 
         public void Update()
         {
-            time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
+            time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds * TimeSpeed.Time;
 
             // 時間がたったら
             if (time >= updateTime)

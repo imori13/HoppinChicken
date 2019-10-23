@@ -10,7 +10,6 @@ using FliedChicken.GameObjects.Particle;
 using FliedChicken.GameObjects.Enemys.AttackModules;
 using FliedChicken.GameObjects.Enemys.MoveModules;
 using FliedChicken.Devices;
-using FliedChicken.Devices.AnimationDevice;
 
 namespace FliedChicken.GameObjects.Enemys
 {
@@ -95,9 +94,14 @@ namespace FliedChicken.GameObjects.Enemys
                 Vector2 direction = MyMath.DegToVec2(rotation);
                 direction = new Vector2(direction.X * scale.X, direction.Y * scale.Y);
                 direction *= 0.3f;
-                var newParicle = new RadiationParticle2D(Position, Color.Orange, direction, random);
+                var newParicle = new RadiationParticle2D(Position, Color.Yellow, direction, random);
                 ObjectsManager.AddBackParticle(newParicle);
                 rotation -= random.Next(0, 30 + 1);
+            }
+
+            for (int i = 0; i < 100; i++)
+            {
+                ObjectsManager.AddBackParticle(new ExplosionParticle2D(ObjectsManager.Player.Position, MyMath.RandomCircleVec2(), Color.Red, random));
             }
         }
 
