@@ -48,9 +48,6 @@ namespace FliedChicken.GameObjects.Enemys
             Collider = new BoxCollider(this, Size);
 
             MoveModule.Initialize();
-            AttackModule = new SimpleShoot_AM(this, ObjectsManager, new Vector2(64 * moveDirection, 0), new Vector2(moveDirection, 0));
-
-            AttackModule.Initialize();
         }
 
         public override void Update()
@@ -58,7 +55,6 @@ namespace FliedChicken.GameObjects.Enemys
             base.Update();
 
             MoveModule.Move();
-            AttackModule.Attack();
         }
 
         public override void HitAction(GameObject gameObject)

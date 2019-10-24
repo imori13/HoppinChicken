@@ -23,11 +23,6 @@ namespace FliedChicken.GameObjects.Enemys
         private Camera camera;
         private Player player;
 
-        private float sinWidth;
-        private float elapsedTime;
-
-        private float speedX;
-        private float speedY;
         private Vector2 basePosition;
 
         private SpriteEffects spriteEffects;
@@ -39,6 +34,9 @@ namespace FliedChicken.GameObjects.Enemys
 
         State state;
 
+        private const float moveSpeed = 4.0f;
+        private const float accelAngle = 10.0f;
+
         public DiveEnemy(Camera camera, Player player)
         {
             this.camera = camera;
@@ -46,11 +44,6 @@ namespace FliedChicken.GameObjects.Enemys
 
             Collider = new BoxCollider(this, Vector2.One * 3);
             GameObjectTag = GameObjectTag.DiveEnemy;
-
-            speedX = 2;
-            speedY = 100;
-            sinWidth = 64 * 8;
-            elapsedTime = 0.0f;
 
             Animation = new Animation(this, "DiveEnemy", new Vector2(297, 192), 5, 0.05f);
         }
@@ -86,17 +79,17 @@ namespace FliedChicken.GameObjects.Enemys
         private void Forming()
         {
             float deltaTime = TimeSpeed.Time;
-            //elapsedTime += deltaTime;
-            //float newX = sinWidth * (float)Math.Sin(MathHelper.ToRadians(speedX * elapsedTime));
 
             spriteEffects = SpriteEffects.None;
-            //if (newX < sinWidth / 2)
-            //    spriteEffects = SpriteEffects.None;
-            //else if (newX > sinWidth / 2)
-            //    spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Vector2 destPos = new Vector2(player.Position.X, player.Position.Y);
-            Position = Vector2.Lerp(Position, destPos, 0.01f);
+            Vector2 playerDir = Vector2.Normalize(player.Position - Position);
+            Velocity = Vector2.Lerp(Velocity, playerDir, 0.25f);
+
+            float playerDegree = MyMath.Vec2ToDeg(playerDir);
+            float currentDegree = MyMath.Vec2ToDeg(Velocity);
+            float degreePercentage = Math.Max(0, 1 - Math.Abs(playerDegree -  currentDegree) / accelAngle);
+
+            Position += Velocity * moveSpeed * degreePercentage * deltaTime;
         }
 
         private void Stop()

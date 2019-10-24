@@ -101,7 +101,7 @@ namespace FliedChicken.GameObjects.Enemys
 
             for (int i = 0; i < 100; i++)
             {
-                ObjectsManager.AddBackParticle(new ExplosionParticle2D(ObjectsManager.Player.Position, MyMath.RandomCircleVec2(), Color.Red, random));
+                ObjectsManager.AddBackParticle(new ExplosionParticle2D(ObjectsManager.Player.Position, MyMath.RandomCircleVec2(), Color.Black, random));
             }
         }
 
