@@ -167,7 +167,7 @@ namespace FliedChicken.SceneDevices
             // オブジェクトを描画
             renderer.Begin(camera);
 #if DEBUG
-            enemySpawner.DebugDraw(renderer);
+            //enemySpawner.DebugDraw(renderer);
 #endif
             objectsManager.Draw(renderer);
 
@@ -181,12 +181,12 @@ namespace FliedChicken.SceneDevices
             // ---------------------------------------------
 #if DEBUG
             // デバッグ用描画 現在のGamePlayStateの状態を表示
-            renderer.Begin();
-            SpriteFont font = Fonts.Font12_32;
-            string text = state.ToString();
-            Vector2 size = font.MeasureString(text);
-            renderer.DrawString(font, text, new Vector2(Screen.WIDTH / 2f, 100 * Screen.ScreenSize), Color.White * 0.5f, 0, size / 2f, Vector2.One * Screen.ScreenSize);
-            renderer.End();
+            //renderer.Begin();
+            //SpriteFont font = Fonts.Font12_32;
+            //string text = state.ToString();
+            //Vector2 size = font.MeasureString(text);
+            //renderer.DrawString(font, text, new Vector2(Screen.WIDTH / 2f, 100 * Screen.ScreenSize), Color.White * 0.5f, 0, size / 2f, Vector2.One * Screen.ScreenSize);
+            //renderer.End();
 #endif
 
             // ---------------------------------------------
@@ -218,8 +218,6 @@ namespace FliedChicken.SceneDevices
             if (titleDisplayMode.TitleFinishFlag)
             {
                 state = GamePlayState.FLY;
-
-                // TODO : ここでマップを生成する
             }
         }
 

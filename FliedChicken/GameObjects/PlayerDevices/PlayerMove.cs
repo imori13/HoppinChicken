@@ -101,11 +101,11 @@ namespace FliedChicken.GameObjects.PlayerDevices
             // ジャンプ処理
             if (Input.GetKeyDown(Keys.Space) || inputflag)
             {
-                if (time >= 0.15f)
+                if (time >= 0.1f)
                 {
                     time = 0;
                     inputflag = false;
-                    Velocity = new Vector2(Velocity.X, -15);
+                    Velocity = new Vector2(Velocity.X, -5);
 
                     PlayerMoveState = PlayerMoveState.Jump;
 

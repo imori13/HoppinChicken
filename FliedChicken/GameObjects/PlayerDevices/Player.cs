@@ -34,7 +34,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
         {
             this.camera = camera;
             GameObjectTag = GameObjectTag.Player;
-            Collider = new CircleCollider(this, 15);
+            Collider = new CircleCollider(this, 20);
             playerScale = new PlayerScale(this);
             PlayerMove = new PlayerMove(this);
             onechanBomManager = new OnechanBomManager(this);
