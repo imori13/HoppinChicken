@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using FliedChicken.GameObjects.Enemys.AttackModules;
 using FliedChicken.GameObjects.Enemys.MoveModules;
 using FliedChicken.Devices;
+using FliedChicken.GameObjects.Collision;
 
 namespace FliedChicken.GameObjects.Enemys
 {
@@ -22,7 +23,9 @@ namespace FliedChicken.GameObjects.Enemys
 
             GameObjectTag = GameObjectTag.RedEnemy;
 
-            SpawnPosFunc = SpawnPosition.ScreenDownRandomX;
+            SpawnPosFunc = SpawnPosition.ScreenDownCenterRandomX;
+
+            Collider = new CircleCollider(this, Size.X / 2);
         }
 
         public override void Initialize()
@@ -43,7 +46,7 @@ namespace FliedChicken.GameObjects.Enemys
         public override void Draw(Renderer renderer)
         {
             //画像が無かったのでPixel描画用
-            renderer.Draw2D(TextureName, Position, Color.White, 0.0f, Size);
+            renderer.Draw2D(TextureName, Position, Color.OrangeRed, 45.0f, Size);
         }
 
         protected override bool IsDestroy()
