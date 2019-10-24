@@ -54,6 +54,8 @@ namespace FliedChicken.SceneDevices
         // 雲
         CloudManager cloudManager;
 
+        float time = 0;
+
         public GameScene()
         {
             camera = new Camera();
@@ -88,6 +90,8 @@ namespace FliedChicken.SceneDevices
             objectsManager.AddGameObject(new KillerEnemy(camera));
 
             cloudManager.Initialize();
+
+            time = 0;
 
             base.Initialize();
         }
@@ -163,7 +167,7 @@ namespace FliedChicken.SceneDevices
             // オブジェクトを描画
             renderer.Begin(camera);
 #if DEBUG
-            enemySpawner.DebugDraw(renderer);
+            //enemySpawner.DebugDraw(renderer);
 #endif
             objectsManager.Draw(renderer);
 
@@ -177,12 +181,12 @@ namespace FliedChicken.SceneDevices
             // ---------------------------------------------
 #if DEBUG
             // デバッグ用描画 現在のGamePlayStateの状態を表示
-            renderer.Begin();
-            SpriteFont font = Fonts.Font12_32;
-            string text = state.ToString();
-            Vector2 size = font.MeasureString(text);
-            renderer.DrawString(font, text, new Vector2(Screen.WIDTH / 2f, 100 * Screen.ScreenSize), Color.White * 0.5f, 0, size / 2f, Vector2.One * Screen.ScreenSize);
-            renderer.End();
+            //renderer.Begin();
+            //SpriteFont font = Fonts.Font12_32;
+            //string text = state.ToString();
+            //Vector2 size = font.MeasureString(text);
+            //renderer.DrawString(font, text, new Vector2(Screen.WIDTH / 2f, 100 * Screen.ScreenSize), Color.White * 0.5f, 0, size / 2f, Vector2.One * Screen.ScreenSize);
+            //renderer.End();
 #endif
 
             // ---------------------------------------------
@@ -214,8 +218,6 @@ namespace FliedChicken.SceneDevices
             if (titleDisplayMode.TitleFinishFlag)
             {
                 state = GamePlayState.FLY;
-
-                // TODO : ここでマップを生成する
             }
         }
 
@@ -228,7 +230,13 @@ namespace FliedChicken.SceneDevices
         {
             if (player.HitFlag == true)
             {
-                state = GamePlayState.CLEAR;
+                time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
+                float limit = 1f;
+
+                if (time >= limit)
+                {
+                    state = GamePlayState.CLEAR;
+                }
             }
 
             enemySpawner.Update();

@@ -48,8 +48,8 @@ namespace FliedChicken.GameObjects.Collision
             Vector2 nearPoint =
                 Vector2.Clamp(
                     gameobject.Position,
-                    collider.gameobject.Position - collider.Size/2f,
-                    collider.gameobject.Position + collider.Size/2f);
+                    collider.gameobject.Position - collider.Size / 2f,
+                    collider.gameobject.Position + collider.Size / 2f);
 
             if (Vector2.DistanceSquared(nearPoint, gameobject.Position) < (Radius * Radius))
             {
@@ -61,8 +61,10 @@ namespace FliedChicken.GameObjects.Collision
 
         public override void Draw(Renderer renderer)
         {
+            float width = 1;
+
             List<Vector2> pos = new List<Vector2>();
-            for (int i = 0; i < 360; i +=10)
+            for (int i = 0; i < 360; i += 10)
             {
                 pos.Add(gameobject.Position + MyMath.DegToVec2(i) * ((CircleCollider)gameobject.Collider).Radius);
             }
@@ -70,11 +72,11 @@ namespace FliedChicken.GameObjects.Collision
             {
                 if (i == pos.Count - 1)
                 {
-                    renderer.Draw2D("Pixel", pos[i], Color.LightGreen, MathHelper.ToRadians(MyMath.Vec2ToDeg(pos[0] - pos[i])), new Vector2(0, 0), new Vector2(Vector2.Distance(pos[0], pos[i]), 1));
+                    renderer.Draw2D("Pixel", pos[i], Color.LightGreen, MathHelper.ToRadians(MyMath.Vec2ToDeg(pos[0] - pos[i])), new Vector2(0, 0), new Vector2(Vector2.Distance(pos[0], pos[i]), width));
                 }
                 else
                 {
-                    renderer.Draw2D("Pixel", pos[i], Color.LightGreen, MathHelper.ToRadians(MyMath.Vec2ToDeg(pos[i + 1] - pos[i])), new Vector2(0,0), new Vector2(Vector2.Distance(pos[i + 1], pos[i]),1));
+                    renderer.Draw2D("Pixel", pos[i], Color.LightGreen, MathHelper.ToRadians(MyMath.Vec2ToDeg(pos[i + 1] - pos[i])), new Vector2(0, 0), new Vector2(Vector2.Distance(pos[i + 1], pos[i]), width));
                 }
             }
         }
