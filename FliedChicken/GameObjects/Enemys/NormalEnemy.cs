@@ -36,9 +36,9 @@ namespace FliedChicken.GameObjects.Enemys
             MoveModule = new Simple_MM(this, new Vector2(moveDirection, 0), speed);
 
             if (moveDirection < 0)
-                SpawnPosFunc = SpawnPosition.ScreenRight;
+                SpawnPosFunc = SpawnPosition.SreenDownRandomXRight;
             else
-                SpawnPosFunc = SpawnPosition.ScreenLeft;
+                SpawnPosFunc = SpawnPosition.SreenDownRandomXLeft;
         }
 
         public override void Initialize()

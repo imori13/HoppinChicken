@@ -21,11 +21,29 @@ namespace FliedChicken.GameObjects.Enemys
             return new Vector2(0, Screen.HEIGHT / 2 + objectSize.Y / 2);
         }
 
+        public static Vector2 ScreenDownCenterRandomX(Vector2 objectSize)
+        {
+            var random = GameDevice.Instance().Random;
+            int width = Screen.WIDTH / 4;
+            return ScreenDown(objectSize) + new Vector2(random.Next(-width, width + 1), 0);
+        }
+
         public static Vector2 ScreenDownRandomX(Vector2 objectSize)
         {
             var random = GameDevice.Instance().Random;
+            return ScreenDown(objectSize) + new Vector2(random.Next(0, Screen.WIDTH + 1), 0);
+        }
 
-            return ScreenDown(objectSize) + new Vector2(random.Next(0, Screen.WIDTH + 1) - Screen.WIDTH / 2, 0);
+        public static Vector2 SreenDownRandomXRight(Vector2 objectSize)
+        {
+            var random = GameDevice.Instance().Random;
+            return ScreenDown(objectSize) + new Vector2(random.Next(0, Screen.WIDTH / 2 + 1) + Screen.WIDTH, 0);
+        }
+
+        public static Vector2 SreenDownRandomXLeft(Vector2 objectSize)
+        {
+            var random = GameDevice.Instance().Random;
+            return ScreenDown(objectSize) + new Vector2(-random.Next(0, Screen.WIDTH / 2 + 1) - Screen.WIDTH / 2, 0);
         }
 
         public static Vector2 ScreenRight(Vector2 objectSize)

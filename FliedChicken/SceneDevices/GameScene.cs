@@ -82,8 +82,7 @@ namespace FliedChicken.SceneDevices
 
             titleDisplayMode.Initialize();
 
-            enemySpawner = new EnemySpawner(player, camera, objectsManager, 64 * 2, 64 * 10, 0, 0);
-            enemySpawner.Initialize();
+            enemySpawner = new EnemySpawner(player, camera, objectsManager, 64 * 10, 64 * 14, 0, 0);
 
             objectsManager.AddGameObject(new DiveEnemy(camera, player));
 
@@ -195,6 +194,7 @@ namespace FliedChicken.SceneDevices
             if (titleDisplayMode.TitleFinishFlag)
             {
                 state = GamePlayState.FLY;
+                enemySpawner.Initialize();
             }
         }
 

@@ -21,13 +21,15 @@ namespace FliedChicken.GameObjects.Enemys
         private int spawnRange_Min;
         private int spawnRange_Max;
 
-        private int spawnInterval_Min;
-        private int spawnInterval_Max;
+        private int spawnDistance_Min;
+        private int spawnDistance_Max;
 
         private Random random;
-        private Timer spawnTimer;
 
         private WeightSelectHelper<Func<Enemy>>[] spawnFunctions;
+
+        private float distanceSum;
+        private Vector2 prevCameraPos;
 
         /// <summary>
         /// 難易度
@@ -40,8 +42,8 @@ namespace FliedChicken.GameObjects.Enemys
             ObjectsManager objectsManager,
             int spawnRange_Min,
             int spawnRange_Max,
-            int spawnInterval_Min,
-            int spawnInterval_Max)
+            int spawnDistance_Min,
+            int spawnDistance_Max)
         {
             this.player = player;
             this.camera = camera;
@@ -51,42 +53,34 @@ namespace FliedChicken.GameObjects.Enemys
             this.spawnRange_Min = spawnRange_Min;
             this.spawnRange_Max = spawnRange_Max;
 
-            this.spawnInterval_Min = spawnInterval_Min;
-            this.spawnInterval_Max = spawnInterval_Max;
+            this.spawnDistance_Min = spawnDistance_Min;
+            this.spawnDistance_Max = spawnDistance_Max;
         }
 
         public void Initialize()
         {
             random = GameDevice.Instance().Random;
-            RandomizeTimer();
+            prevCameraPos = camera.Position;
 
             spawnFunctions = new[]
                 {
                     new WeightSelectHelper<Func<Enemy>>(5, new Func<Enemy>(() => new NormalEnemy(camera))),
                     new WeightSelectHelper<Func<Enemy>>(3, new Func<Enemy>(() => new HighSpeedEnemy(camera))),
                     new WeightSelectHelper<Func<Enemy>>(1, new Func<Enemy>(() => new SlowEnemy(camera))),
-                    new WeightSelectHelper<Func<Enemy>>(2, new Func<Enemy>(() => new ThornEnemy(camera))),
-                    new WeightSelectHelper<Func<Enemy>>(5, new Func<Enemy>(() => new KillerEnemy(camera)))
+                    new WeightSelectHelper<Func<Enemy>>(5, new Func<Enemy>(() => new ThornEnemy(camera))),
+                    new WeightSelectHelper<Func<Enemy>>(2, new Func<Enemy>(() => new KillerEnemy(camera)))
                 };
         }
 
         public void Update()
         {
-            if (spawnTimer.IsTime())
+            distanceSum += Vector2.Distance(camera.Position, prevCameraPos);
+            while (distanceSum >= 0)
             {
-                var enemy = RandomSelector.WeightSelect(spawnFunctions).Invoke();
-                SpawnWithOneChanItem(enemy);
-
-                Vector2 randomPos = new Vector2(0, GetPosY());
-                if (enemy is ThornEnemy)    //仮置きでクラスごとに判定
-                    randomPos = Vector2.Zero;
-
-                enemy.Position = enemy.SpawnPosFunc.Invoke(enemy.Size) + camera.Position + randomPos;
-                enemy.ObjectsManager = objectsManager;
-                objectsManager.AddGameObject(enemy);
-
-                RandomizeTimer();
+                distanceSum -= 128f;
+                SpawnEnemy();
             }
+            prevCameraPos = camera.Position;
         }
 
         public void DebugDraw(Renderer renderer)
@@ -99,23 +93,23 @@ namespace FliedChicken.GameObjects.Enemys
                 new Vector2(32, spawnRange_Max - spawnRange_Min));
         }
 
-        private void RandomizeTimer()
-        {
-            float newTime = random.Next(spawnInterval_Min, spawnInterval_Max + 1) + (float)random.NextDouble();
-
-            if (spawnTimer == null)
-            {
-                spawnTimer = new Timer(newTime);
-                return;
-            }
-
-            spawnTimer.MaxTime = newTime;
-            spawnTimer.Reset();
-        }
-
         private float GetPosY()
         {
             return random.Next(spawnRange_Min, spawnRange_Max + 1) + (float)random.NextDouble();
+        }
+
+        private void SpawnEnemy()
+        {
+            var enemy = RandomSelector.WeightSelect(spawnFunctions).Invoke();
+            SpawnWithOneChanItem(enemy);
+
+            Vector2 randomPos = new Vector2(0, GetPosY());
+            //if (enemy is ThornEnemy)    //仮置きでクラスごとに判定
+            //    randomPos = Vector2.Zero;
+
+            enemy.Position = enemy.SpawnPosFunc.Invoke(enemy.Size) + camera.Position + randomPos;
+            enemy.ObjectsManager = objectsManager;
+            objectsManager.AddGameObject(enemy);
         }
 
         private void SpawnWithOneChanItem(Enemy enemy)
