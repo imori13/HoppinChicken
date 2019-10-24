@@ -24,6 +24,7 @@ namespace FliedChicken.GameObjects.Enemys
         private int spawnInterval_Min;
         private int spawnInterval_Max;
 
+        private Random random;
         private Timer spawnTimer;
 
         private WeightSelectHelper<Func<Enemy>>[] spawnFunctions;
@@ -56,6 +57,7 @@ namespace FliedChicken.GameObjects.Enemys
 
         public void Initialize()
         {
+            random = GameDevice.Instance().Random;
             RandomizeTimer();
 
             spawnFunctions = new[]
@@ -73,6 +75,7 @@ namespace FliedChicken.GameObjects.Enemys
             if (spawnTimer.IsTime())
             {
                 var enemy = RandomSelector.WeightSelect(spawnFunctions).Invoke();
+                SpawnWithOneChanItem(enemy);
 
                 Vector2 randomPos = new Vector2(0, GetPosY());
                 if (enemy is ThornEnemy)    //仮置きでクラスごとに判定
@@ -98,7 +101,6 @@ namespace FliedChicken.GameObjects.Enemys
 
         private void RandomizeTimer()
         {
-            var random = GameDevice.Instance().Random;
             float newTime = random.Next(spawnInterval_Min, spawnInterval_Max + 1) + (float)random.NextDouble();
 
             if (spawnTimer == null)
@@ -113,8 +115,18 @@ namespace FliedChicken.GameObjects.Enemys
 
         private float GetPosY()
         {
-            var random = GameDevice.Instance().Random;
             return random.Next(spawnRange_Min, spawnRange_Max + 1) + (float)random.NextDouble();
+        }
+
+        private void SpawnWithOneChanItem(Enemy enemy)
+        {
+            if (!(enemy is IOneChanItemCarrier)) return;
+            //5%の確率で出現
+            if (!(random.Next(0, 100) < 5)) return;
+
+            var carrier = enemy as IOneChanItemCarrier;
+            carrier.OneChanItem = new OneChanItem(carrier);
+            objectsManager.AddGameObject(carrier.OneChanItem);
         }
     }
 }

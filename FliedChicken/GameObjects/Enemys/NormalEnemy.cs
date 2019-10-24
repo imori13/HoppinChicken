@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
+using FliedChicken.GameObjects.Objects;
 using FliedChicken.GameObjects.PlayerDevices;
 using FliedChicken.GameObjects.Collision;
 using FliedChicken.GameObjects.Enemys.AttackModules;
@@ -13,15 +14,17 @@ using FliedChicken.Devices;
 
 namespace FliedChicken.GameObjects.Enemys
 {
-    class NormalEnemy : Enemy
+    class NormalEnemy : Enemy, IOneChanItemCarrier
     {
         private float moveDirection;
+
+        public OneChanItem OneChanItem { get; set; }
 
         public NormalEnemy(Camera camera)
             : base(camera)
         {
             Size = new Vector2(60, 60);
-            
+
             Animation = new Animation(this, "normal_enemy", new Vector2(320, 320), 5, 0.25f);
             Animation.drawSize = Vector2.One * 0.5f * 0.5f;
 
@@ -66,6 +69,9 @@ namespace FliedChicken.GameObjects.Enemys
 
             DestroyEffect(Vector2.One);
             IsDead = true;
+
+            if (OneChanItem != null)
+                OneChanItem.PlayerHitEnabled = true;
         }
 
         protected override bool IsDestroy()
@@ -83,6 +89,13 @@ namespace FliedChicken.GameObjects.Enemys
 
         protected override void OnDestroy()
         {
+            if (OneChanItem != null)
+                OneChanItem.Destroy();
+        }
+
+        public Vector2 GetItemPosition()
+        {
+            return Position + new Vector2(0, -Size.Y / 4);
         }
     }
 }
