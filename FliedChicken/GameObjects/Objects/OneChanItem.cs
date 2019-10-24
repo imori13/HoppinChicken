@@ -51,7 +51,7 @@ namespace FliedChicken.GameObjects.Objects
 
         public override void Draw(Renderer renderer)
         {
-            renderer.Draw2D("Pixel", Position, Color.Yellow, rotation, new Vector2(50.0f, 50.0f) * drawScale);
+            renderer.Draw2D("Star", Position, Color.White, rotation, Vector2.One * drawScale);
         }
 
         public override void HitAction(GameObject gameObject)

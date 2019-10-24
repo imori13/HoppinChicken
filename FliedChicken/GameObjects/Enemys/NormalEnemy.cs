@@ -23,10 +23,10 @@ namespace FliedChicken.GameObjects.Enemys
         public NormalEnemy(Camera camera)
             : base(camera)
         {
-            Size = new Vector2(80,80);
+            Size = new Vector2(80, 80);
 
-            Animation = new Animation(this, "normal_enemy", new Vector2(320, 320), 5, 0.25f);
-            Animation.drawSize = Vector2.One*0.5f;
+            Animation = new Animation(this, "normal_enemy", new Vector2(210, 210), 5, 0.25f);
+            Animation.drawSize = Vector2.One * 0.5f;
 
             GameObjectTag = GameObjectTag.OrangeEnemy;
 
@@ -59,15 +59,22 @@ namespace FliedChicken.GameObjects.Enemys
 
         public override void HitAction(GameObject gameObject)
         {
-            if (gameObject.GameObjectTag != GameObjectTag.Player) return;
+            if (gameObject.GameObjectTag == GameObjectTag.OneChanBom)
+            {
+                IsDead = true;
+            }
 
-            if ((gameObject as Player).PlayerMove.PlayerMoveState != PlayerMoveState.Fall) return;
-
-            DestroyEffect(Vector2.One);
-            IsDead = true;
-
-            if (OneChanItem != null)
-                OneChanItem.PlayerHitEnabled = true;
+            if (gameObject.GameObjectTag == GameObjectTag.Player)
+            {
+                if ((gameObject as Player).PlayerMove.PlayerMoveState == PlayerMoveState.Fall)
+                {
+                    DestroyEffect(Vector2.One);
+                    IsDead = true;
+                    
+                    if (OneChanItem != null)
+                        OneChanItem.PlayerHitEnabled = true;
+                }
+            }
         }
 
         protected override bool IsDestroy()

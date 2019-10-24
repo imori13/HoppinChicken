@@ -114,6 +114,7 @@
     <Compile Include="SceneDevices\Title\TitleDisplayMode.cs" />
     <Compile Include="SceneDevices\Title\KeyInput.cs" />
     <Compile Include="UI\DiveEnemyUI.cs" />
+    <Compile Include="UI\OneChanItemUI.cs" />
     <Compile Include="Utilities\RandomSelector.cs" />
     <Compile Include="Utilities\Timer.cs" />
     <Compile Include="Utilities\WeightSelectHelper.cs" />

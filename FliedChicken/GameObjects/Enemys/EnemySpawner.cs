@@ -116,7 +116,7 @@ namespace FliedChicken.GameObjects.Enemys
         {
             if (!(enemy is IOneChanItemCarrier)) return;
             //5%の確率で出現
-            if (!(random.Next(0, 100) < 5)) return;
+            if (!(random.Next(0, 100) < 20)) return;
 
             var carrier = enemy as IOneChanItemCarrier;
             carrier.OneChanItem = new OneChanItem(carrier);

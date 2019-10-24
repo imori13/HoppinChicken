@@ -15,6 +15,7 @@ using FliedChicken.GameObjects.Enemys;
 using FliedChicken.GameObjects.PlayerDevices;
 using FliedChicken.GameObjects.Clouds;
 using FliedChicken.GameObjects.Particle;
+using FliedChicken.UI;
 
 namespace FliedChicken.SceneDevices
 {
@@ -45,6 +46,7 @@ namespace FliedChicken.SceneDevices
         ResultScreen resultScreen;
         RankingScreen rankingScreen;
         TitleDisplayMode titleDisplayMode;
+        OneChanItemUI oneChanItemUI;
 
         //コイン関連
         CoinManager coinManager;
@@ -67,6 +69,7 @@ namespace FliedChicken.SceneDevices
 
             coinManager = new CoinManager(objectsManager, 0.5f);
             cloudManager = new CloudManager(objectsManager);
+            oneChanItemUI = new OneChanItemUI(objectsManager);
         }
 
         public override void Initialize()
@@ -77,6 +80,7 @@ namespace FliedChicken.SceneDevices
             player = new Player(camera);
             objectsManager.AddGameObject(player);
             camera.Position = player.Position;
+            oneChanItemUI.Initialize();
 
             state = GamePlayState.TITLE;
 
@@ -167,6 +171,9 @@ namespace FliedChicken.SceneDevices
 
             // ---------------------------------------------
             renderer.Begin();
+
+            oneChanItemUI.Draw(renderer);
+
             if (state == GamePlayState.RESULT)
             {
                 ResultScreen(renderer);
@@ -186,6 +193,7 @@ namespace FliedChicken.SceneDevices
             camera.Update();
             objectsManager.Update();
             cloudManager.Update();
+            oneChanItemUI.Update();
         }
 
         private void Title()

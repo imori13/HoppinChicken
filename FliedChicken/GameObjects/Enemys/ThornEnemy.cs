@@ -16,16 +16,14 @@ namespace FliedChicken.GameObjects.Enemys
     {
         public ThornEnemy(Camera camera) : base(camera)
         {
-            Size = new Vector2(64, 64);
-            //画像が無かったのでコメントアウト
-            //TextureName = "thorn";
-            TextureName = "Pixel";
+            Size = new Vector2(1,1);
+            TextureName = "Mine";
 
             GameObjectTag = GameObjectTag.RedEnemy;
 
             SpawnPosFunc = SpawnPosition.ScreenDownCenterRandomX;
 
-            Collider = new CircleCollider(this, Size.X / 2);
+            Collider = new CircleCollider(this, 36);
         }
 
         public override void Initialize()
@@ -40,13 +38,17 @@ namespace FliedChicken.GameObjects.Enemys
 
         public override void HitAction(GameObject gameObject)
         {
-
+            if (gameObject.GameObjectTag == GameObjectTag.OneChanBom)
+            {
+                IsDead = true;
+                DestroyEffect(Vector2.One);
+            }
         }
 
         public override void Draw(Renderer renderer)
         {
             //画像が無かったのでPixel描画用
-            renderer.Draw2D(TextureName, Position, Color.OrangeRed, 45.0f, Size);
+            renderer.Draw2D(TextureName, Position, Color.White, 45.0f, Size);
         }
 
         protected override bool IsDestroy()

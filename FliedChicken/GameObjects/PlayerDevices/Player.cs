@@ -19,9 +19,13 @@ namespace FliedChicken.GameObjects.PlayerDevices
         // モジュール
         PlayerScale playerScale;
         public PlayerMove PlayerMove { get; private set; }
-        OnechanBomManager onechanBomManager;
+        public OnechanBomManager OnechanBomManager { get; private set; }
         public Animation animation;
         PlayerDeath playerDeath;
+
+        public bool MutekiFlag { get; private set; }
+        float mutekiTime;
+        float mutekiLimit=1;
 
         Random rand = GameDevice.Instance().Random;
 
@@ -37,7 +41,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
             Collider = new CircleCollider(this, 20);
             playerScale = new PlayerScale(this);
             PlayerMove = new PlayerMove(this);
-            onechanBomManager = new OnechanBomManager(this);
+            OnechanBomManager = new OnechanBomManager(this);
             animation = new Animation(this, "PlayerIdol", Vector2.One * 114, 3, 0.1f);
             animation.drawSize = Vector2.One * 0.5f;
             playerDeath = new PlayerDeath(this);
@@ -52,6 +56,9 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
             HitFlag = false;
 
+            mutekiTime = 0;
+            MutekiFlag = false;
+
             time = 0;
         }
 
@@ -59,6 +66,17 @@ namespace FliedChicken.GameObjects.PlayerDevices
         {
             // カメラの移動処理
             camera.Position = Vector2.Lerp(camera.Position, Position + Vector2.UnitY * 50f, 0.1f);
+
+            if (MutekiFlag)
+            {
+                mutekiTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
+
+                if (mutekiTime >= mutekiLimit)
+                {
+                    mutekiTime = 0;
+                    MutekiFlag = false;
+                }
+            }
 
             if (!HitFlag)
                 Default();
@@ -91,21 +109,26 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
             if (gameObject.GameObjectTag == GameObjectTag.RedEnemy)
             {
-                //IsDead = true;
-                if (onechanBomManager.OneChanceFlag)
+                if (!MutekiFlag)
                 {
-                    // ワンちゃんボム発動！！！
-                    onechanBomManager.Bom();
-                }
-                else
-                {
-                    HitFlag = true;
+                    if (OnechanBomManager.OneChanceFlag)
+                    {
+                        // ワンちゃんボム発動！！！
+                        ObjectsManager.Camera.Shake(40, 5, 0.95f);
+
+                        OnechanBomManager.Bom();
+                        MutekiFlag = true;
+                    }
+                    else
+                    {
+                        HitFlag = true;
+                    }
                 }
             }
 
             if (gameObject.GameObjectTag == GameObjectTag.OneChanceItem)
             {
-                onechanBomManager.AddCount();
+                OnechanBomManager.AddCount();
             }
         }
 
@@ -118,6 +141,8 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 animation = new Animation(this, "PlayerIdol", Vector2.One * 114, 3, 0.1f);
                 animation.RepeatFlag = true;
                 animation.drawSize = Vector2.One * 0.5f;
+
+                animation.Color = (MutekiFlag) ? (Color.Yellow) : (Color.White);
             }
 
             // プレイヤーのぼよんぼよんする挙動

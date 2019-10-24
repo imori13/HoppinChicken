@@ -66,6 +66,11 @@ namespace FliedChicken.GameObjects.Enemys
 
         public override void HitAction(GameObject gameObject)
         {
+            if(gameObject.GameObjectTag== GameObjectTag.OneChanBom)
+            {
+                IsDead = true;
+                DestroyEffect(Vector2.One);
+            }
         }
 
         protected override bool IsDestroy()

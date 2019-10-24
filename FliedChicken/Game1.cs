@@ -50,7 +50,6 @@ namespace FliedChicken
             color[0] = Color.White;
             Pixel.SetData(color);
             renderer.LoadTexture("Pixel", Pixel);
-            renderer.LoadTexture("packman", "Texture/");
             renderer.LoadTexture("stage", "Texture/");
             renderer.LoadTexture("slowenemy", "Texture/");
             renderer.LoadTexture("highspeed_enemy", "Texture/");
@@ -60,6 +59,8 @@ namespace FliedChicken
             renderer.LoadTexture("PlayerFly", "Texture/");
             renderer.LoadTexture("PlayerDead", "Texture/");
             renderer.LoadTexture("FlyedChickenTitle", "Texture/");
+            renderer.LoadTexture("Mine", "Texture/");
+            renderer.LoadTexture("Star", "Texture/");
 
             sceneManager.AddScene(SceneEnum.GameScene, new GameScene());
 

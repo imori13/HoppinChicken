@@ -87,7 +87,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
             // 左右移動
 
-            float speed = (fallFlag) ? (0.5f) : (1.0f);
+            float speed = (fallFlag) ? (0.5f) : (1.5f);
             if (Input.GetKey(Keys.Right))
             {
                 Velocity = new Vector2(Velocity.X + speed, Velocity.Y) * TimeSpeed.Time;
@@ -112,6 +112,8 @@ namespace FliedChicken.GameObjects.PlayerDevices
                     player.animation = new Animation(player, "PlayerFly", Vector2.One * 114, 3, 0.1f);
                     player.animation.drawSize = Vector2.One * 0.5f;
                     player.animation.RepeatFlag = false;
+
+                    player.animation.Color = (player.MutekiFlag) ? (Color.Yellow) : (Color.White);
                 }
                 else
                 {

@@ -58,15 +58,19 @@ namespace FliedChicken.GameObjects.Enemys
 
         public override void HitAction(GameObject gameObject)
         {
-            if (gameObject.GameObjectTag != GameObjectTag.Player) return;
+            if (gameObject.GameObjectTag == GameObjectTag.OneChanBom)
+            {
+                IsDead = true;
+            }
 
-            if ((gameObject as Player).PlayerMove.PlayerMoveState != PlayerMoveState.Fall) return;
-
-
-            var random = GameDevice.Instance().Random;
-
-            DestroyEffect(new Vector2(2.5f, 1.5f));
-            IsDead = true;
+            if (gameObject.GameObjectTag == GameObjectTag.Player)
+            {
+                if ((gameObject as Player).PlayerMove.PlayerMoveState == PlayerMoveState.Fall)
+                {
+                    DestroyEffect(Vector2.One);
+                    IsDead = true;
+                }
+            }
         }
 
         protected override bool IsDestroy()
