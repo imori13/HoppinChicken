@@ -87,8 +87,6 @@ namespace FliedChicken.SceneDevices
 
             objectsManager.AddGameObject(new DiveEnemy(camera, player));
 
-            objectsManager.AddGameObject(new KillerEnemy(camera));
-
             cloudManager.Initialize();
 
             time = 0;
@@ -98,27 +96,6 @@ namespace FliedChicken.SceneDevices
 
         public override void Update()
         {
-
-            if (Input.GetKeyDown(Keys.G))
-            {
-                var random = GameDevice.Instance().Random;
-                int rotation = 360;
-                while (rotation > 0)
-                {
-                    Vector2 direction = MyMath.DegToVec2(rotation);
-                    direction = new Vector2(direction.X, direction.Y);
-                    direction *= 0.3f;
-                    var newParicle = new RadiationParticle2D(objectsManager.Player.Position, Color.Red, direction, random);
-                    objectsManager.AddBackParticle(newParicle);
-                    rotation -= random.Next(0, 30 + 1);
-                }
-
-                for (int i = 0; i < 100; i++)
-                {
-                    objectsManager.AddBackParticle(new ExplosionParticle2D(objectsManager.Player.Position, MyMath.RandomCircleVec2(), Color.Red, random));
-                }
-            }
-
             Default();
 
             //状態によって動くUpdateメソッド

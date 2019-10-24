@@ -60,11 +60,6 @@ namespace FliedChicken.GameObjects.PlayerDevices
             // カメラの移動処理
             camera.Position = Vector2.Lerp(camera.Position, Position + Vector2.UnitY * 50f, 0.1f);
 
-            if (Input.GetKeyDown(Keys.H))
-            {
-                HitFlag = true;
-            }
-
             if (!HitFlag)
                 Default();
             else
@@ -84,7 +79,14 @@ namespace FliedChicken.GameObjects.PlayerDevices
         {
             if (gameObject.GameObjectTag == GameObjectTag.OrangeEnemy)
             {
-                BoundBoxCollision(gameObject);
+                if (gameObject.Collider is CircleCollider)
+                {
+                    BoundCircleCollision(gameObject);
+                }
+                else
+                {
+                    BoundBoxCollision(gameObject);
+                }
             }
 
             if (gameObject.GameObjectTag == GameObjectTag.RedEnemy)

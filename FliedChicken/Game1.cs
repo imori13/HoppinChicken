@@ -59,6 +59,7 @@ namespace FliedChicken
             renderer.LoadTexture("PlayerIdol", "Texture/");
             renderer.LoadTexture("PlayerFly", "Texture/");
             renderer.LoadTexture("PlayerDead", "Texture/");
+            renderer.LoadTexture("FlyedChickenTitle", "Texture/");
 
             sceneManager.AddScene(SceneEnum.GameScene, new GameScene());
 

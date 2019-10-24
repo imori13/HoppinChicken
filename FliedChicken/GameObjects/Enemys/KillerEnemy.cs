@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FliedChicken.Devices;
+using FliedChicken.GameObjects.Collision;
 using FliedChicken.GameObjects.Enemys.AttackModules;
 using FliedChicken.GameObjects.Enemys.MoveModules;
 using FliedChicken.GameObjects.PlayerDevices;
@@ -21,7 +22,8 @@ namespace FliedChicken.GameObjects.Enemys
 
             Animation = new Animation(this, "normal_enemy", new Vector2(320, 320), 5, 0.05f);
             Animation.Color = Color.Red;
-            Animation.drawSize = Vector2.One * 0.5f * 0.5f;
+            Animation.drawSize = Vector2.One * 0.5f;
+            Collider = new CircleCollider(this, 50);
 
             GameObjectTag = GameObjectTag.OrangeEnemy;
 

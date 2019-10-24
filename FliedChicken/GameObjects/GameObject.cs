@@ -64,5 +64,29 @@ namespace FliedChicken.GameObjects
             // 押し出したら移動量を与える
             Velocity = direction * 50f;
         }
+
+        // 相手が円コリジョンの時のバウンド処理
+        public void BoundCircleCollision(GameObject gameobject)
+        {
+            Vector2 direction = Position - gameobject.Position;
+            direction.Normalize();
+
+            int count = 0;
+
+            if (direction != null)
+            {
+                while (Collider.IsCollision(gameobject.Collider))
+                {
+                    count++;
+                    // 押し出す
+                    Position += direction * 1f;
+
+                    if (count > 100) { break; }
+                }
+            }
+
+            // 押し出したら移動量を与える
+            Velocity = direction * 50f;
+        }
     }
 }

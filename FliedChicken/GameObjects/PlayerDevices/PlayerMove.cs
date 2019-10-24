@@ -87,7 +87,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
             // 左右移動
 
-            float speed = (fallFlag) ? (0.5f) : (2.5f);
+            float speed = (fallFlag) ? (0.5f) : (1.0f);
             if (Input.GetKey(Keys.Right))
             {
                 Velocity = new Vector2(Velocity.X + speed, Velocity.Y) * TimeSpeed.Time;

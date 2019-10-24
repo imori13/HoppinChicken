@@ -151,10 +151,7 @@ namespace FliedChicken.SceneDevices.Title
 
             if (!finishingFlag)
             {
-                font = Fonts.Font10_128;
-                text = "FliedChicken";
-                size = font.MeasureString(text);
-                renderer.DrawString(font, text, new Vector2(Screen.WIDTH / 2f, 200 * Screen.ScreenSize), new Color(50, 50, 50), 0, size / 2f, Vector2.One * Screen.ScreenSize);
+                renderer.Draw2D("FlyedChickenTitle", new Vector2(Screen.WIDTH / 2f, 200 * Screen.ScreenSize), Color.White, 0, new Vector2(250, 125.5f), Vector2.One * Screen.ScreenSize*1.5f);
 
                 font = Fonts.Font12_32;
                 text = "PlayerName";
