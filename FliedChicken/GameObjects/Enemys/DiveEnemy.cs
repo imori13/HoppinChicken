@@ -15,8 +15,9 @@ namespace FliedChicken.GameObjects.Enemys
 {
     class DiveEnemy : GameObject
     {
-        enum State
+        public enum State
         {
+            BEFOREFLY,
             FORMING,
             STOP
         }
@@ -38,7 +39,7 @@ namespace FliedChicken.GameObjects.Enemys
         private readonly float stopTime = 2.0f;
         private float stopCount;
 
-        State state;
+        public State state;
 
         public DiveEnemy(Camera camera, Player player)
         {
@@ -71,6 +72,9 @@ namespace FliedChicken.GameObjects.Enemys
             Default();
             switch (state)
             {
+                case State.BEFOREFLY:
+                    BeforeFly();
+                    break;
                 case State.FORMING:
                     Forming();
                     break;
@@ -83,6 +87,11 @@ namespace FliedChicken.GameObjects.Enemys
         private void Default()
         {
             Animation.Update();
+        }
+
+        private void BeforeFly()
+        {
+
         }
 
         private void Forming()

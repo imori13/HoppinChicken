@@ -12,13 +12,15 @@ using Microsoft.Xna.Framework.Input;
 
 namespace FliedChicken.GameObjects.PlayerDevices
 {
-    enum PlayerState
-    {
-        FLY,
-        CLEAR,
-    }
     class Player : GameObject
     {
+        public enum PlayerState
+        {
+            BEFOREFLY,
+            FLY,
+            CLEAR,
+        }
+
         Camera camera;
         public PlayerState state;
 
@@ -62,14 +64,11 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
             switch (state)
             {
+                case PlayerState.BEFOREFLY:
+                    BeforeFly();
+                    break;
                 case PlayerState.FLY:
-                    // プレイヤーのぼよんぼよんする挙動
-                    playerScale.Update();
-                    // プレイヤーの移動処理
-                    Velocity = playerMove.Velocity();
-                    Position = playerMove.Move();
-                    // カメラの移動処理
-                    camera.Position = Vector2.Lerp(camera.Position, Position + Vector2.UnitY * Screen.HEIGHT / 5f, 0.1f);
+                    FlyUpdate();
                     break;
                 case PlayerState.CLEAR:
                     ClearUpdate();
@@ -81,10 +80,20 @@ namespace FliedChicken.GameObjects.PlayerDevices
 #endif
         }
 
-        public void FlyUpdate()
+        private void BeforeFly()
         {
 
+        }
 
+        public void FlyUpdate()
+        {
+            // プレイヤーのぼよんぼよんする挙動
+            playerScale.Update();
+            // プレイヤーの移動処理
+            Velocity = playerMove.Velocity();
+            Position = playerMove.Move();
+            // カメラの移動処理
+            camera.Position = Vector2.Lerp(camera.Position, Position + Vector2.UnitY * Screen.HEIGHT / 5f, 0.1f);
         }
 
         public void ClearUpdate()

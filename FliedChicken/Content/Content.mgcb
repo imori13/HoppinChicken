@@ -154,3 +154,33 @@
 /processorParam:TextureFormat=Color
 /build:Texture/DiveEnemy.png
 
+#begin SE/Bom.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Bom.wav
+
+#begin SE/BulletShot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/BulletShot.wav
+
+#begin SE/Button.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Button.wav
+
+#begin SE/HighSpeed.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/HighSpeed.wav
+
+#begin SE/Item.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Item.wav
+

@@ -35,6 +35,8 @@ namespace FliedChicken.SceneDevices
         ObjectsManager objectsManager;
         //プレイヤー保存用
         Player player;
+        //ダイブエネミー保存用
+        DiveEnemy diveEnemy;
         //スコア保存用
         int score;
 
@@ -43,6 +45,7 @@ namespace FliedChicken.SceneDevices
         ResultScreen resultScreen;
         RankingScreen rankingScreen;
         TitleDisplayMode titleDisplayMode;
+        BeforeFlyScreen beforeFlyScreen;
 
         //コイン関連
         CoinManager coinManager;
@@ -57,6 +60,7 @@ namespace FliedChicken.SceneDevices
 
             resultScreen = new ResultScreen();
             rankingScreen = new RankingScreen();
+            beforeFlyScreen = new BeforeFlyScreen();
 
             coinManager = new CoinManager(objectsManager, 0.5f);
         }
@@ -77,7 +81,8 @@ namespace FliedChicken.SceneDevices
             enemySpawner = new EnemySpawner(player, camera, objectsManager, 64 * 2, 64 * 10, 1, 1);
             enemySpawner.Initialize();
 
-            objectsManager.AddGameObject(new DiveEnemy(camera, player));
+            diveEnemy = new DiveEnemy(camera, player);
+            objectsManager.AddGameObject(diveEnemy);
 
             objectsManager.AddGameObject(new KillerEnemy(camera));
             
@@ -117,6 +122,11 @@ namespace FliedChicken.SceneDevices
         public override void Draw(Renderer renderer)
         {
             renderer.Begin();
+
+            if (state == GamePlayState.BEFOREFLY)
+            {
+                beforeFlyScreen.Draw(renderer);
+            }
 
             if (state == GamePlayState.RESULT)
             {
@@ -173,7 +183,8 @@ namespace FliedChicken.SceneDevices
             titleDisplayMode.Update();
             if (titleDisplayMode.TitleFinishFlag)
             {
-                state = GamePlayState.FLY;
+                beforeFlyScreen.Initialize(player, diveEnemy);
+                state = GamePlayState.BEFOREFLY;
 
                 // TODO : ここでマップを生成する
             }
@@ -181,14 +192,18 @@ namespace FliedChicken.SceneDevices
 
         private void BeforeFly()
         {
-
+            beforeFlyScreen.Update();
+            if (beforeFlyScreen.IsDead)
+            {
+                state = GamePlayState.FLY;
+            }
         }
 
         private void Fly()
         {
             if (player.IsDead == true)
             {
-                player.state = PlayerState.CLEAR;
+                player.state = Player.PlayerState.CLEAR;
                 state = GamePlayState.CLEAR;
             }
 
