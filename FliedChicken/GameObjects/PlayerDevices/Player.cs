@@ -18,7 +18,6 @@ namespace FliedChicken.GameObjects.PlayerDevices
         {
             BEFOREFLY,
             FLY,
-            CLEAR,
         }
 
         Camera camera;
@@ -62,19 +61,19 @@ namespace FliedChicken.GameObjects.PlayerDevices
             animation.Initialize();
             playerDeath.Initialize();
 
-            state = PlayerState.BEFOREFLY;
+            state = PlayerState.FLY;
 
             HitFlag = false;
 
             mutekiTime = 0;
             MutekiFlag = false;
-            
+
+            time = 0;
+
         }
 
         public override void Update()
         {
-            // カメラの移動処理
-            camera.Position = Vector2.Lerp(camera.Position, Position + Vector2.UnitY * 50f, 0.1f);
 
             switch (state)
             {
@@ -84,12 +83,18 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 case PlayerState.FLY:
                     FlyUpdate();
                     break;
-                case PlayerState.CLEAR:
-                    ClearUpdate();
-                    break;
-
-                    time = 0;
             }
+        }
+
+        void BeforeFly()
+        {
+
+        }
+
+        public void FlyUpdate()
+        {
+            // カメラの移動処理
+            camera.Position = Vector2.Lerp(camera.Position, Position + Vector2.UnitY * 50f, 0.1f);
 
             if (MutekiFlag)
             {
@@ -107,22 +112,6 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 Default();
             else
                 playerDeath.Update();
-        }
-
-        void BeforeFly()
-        {
-
-        }
-
-        public void FlyUpdate()
-        {
-            // プレイヤーのぼよんぼよんする挙動
-            playerScale.Update();
-            // プレイヤーの移動処理
-            Velocity = PlayerMove.Velocity();
-            Position = PlayerMove.Move();
-            // カメラの移動処理
-            camera.Position = Vector2.Lerp(camera.Position, Position + Vector2.UnitY * Screen.HEIGHT / 5f, 0.1f);
         }
 
         void ClearUpdate()

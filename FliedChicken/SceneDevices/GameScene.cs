@@ -226,8 +226,8 @@ namespace FliedChicken.SceneDevices
             titleDisplayMode.Update();
             if (titleDisplayMode.TitleFinishFlag)
             {
-                enemySpawner.Initialize();
-                beforeFlyScreen.Initialize(player, diveEnemy);
+                
+                beforeFlyScreen.Initialize(player, diveEnemy, cloudManager, camera);
                 state = GamePlayState.BEFOREFLY;
 
                 // TODO : ここでマップを生成する
@@ -239,6 +239,8 @@ namespace FliedChicken.SceneDevices
             beforeFlyScreen.Update();
             if (beforeFlyScreen.IsDead)
             {
+                beforeFlyScreen.End();
+                enemySpawner.Initialize();
                 state = GamePlayState.FLY;
             }
         }

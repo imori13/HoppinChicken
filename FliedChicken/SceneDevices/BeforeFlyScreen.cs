@@ -13,6 +13,7 @@ using FliedChicken.SceneDevices.Title;
 using FliedChicken.GameObjects;
 using FliedChicken.GameObjects.Enemys;
 using FliedChicken.GameObjects.PlayerDevices;
+using FliedChicken.GameObjects.Clouds;
 
 namespace FliedChicken.SceneDevices
 {
@@ -52,19 +53,22 @@ namespace FliedChicken.SceneDevices
         private readonly string text = "ESCAPE!";
         private Vector2 textPosition;
 
+        CloudManager cloudManager;
+        Camera camera;
+
         public BeforeFlyScreen()
         {
             
         }
 
-        public void Initialize(Player player, DiveEnemy Denemy)
+        public void Initialize(Player player, DiveEnemy Denemy, 
+            CloudManager cloudManager, Camera camera)
         {
             this.player = player;
             this.Denemy = Denemy;
 
             BasePlayerPosition = player.Position;
-            BaseDenemyPosition = player.Position + new Vector2(0,-500);
-            Denemy.Position = BaseDenemyPosition;
+            BaseDenemyPosition = Denemy.Position; 
 
             player.state = Player.PlayerState.BEFOREFLY;
             Denemy.state = DiveEnemy.State.BEFOREFLY;
@@ -83,6 +87,9 @@ namespace FliedChicken.SceneDevices
             attack = true;
 
             textPosition = new Vector2(Screen.Vec2.X + 400, Screen.Vec2.Y / 2);
+
+            this.cloudManager = cloudManager;
+            this.camera = camera;
         }
 
         public  void Update()
@@ -119,8 +126,8 @@ namespace FliedChicken.SceneDevices
 
         private void Default()
         {
-            player.Update();
-            Denemy.Update();
+            player.animation.Update();
+            cloudManager.Update();
         }
 
         private void State01()
@@ -178,11 +185,13 @@ namespace FliedChicken.SceneDevices
         private void Finish()
         {
             textPosition.X = MathHelper.Lerp(textPosition.X, -400, 0.1f);
-            player.Position = new Vector2(player.Position.X, MathHelper.Lerp(player.Position.Y, BasePlayerPosition.Y, 0.01f));
-            Denemy.Position = new Vector2(Denemy.Position.X, MathHelper.Lerp(Denemy.Position.Y, BaseDenemyPosition.Y, 0.01f));
+            //player.Position = new Vector2(player.Position.X, MathHelper.Lerp(player.Position.Y, BasePlayerPosition.Y, 0.01f));
+            //Denemy.Position = new Vector2(Denemy.Position.X, MathHelper.Lerp(Denemy.Position.Y, BaseDenemyPosition.Y, 0.01f));
             timeF += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
             if (timeF >= 1.0f)
             {
+                player.state = Player.PlayerState.FLY;
+                Denemy.state = DiveEnemy.State.FORMING;
                 IsDead = true;
             }
 
