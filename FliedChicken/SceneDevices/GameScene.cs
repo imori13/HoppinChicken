@@ -38,6 +38,8 @@ namespace FliedChicken.SceneDevices
         ObjectsManager objectsManager;
         //プレイヤー保存用
         Player player;
+        //ダイブエネミー保存用
+        DiveEnemy diveEnemy;
         //スコア保存用
         int score;
 
@@ -47,7 +49,7 @@ namespace FliedChicken.SceneDevices
         RankingScreen rankingScreen;
         TitleDisplayMode titleDisplayMode;
         OneChanItemUI oneChanItemUI;
-
+        BeforeFlyScreen beforeFlyScreen;
         //コイン関連
         CoinManager coinManager;
 
@@ -66,6 +68,7 @@ namespace FliedChicken.SceneDevices
 
             resultScreen = new ResultScreen();
             rankingScreen = new RankingScreen();
+            beforeFlyScreen = new BeforeFlyScreen();
 
             coinManager = new CoinManager(objectsManager, 0.5f);
             cloudManager = new CloudManager(objectsManager);
@@ -88,7 +91,8 @@ namespace FliedChicken.SceneDevices
 
             enemySpawner = new EnemySpawner(player, camera, objectsManager, 64 * 10, 64 * 14, 0, 0);
 
-            objectsManager.AddGameObject(new DiveEnemy(camera, player));
+            diveEnemy = new DiveEnemy(camera, player);
+            objectsManager.AddGameObject(diveEnemy);
 
             cloudManager.Initialize();
 
@@ -133,6 +137,7 @@ namespace FliedChicken.SceneDevices
             renderer.BeginCloud(camera);
             cloudManager.BackDraw(renderer);
             renderer.End();
+
             // ---------------------------------------------
             // タイトル画面を描画
             if (state == GamePlayState.TITLE)
@@ -153,12 +158,32 @@ namespace FliedChicken.SceneDevices
 
             renderer.End();
             // ---------------------------------------------
-
+            
             renderer.BeginCloud(camera);
             cloudManager.FrontDraw(renderer);
             renderer.End();
 
             // ---------------------------------------------
+
+            renderer.Begin();
+
+            if (state == GamePlayState.BEFOREFLY)
+            {
+                beforeFlyScreen.Draw(renderer);
+            }
+
+            if (state == GamePlayState.RESULT)
+            {
+                ResultScreen(renderer);
+            }
+
+            if (state == GamePlayState.RANKING)
+            {
+                RankingScreen(renderer);
+            }
+
+            renderer.End();
+            
 #if DEBUG
             // デバッグ用描画 現在のGamePlayStateの状態を表示
             //renderer.Begin();
@@ -201,14 +226,21 @@ namespace FliedChicken.SceneDevices
             titleDisplayMode.Update();
             if (titleDisplayMode.TitleFinishFlag)
             {
-                state = GamePlayState.FLY;
                 enemySpawner.Initialize();
+                beforeFlyScreen.Initialize(player, diveEnemy);
+                state = GamePlayState.BEFOREFLY;
+
+                // TODO : ここでマップを生成する
             }
         }
 
         private void BeforeFly()
         {
-
+            beforeFlyScreen.Update();
+            if (beforeFlyScreen.IsDead)
+            {
+                state = GamePlayState.FLY;
+            }
         }
 
         private void Fly()
