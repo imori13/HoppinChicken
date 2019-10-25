@@ -72,7 +72,8 @@ namespace FliedChicken.GameObjects.Enemys
             float up02 = ObjectsManager.DiveEnemy.Position.Y - 1000f;// ダイブエネミーの上
             float upLimit = (up01 < up02) ? (up01) : (up02); // より小さい方を選択
 
-            return ((Position.X > rightLimit) || (Position.X < leftLimit) || (Position.Y > downLimit) || (Position.Y < upLimit));
+            //return ((Position.X > rightLimit) || (Position.X < leftLimit) || (Position.Y > downLimit) || (Position.Y < upLimit));
+            return ((Position.X > rightLimit) || (Position.X < leftLimit) || (Position.Y < upLimit));
         }
 
         protected override void OnDestroy()
