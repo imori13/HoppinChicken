@@ -159,6 +159,25 @@ namespace FliedChicken.SceneDevices
 
             renderer.End();
 
+            renderer.Begin();
+
+            if (state == GamePlayState.BEFOREFLY)
+            {
+                beforeFlyScreen.Draw(renderer);
+            }
+
+            if (state == GamePlayState.RESULT)
+            {
+                ResultScreen(renderer);
+            }
+
+            if (state == GamePlayState.RANKING)
+            {
+                RankingScreen(renderer);
+            }
+
+            renderer.End();
+
 #if DEBUG
             // デバッグ用描画 現在のGamePlayStateの状態を表示
             renderer.Begin();

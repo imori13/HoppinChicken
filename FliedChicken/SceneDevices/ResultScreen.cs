@@ -27,22 +27,21 @@ namespace FliedChicken.SceneDevices
 
         private float score;
 
-        private float windowWidth;
-        private float windowHeight;
+        private readonly float maxWindowWidth = Screen.WIDTH;
+        private readonly float maxWindowHeight = Screen.HEIGHT;
 
-        private readonly float maxWindowWidth = Screen.WIDTH - 300;
-        private readonly float maxWindowHeight = Screen.HEIGHT - 100;
+        private float windowAlpha;
 
         private Vector2 maxWindowSize;
-
-        private float allAlpha;
 
         public bool IsDead { get; private set; }
 
         ScreenState state;
 
-        float startTime;
-        float finishTime;
+        private Vector2 textPosition01;
+        private Vector2 textPosition02;
+
+        private float scoreAlpha;
 
         public ResultScreen()
         {
@@ -62,17 +61,16 @@ namespace FliedChicken.SceneDevices
         {
             SetScore(score);
 
-            windowWidth = 0.0f;
-            windowHeight = maxWindowHeight;
             maxWindowSize = new Vector2(maxWindowWidth, maxWindowHeight);
-
-            allAlpha = 0.0f;
+            windowAlpha = 0.0f;
 
             IsDead = false;
             state = ScreenState.START;
 
-            startTime = 0.0f;
-            finishTime = 0.0f;
+            textPosition01 = new Vector2(Screen.Vec2.X, 100);
+            textPosition02 = new Vector2(Screen.Vec2.X * 4 / 5, Screen.Vec2.Y * 2 / 3);
+
+            scoreAlpha = 0.0f;
         }
 
         public void Update()
@@ -106,28 +104,26 @@ namespace FliedChicken.SceneDevices
 
         private void Start()
         {
-            startTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
-            windowWidth = MathHelper.Lerp(windowWidth, maxWindowWidth, 0.05f);
-            if (startTime >= 1.5f)
+            windowAlpha += 0.1f * TimeSpeed.Time;
+            if (windowAlpha >= 0.75f)
             {
-                windowWidth = maxWindowWidth;
                 state = ScreenState.STATE01;
             }
         }
 
         private void State01()
         {
-            allAlpha += TimeSpeed.Time * 0.01f;
-            if (allAlpha >= 1)
+            textPosition01 -= new Vector2(100, 0) * TimeSpeed.Time;
+            if (textPosition01.X <= 50)
             {
-                allAlpha = 1.0f;
                 state = ScreenState.STATE02;
             }
         }
 
         private void State02()
         {
-            if (Input.GetKeyDown(Keys.A))
+            scoreAlpha += 0.1f * TimeSpeed.Time;
+            if (scoreAlpha >= 1.0f)
             {
                 state = ScreenState.STATE03;
             }
@@ -135,21 +131,18 @@ namespace FliedChicken.SceneDevices
 
         private void State03()
         {
-            allAlpha -= TimeSpeed.Time * 0.01f;
-            if (allAlpha <= 0.0f)
+            if (Input.GetKeyDown(Keys.Space))
             {
-                allAlpha = 0.0f;
                 state = ScreenState.FINISH;
             }
         }
 
         private void Finish()
         {
-            finishTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
-            windowWidth = MathHelper.Lerp(windowWidth, 0, 0.05f);
-            if (finishTime >= 1.5f)
+            textPosition01 -= new Vector2(100, 0) * TimeSpeed.Time;
+            textPosition02 -= new Vector2(100, 0) * TimeSpeed.Time;
+            if (textPosition02.X <= 0.0f)
             {
-                windowWidth = 0.0f;
                 IsDead = true;
             }
         }
@@ -162,19 +155,17 @@ namespace FliedChicken.SceneDevices
         public void Draw(Renderer renderer)
         {
             renderer.Draw2D("Pixel", Screen.Vec2 / 2,
-                Color.Black, 0.0f, new Vector2(windowWidth, windowHeight));
+                Color.Black * windowAlpha, 0.0f, maxWindowSize);
 
-            renderer.DrawString(Fonts.Font12_32, "RESULT",
-                Screen.Vec2 / 2 - new Vector2(0, 400), Color.White * allAlpha,
-                0.0f, Fonts.Font12_32.MeasureString("RESULT") / 2, new Vector2(2, 2));
+            renderer.DrawString(Fonts.Font10_128, "RESULT", textPosition01, Color.White, 
+                0.0f, new Vector2(0, Fonts.Font10_128.MeasureString("RESULT").Y / 2), Vector2.One);
 
-            renderer.DrawString(Fonts.Font12_32, "SCORE",
-                Screen.Vec2 / 2 - new Vector2(0, 300), Color.White * allAlpha,
-                0.0f, Fonts.Font12_32.MeasureString("SCORE") / 2, new Vector2(1.5f, 1.5f));
+            renderer.DrawString(Fonts.Font10_128, "SCORE", textPosition01 + new Vector2(0, 150), Color.White,
+                0.0f, new Vector2(0, Fonts.Font10_128.MeasureString("SCORE").Y / 2), new Vector2(0.7f, 0.7f));
 
-            renderer.DrawString(Fonts.Font12_32, score.ToString("F2") + "m",
-                Screen.Vec2 / 2 - new Vector2(0, 200), Color.White * allAlpha,
-                0.0f, Fonts.Font12_32.MeasureString(score.ToString("F2") + "m") / 2, new Vector2(3, 3));
+            renderer.DrawString(Fonts.Font10_128, score.ToString() + "m", textPosition02, Color.White * scoreAlpha,
+                0.0f, new Vector2(Fonts.Font10_128.MeasureString(score.ToString() + "m").X, Fonts.Font10_128.MeasureString(score.ToString() + "m").Y / 2),
+                new Vector2(1.5f, 1.5f));
         }
     }
 }
