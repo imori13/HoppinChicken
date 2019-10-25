@@ -50,9 +50,9 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
         public Vector2 Move()
         {
-            destPosition += player.Velocity;
+            destPosition += player.Velocity * TimeSpeed.Time;
 
-            return Vector2.Lerp(player.Position, destPosition, 0.2f);
+            return Vector2.Lerp(player.Position, destPosition, 0.2f * TimeSpeed.Time);
         }
 
         Vector2 MoveVelocity()

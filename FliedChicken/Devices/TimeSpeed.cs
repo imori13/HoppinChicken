@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace FliedChicken.Devices
 {
-    public static class TimeSpeed
+    static class TimeSpeed
     {
         static float time;
         static float dest;
-        public static float Time { get { return time * frame*60; } private set { time = value; } }
+        public static float Time { get { return time * frame * 60; } private set { time = value; } }
         static float frame;
 
         public static void Initialize()
@@ -30,6 +30,11 @@ namespace FliedChicken.Devices
             frame = (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
 
             time = MathHelper.Lerp(time, dest, 0.1f);
+        }
+
+        public static void Draw(Renderer renderer)
+        {
+            renderer.Draw2D("slowMode", Vector2.Zero, Color.White * (1 - time), 0, Vector2.Zero, Vector2.One * Screen.ScreenSize * 1.2f);
         }
     }
 }
