@@ -277,8 +277,8 @@ namespace FliedChicken.SceneDevices
             if (resultScreen.IsDead)
             {
                 resultScreen.End();
-                rankingScreen.Initialize();
-                rankingScreen.RankingChange(TitleDisplayMode.keyInput.Text, 11000);
+                rankingScreen.Initialize(resultScreen.GetWindowAlpha());
+                rankingScreen.RankingChange(titleDisplayMode.keyInput.Text, 11000);
                 state = GamePlayState.RANKING;
             }
         }

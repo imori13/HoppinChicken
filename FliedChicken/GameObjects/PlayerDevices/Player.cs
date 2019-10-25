@@ -115,6 +115,13 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 Default();
             else
                 playerDeath.Update();
+
+#if DEBUG
+            if (Input.GetKeyDown(Keys.D))
+            {
+                HitFlag = true;
+            }
+#endif
         }
 
         void ClearUpdate()
