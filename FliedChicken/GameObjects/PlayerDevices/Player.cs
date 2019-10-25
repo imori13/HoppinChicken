@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FliedChicken.Devices;
+using FliedChicken.GameObjects.Objects;
 using FliedChicken.GameObjects.Collision;
 using FliedChicken.GameObjects.Particle;
 using Microsoft.Xna.Framework;
@@ -163,7 +164,8 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
             if (gameObject.GameObjectTag == GameObjectTag.OneChanceItem)
             {
-                OnechanBomManager.AddCount();
+                if ((gameObject as OneChanItem).PlayerHitEnabled)
+                    OnechanBomManager.AddCount();
             }
         }
 

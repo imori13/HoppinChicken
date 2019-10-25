@@ -86,7 +86,6 @@
     <Compile Include="GameObjects\Enemys\MoveModules\MoveModule.cs" />
     <Compile Include="GameObjects\Enemys\NormalEnemy.cs" />
     <Compile Include="GameObjects\Objects\IOneChanItemCarrier.cs" />
-    <Compile Include="GameObjects\Objects\ObjectLooper.cs" />
     <Compile Include="GameObjects\Objects\OneChanItem.cs" />
     <Compile Include="GameObjects\Particle\ExplosionParticle2D.cs" />
     <Compile Include="GameObjects\Particle\PlayerTrajectory_Particle.cs" />
