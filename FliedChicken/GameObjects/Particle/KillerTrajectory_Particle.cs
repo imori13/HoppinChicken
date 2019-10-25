@@ -20,7 +20,7 @@ namespace FliedChicken.GameObjects.Particle
                   "Pixel",
                   rand.Next(2, 4) + (float)rand.NextDouble(),
                   position,
-                  direction+ MyMath.DegToVec2(rand.Next(-10,10) + (float)rand.NextDouble()),
+                  MyMath.DegToVec2(MyMath.Vec2ToDeg(direction) + rand.Next(-10, 10) + (float)rand.NextDouble()),
                   rand.Next(2, 4) + (float)rand.NextDouble(),
                   0.98f,
                   Color.Lerp(Color.White, Color.Black, (float)rand.NextDouble()),

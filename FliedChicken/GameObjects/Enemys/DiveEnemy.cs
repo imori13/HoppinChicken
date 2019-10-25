@@ -23,8 +23,6 @@ namespace FliedChicken.GameObjects.Enemys
         private Camera camera;
         private Player player;
 
-        private Vector2 basePosition;
-
         private SpriteEffects spriteEffects;
 
         private Animation Animation;
@@ -34,8 +32,10 @@ namespace FliedChicken.GameObjects.Enemys
 
         State state;
 
-        private const float moveSpeed = 4.0f;
-        private const float accelAngle = 10.0f;
+        private float minPlayerDistance;
+        private float maxPlayerDistance;
+
+        private const float moveSpeed = 5.5f;
 
         public DiveEnemy(Camera camera, Player player)
         {
@@ -46,11 +46,13 @@ namespace FliedChicken.GameObjects.Enemys
             GameObjectTag = GameObjectTag.DiveEnemy;
 
             Animation = new Animation(this, "DiveEnemy", new Vector2(297, 192), 5, 0.05f);
+
+            maxPlayerDistance = Screen.HEIGHT * 0.75f;
+            minPlayerDistance = Screen.HEIGHT * 0.25f;
         }
 
         public override void Initialize()
         {
-            basePosition = Position;
             Animation.Initialize();
 
             state = State.FORMING;
@@ -74,6 +76,9 @@ namespace FliedChicken.GameObjects.Enemys
         private void Default()
         {
             Animation.Update();
+
+            UpdatePlayerDistance();
+            Position = new Vector2(Position.X, Math.Max(player.Position.Y - maxPlayerDistance, Position.Y));
         }
 
         private void Forming()
@@ -82,14 +87,10 @@ namespace FliedChicken.GameObjects.Enemys
 
             spriteEffects = SpriteEffects.None;
 
-            Vector2 playerDir = Vector2.Normalize(player.Position - Position);
-            Velocity = Vector2.Lerp(Velocity, playerDir, 0.25f);
-
-            float playerDegree = MyMath.Vec2ToDeg(playerDir);
-            float currentDegree = MyMath.Vec2ToDeg(Velocity);
-            float degreePercentage = Math.Max(0, 1 - Math.Abs(playerDegree -  currentDegree) / accelAngle);
-
-            Position += Velocity * moveSpeed * degreePercentage * deltaTime;
+            Vector2 playerPos = player.Position;
+            float newX = MathHelper.Lerp(Position.X, playerPos.X, 0.2f * deltaTime);
+            float newY = Math.Min(Position.Y + moveSpeed * deltaTime, playerPos.Y - minPlayerDistance);
+            Position = new Vector2(newX, newY);
         }
 
         private void Stop()
@@ -115,16 +116,10 @@ namespace FliedChicken.GameObjects.Enemys
             }
         }
 
-        public void Destroy()
+        private void UpdatePlayerDistance()
         {
-            IsDead = true;
-        }
-
-        public bool IsOutOfScreenUp()
-        {
-            //return Position.Y + Size.Y / 2 < camera.Position.Y - Screen.HEIGHT / 2;
-            // TODO : あほ
-            return false;
+            minPlayerDistance -= moveSpeed * 0.5f * TimeSpeed.Time;
+            minPlayerDistance = Math.Max(0, minPlayerDistance);
         }
     }
 }

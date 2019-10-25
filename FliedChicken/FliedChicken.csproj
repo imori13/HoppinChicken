@@ -79,7 +79,6 @@
     <Compile Include="GameObjects\Objects\CoinManager.cs" />
     <Compile Include="GameObjects\Enemys\AttackModules\AttackModule.cs" />
     <Compile Include="GameObjects\Enemys\DiveEnemy.cs" />
-    <Compile Include="GameObjects\Enemys\DiveEnemySpawner.cs" />
     <Compile Include="GameObjects\Enemys\Enemy.cs" />
     <Compile Include="GameObjects\Objects\BackGround.cs" />
     <Compile Include="GameObjects\Objects\BackGroundObject.cs" />

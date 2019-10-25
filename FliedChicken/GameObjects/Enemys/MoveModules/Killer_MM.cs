@@ -24,6 +24,8 @@ namespace FliedChicken.GameObjects.Enemys.MoveModules
         float time;
         float limitTime = 0.025f;
 
+        float detectAngle = 0.25f;
+
         public Killer_MM(GameObject GameObject) : base(GameObject)
         {
 
@@ -33,11 +35,11 @@ namespace FliedChicken.GameObjects.Enemys.MoveModules
         {
             rand = GameDevice.Instance().Random;
             isChase = false;
-            speed = 2.5f;
+            speed = 1.0f;
 
             player = GameObject.ObjectsManager.Player;
 
-            Velocity = new Vector2(1 * speed, 0);
+            Velocity = new Vector2(0, -1 * speed);
         }
 
         public override void Move()
@@ -49,9 +51,9 @@ namespace FliedChicken.GameObjects.Enemys.MoveModules
             Vector2 vel = Velocity;
             vel.Normalize();
 
-            isChase = (Vector2.Distance(vel, direction) <= 0.5f) ? (true) : (isChase);
+            isChase = (Vector2.Distance(vel, direction) <= detectAngle) ? (true) : (isChase);
 
-            if (Vector2.Distance(vel, direction) <= 0.5f)
+            if (Vector2.Distance(vel, direction) <= detectAngle)
             {
                 (GameObject as Enemy).Animation.Color = Color.Red;
 
@@ -63,6 +65,7 @@ namespace FliedChicken.GameObjects.Enemys.MoveModules
             }
 
             GameObject.Position += Velocity * speed * TimeSpeed.Time;
+            Console.WriteLine(Velocity);
 
             // 回転
             // 線形補完を使った時３６０度→０度みたいにうごくとぐるっとなるので、それの回避
@@ -76,7 +79,7 @@ namespace FliedChicken.GameObjects.Enemys.MoveModules
 
             // 速度
             float destSpeed = 0;
-            destSpeed = (isChase) ? (7f) : (2f);
+            destSpeed = (isChase) ? (7f) : (1f);
             speed = MathHelper.Lerp(speed, destSpeed, 0.02f);
 
             // パーティクル
