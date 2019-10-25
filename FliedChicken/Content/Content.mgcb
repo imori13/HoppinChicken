@@ -94,18 +94,6 @@
 /processorParam:TextureFormat=Color
 /build:Texture/PlayerDead.png
 
-#begin Texture/FlyedChickenTitle.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Texture/FlyedChickenTitle.png
-
 #begin Texture/Mine.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -207,4 +195,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Texture/PlayerDown.png
+
+#begin Texture/FlyedChickenTitle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Texture/FlyedChickenTitle.png
 
