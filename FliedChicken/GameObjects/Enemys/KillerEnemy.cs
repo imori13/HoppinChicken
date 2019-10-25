@@ -20,12 +20,12 @@ namespace FliedChicken.GameObjects.Enemys
             AttackModule = new NotAttack_AM(this);
             MoveModule = new Killer_MM(this);
 
-            Animation = new Animation(this, "normal_enemy", new Vector2(320, 320), 5, 0.05f);
-            Animation.Color = Color.Red;
+            Animation = new Animation(this, "normal_enemy", new Vector2(210, 210), 5, 0.05f);
+            Animation.Color = Color.White;
             Animation.drawSize = Vector2.One * 0.5f;
             Collider = new CircleCollider(this, 50);
 
-            GameObjectTag = GameObjectTag.OrangeEnemy;
+            GameObjectTag = GameObjectTag.RedEnemy;
 
             SpawnPosFunc = SpawnPosition.ScreenDownRandomX;
         }

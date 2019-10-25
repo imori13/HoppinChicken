@@ -35,7 +35,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
         {
             Count++;
 
-            if (Count >= 3) { OneChanceFlag = true; }
+            if (Count >= 1) { OneChanceFlag = true; }
         }
     }
 }

@@ -43,7 +43,7 @@ namespace FliedChicken.GameObjects.Enemys
             this.camera = camera;
             this.player = player;
 
-            Collider = new BoxCollider(this, Vector2.One * 3);
+            Collider = new CircleCollider(this, 192 * 0.35f);
             GameObjectTag = GameObjectTag.DiveEnemy;
 
             Animation = new Animation(this, "DiveEnemy", new Vector2(297, 192), 5, 0.05f);

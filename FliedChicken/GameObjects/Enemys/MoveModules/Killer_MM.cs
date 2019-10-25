@@ -25,7 +25,7 @@ namespace FliedChicken.GameObjects.Enemys.MoveModules
         float limitTime = 0.025f;
 
         float detectAngle = 0.5f;
-        float chaseAngle = 0.05f;
+        float chaseAngle = 0.08f;
 
         public Killer_MM(GameObject GameObject) : base(GameObject)
         {
