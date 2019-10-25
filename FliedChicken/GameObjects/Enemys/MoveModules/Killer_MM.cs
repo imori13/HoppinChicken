@@ -65,7 +65,6 @@ namespace FliedChicken.GameObjects.Enemys.MoveModules
             }
 
             GameObject.Position += Velocity * speed * TimeSpeed.Time;
-            Console.WriteLine(Velocity);
 
             // 回転
             // 線形補完を使った時３６０度→０度みたいにうごくとぐるっとなるので、それの回避
