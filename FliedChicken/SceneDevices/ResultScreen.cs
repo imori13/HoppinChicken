@@ -42,6 +42,12 @@ namespace FliedChicken.SceneDevices
         private Vector2 textPosition02;
 
         private float scoreAlpha;
+
+        private string[] scoreCheckST;
+        private float[] scoreCheckFL;
+
+        private readonly int scoreCheckNum = 4;
+        private int checkNum;
         
         public ResultScreen()
         {
@@ -52,9 +58,18 @@ namespace FliedChicken.SceneDevices
         /// </summary>
         /// <param name="cleartime"></param>
         /// <param name="coinNum"></param>
-        public void SetScore(float score)
+        private void SetScore(float score)
         {
             this.score = score;
+        }
+
+        private void ScoreCheck(int score)
+        {
+            int scoreCheck;
+            for (int i = scoreCheckNum; i >= 0; i--)
+            {
+
+            }
         }
 
         public void Initialize(float score)
@@ -71,6 +86,8 @@ namespace FliedChicken.SceneDevices
             textPosition02 = new Vector2(Screen.Vec2.X * 4 / 5, Screen.Vec2.Y * 2 / 3);
 
             scoreAlpha = 0.0f;
+
+
         }
 
         public void Update()
