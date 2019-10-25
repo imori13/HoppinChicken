@@ -93,7 +93,7 @@ namespace FliedChicken.SceneDevices.Title
 
                     if (Input.GetKeyDown(Keys.Enter))
                     {
-                        rankingScreen.Initialize();
+                        rankingScreen.Initialize(0.5f);
                         rankingON = true;
                     }
                 }

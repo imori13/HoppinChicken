@@ -28,7 +28,7 @@ namespace FliedChicken.SceneDevices
         private float score;
 
         private readonly float maxWindowWidth = Screen.WIDTH;
-        private readonly float maxWindowHeight = Screen.HEIGHT;
+        private readonly float maxWindowHeight = Screen.HEIGHT - 200;
 
         private float windowAlpha;
 
@@ -40,13 +40,14 @@ namespace FliedChicken.SceneDevices
 
         private Vector2 textPosition01;
         private Vector2 textPosition02;
+        private Vector2 textPosition04;
 
         private float scoreAlpha;
 
+        private readonly int scoreCheckNum = 4;
         private string[] scoreCheckST;
         private float[] scoreCheckFL;
-
-        private readonly int scoreCheckNum = 4;
+       
         private int checkNum;
         
         public ResultScreen()
@@ -63,13 +64,17 @@ namespace FliedChicken.SceneDevices
             this.score = score;
         }
 
-        private void ScoreCheck(int score)
+        private void ScoreCheck(float score)
         {
-            int scoreCheck;
-            for (int i = scoreCheckNum; i >= 0; i--)
+            int scoreCheck = scoreCheckNum - 1;
+            for (int i = scoreCheckNum - 2; i >= 0; i--)
             {
-
+                if (scoreCheckFL[i] <= score)
+                {
+                    scoreCheck = i;
+                }
             }
+            checkNum = scoreCheck;
         }
 
         public void Initialize(float score)
@@ -82,12 +87,27 @@ namespace FliedChicken.SceneDevices
             IsDead = false;
             state = ScreenState.START;
 
-            textPosition01 = new Vector2(Screen.Vec2.X, 100);
-            textPosition02 = new Vector2(Screen.Vec2.X * 4 / 5, Screen.Vec2.Y * 2 / 3);
+            textPosition01 = new Vector2(Screen.Vec2.X, 200);
+            textPosition02 = new Vector2(Screen.Vec2.X * 4 / 5, Screen.Vec2.Y * 1 / 2);
+            textPosition04 = new Vector2(Screen.Vec2.X / 2, Screen.Vec2.Y * 3 / 4);
 
             scoreAlpha = 0.0f;
+            checkNum = 0;
 
+            scoreCheckST = new string[scoreCheckNum];
+            scoreCheckFL = new float[scoreCheckNum - 1];
 
+            scoreCheckST = new string[]
+            {
+                "S", "A", "B", "C"
+            };
+
+            scoreCheckFL = new float[]
+            {
+                1200, 800, 400
+            };
+
+            ScoreCheck(score);
         }
 
         public void Update()
@@ -122,7 +142,7 @@ namespace FliedChicken.SceneDevices
         private void Start()
         {
             windowAlpha += 0.1f * TimeSpeed.Time;
-            if (windowAlpha >= 0.75f)
+            if (windowAlpha >= 0.5f)
             {
                 state = ScreenState.STATE01;
             }
@@ -158,6 +178,7 @@ namespace FliedChicken.SceneDevices
         {
             textPosition01 -= new Vector2(100, 0) * TimeSpeed.Time;
             textPosition02 -= new Vector2(100, 0) * TimeSpeed.Time;
+            scoreAlpha -= 0.1f * TimeSpeed.Time;
             if (textPosition02.X <= 0.0f)
             {
                 IsDead = true;
@@ -167,6 +188,11 @@ namespace FliedChicken.SceneDevices
         public void End()
         {
 
+        }
+
+        public float GetWindowAlpha()
+        {
+            return windowAlpha;
         }
 
         public void Draw(Renderer renderer)
@@ -183,6 +209,12 @@ namespace FliedChicken.SceneDevices
             renderer.DrawString(Fonts.Font10_128, score.ToString() + "m", textPosition02, Color.White * scoreAlpha,
                 0.0f, new Vector2(Fonts.Font10_128.MeasureString(score.ToString() + "m").X, Fonts.Font10_128.MeasureString(score.ToString() + "m").Y / 2),
                 new Vector2(1.5f, 1.5f));
+
+            renderer.DrawString(Fonts.Font10_128, "rank", textPosition01 + new Vector2(500, 500), Color.White,
+                0.0f, Fonts.Font10_128.MeasureString("rank") / 2, new Vector2(0.7f, 0.7f));
+
+            renderer.DrawString(Fonts.Font10_128, scoreCheckST[checkNum], textPosition04, Color.White * scoreAlpha,
+                0.0f, Fonts.Font10_128.MeasureString(scoreCheckST[checkNum])/ 2, new Vector2(1.5f, 1.5f));
         }
     }
 }
