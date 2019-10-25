@@ -134,6 +134,10 @@ namespace FliedChicken.SceneDevices
         private void State02()
         {
             time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
+            if (Input.GetKeyDown(Keys.Space))
+            {
+                IsDead = true;
+            }
         }
 
         private void State03()
