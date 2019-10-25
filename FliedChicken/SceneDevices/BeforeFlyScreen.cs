@@ -147,7 +147,7 @@ namespace FliedChicken.SceneDevices
             radius += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds * Math.PI;
             float sin = (float)Math.Sin(radius) * 30 + 10;
             player.Position = BasePlayerPosition + new Vector2(0, sin);
-            Denemy.Position += new Vector2(0, 10) * TimeSpeed.Time;
+            Denemy.Position += new Vector2(0, 30) * TimeSpeed.Time;
             if (Denemy.Position.Y >= player.Position.Y - 200)
             {
                 state = State.STATE03;
@@ -157,7 +157,7 @@ namespace FliedChicken.SceneDevices
         private void State03()
         {
             time03 += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
-            if(time03 >= 1.0f)
+            if(time03 >= 0.5f)
             {
                 state = State.STATE04;
             }
@@ -214,7 +214,7 @@ namespace FliedChicken.SceneDevices
             }
             else
             {
-                Denemy.Position -= new Vector2(0, 5);
+                Denemy.Position -= new Vector2(0, 15);
                 if (Denemy.Position.Y <= player.Position.Y - 200)
                 {
                     attack = true;

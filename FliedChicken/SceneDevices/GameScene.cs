@@ -81,8 +81,6 @@ namespace FliedChicken.SceneDevices
             objectsManager.Initialize();
 
             player = new Player(camera);
-            diveEnemy = new DiveEnemy(camera, player);
-            objectsManager.AddGameObject(diveEnemy);
             objectsManager.AddGameObject(player);
             camera.Position = player.Position;
             oneChanItemUI.Initialize();
@@ -226,7 +224,9 @@ namespace FliedChicken.SceneDevices
             TitleDisplayMode.Update();
             if (TitleDisplayMode.TitleFinishFlag)
             {
-
+                diveEnemy = new DiveEnemy(camera, player);
+                diveEnemy.Position = player.Position - new Vector2(0, 800);
+                objectsManager.AddGameObject(diveEnemy);
                 BeforeFlyScreen.Initialize(player, diveEnemy, cloudManager, camera);
                 state = GamePlayState.BEFOREFLY;
 
@@ -254,7 +254,8 @@ namespace FliedChicken.SceneDevices
 
                 if (time >= limit)
                 {
-                    state = GamePlayState.CLEAR;
+                    resultScreen.Initialize(score);
+                    state = GamePlayState.RESULT;
                 }
             }
 
