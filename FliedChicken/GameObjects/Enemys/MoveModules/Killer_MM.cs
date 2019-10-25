@@ -24,7 +24,8 @@ namespace FliedChicken.GameObjects.Enemys.MoveModules
         float time;
         float limitTime = 0.025f;
 
-        float detectAngle = 0.25f;
+        float detectAngle = 0.5f;
+        float chaseAngle = 0.05f;
 
         public Killer_MM(GameObject GameObject) : base(GameObject)
         {
@@ -51,13 +52,15 @@ namespace FliedChicken.GameObjects.Enemys.MoveModules
             Vector2 vel = Velocity;
             vel.Normalize();
 
-            isChase = (Vector2.Distance(vel, direction) <= detectAngle) ? (true) : (isChase);
+            float angleDiff = Vector2.Distance(vel, direction);
+            isChase = (angleDiff <= detectAngle) ? (true) : (isChase);
 
-            if (Vector2.Distance(vel, direction) <= detectAngle)
+            if (angleDiff <= detectAngle)
             {
                 (GameObject as Enemy).Animation.Color = Color.Red;
 
-                Velocity = Vector2.Lerp(Velocity, direction, 0.1f);
+                if (angleDiff > chaseAngle)
+                    Velocity = Vector2.Lerp(Velocity, direction, 0.05f);
             }
             else
             {
@@ -78,7 +81,7 @@ namespace FliedChicken.GameObjects.Enemys.MoveModules
 
             // 速度
             float destSpeed = 0;
-            destSpeed = (isChase) ? (7f) : (1f);
+            destSpeed = (isChase) ? (4f) : (1f);
             speed = MathHelper.Lerp(speed, destSpeed, 0.02f);
 
             // パーティクル
