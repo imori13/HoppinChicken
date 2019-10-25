@@ -65,10 +65,10 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
             // 落下処理
             bool fallFlag = false;
-            float destFallSpeed = 5;
+            float destFallSpeed =10;
             if (Input.GetKey(Keys.Space))
             {
-                fallTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
+                fallTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds * TimeSpeed.Time;
 
                 if (fallTime > 0.2f)
                 {
@@ -90,12 +90,12 @@ namespace FliedChicken.GameObjects.PlayerDevices
             float speed = (fallFlag) ? (0.5f) : (1.5f);
             if (Input.GetKey(Keys.Right))
             {
-                Velocity = new Vector2(Velocity.X + speed, Velocity.Y) * TimeSpeed.Time;
+                Velocity = new Vector2(Velocity.X + speed, Velocity.Y);
             }
 
             if (Input.GetKey(Keys.Left))
             {
-                Velocity = new Vector2(Velocity.X - speed, Velocity.Y) * TimeSpeed.Time;
+                Velocity = new Vector2(Velocity.X - speed, Velocity.Y);
             }
 
             // ジャンプ処理

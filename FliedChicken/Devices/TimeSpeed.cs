@@ -17,7 +17,7 @@ namespace FliedChicken.Devices
 
         public static void Initialize()
         {
-            time = 60;
+            time = 1;
         }
 
         public static void Update()

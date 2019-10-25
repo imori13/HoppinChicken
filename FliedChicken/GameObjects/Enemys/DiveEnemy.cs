@@ -24,8 +24,6 @@ namespace FliedChicken.GameObjects.Enemys
         private Camera camera;
         private Player player;
 
-        private Vector2 basePosition;
-
         private SpriteEffects spriteEffects;
 
         private Animation Animation;
@@ -44,6 +42,7 @@ namespace FliedChicken.GameObjects.Enemys
             this.player = player;
 
             Collider = new BoxCollider(this, Vector2.One * 3);
+            Position = player.Position - Vector2.UnitY * 100f;
             GameObjectTag = GameObjectTag.DiveEnemy;
 
             Animation = new Animation(this, "DiveEnemy", new Vector2(297, 192), 5, 0.05f);
@@ -51,7 +50,6 @@ namespace FliedChicken.GameObjects.Enemys
 
         public override void Initialize()
         {
-            basePosition = Position;
             Animation.Initialize();
 
             state = State.FORMING;
@@ -96,7 +94,7 @@ namespace FliedChicken.GameObjects.Enemys
 
             float playerDegree = MyMath.Vec2ToDeg(playerDir);
             float currentDegree = MyMath.Vec2ToDeg(Velocity);
-            float degreePercentage = Math.Max(0, 1 - Math.Abs(playerDegree -  currentDegree) / accelAngle);
+            float degreePercentage = Math.Max(0, 1 - Math.Abs(playerDegree - currentDegree) / accelAngle);
 
             Position += Velocity * moveSpeed * degreePercentage * deltaTime;
         }

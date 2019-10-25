@@ -35,6 +35,7 @@ namespace FliedChicken
         protected override void Initialize()
         {
             GameDevice.Instance(GraphicsDevice, Content);
+            TimeSpeed.Initialize();
 
             base.Initialize();
         }
