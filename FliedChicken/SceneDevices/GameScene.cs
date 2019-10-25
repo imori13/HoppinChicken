@@ -47,9 +47,9 @@ namespace FliedChicken.SceneDevices
         GamePlayState state;
         ResultScreen resultScreen;
         RankingScreen rankingScreen;
-        TitleDisplayMode titleDisplayMode;
+        public TitleDisplayMode TitleDisplayMode { get; private set; }
         OneChanItemUI oneChanItemUI;
-        BeforeFlyScreen beforeFlyScreen;
+        public BeforeFlyScreen BeforeFlyScreen { get; private set; }
         //コイン関連
         CoinManager coinManager;
 
@@ -64,11 +64,11 @@ namespace FliedChicken.SceneDevices
         {
             camera = new Camera();
             objectsManager = new ObjectsManager(camera);
-            titleDisplayMode = new TitleDisplayMode();
+            TitleDisplayMode = new TitleDisplayMode();
 
             resultScreen = new ResultScreen();
             rankingScreen = new RankingScreen();
-            beforeFlyScreen = new BeforeFlyScreen();
+            BeforeFlyScreen = new BeforeFlyScreen();
 
             coinManager = new CoinManager(objectsManager, 0.5f);
             cloudManager = new CloudManager(objectsManager);
@@ -81,18 +81,18 @@ namespace FliedChicken.SceneDevices
             objectsManager.Initialize();
 
             player = new Player(camera);
+            diveEnemy = new DiveEnemy(camera, player);
+            objectsManager.AddGameObject(diveEnemy);
             objectsManager.AddGameObject(player);
             camera.Position = player.Position;
             oneChanItemUI.Initialize();
 
             state = GamePlayState.TITLE;
 
-            titleDisplayMode.Initialize();
+            TitleDisplayMode.Initialize();
 
             enemySpawner = new EnemySpawner(player, camera, objectsManager, 64 * 10, 64 * 14, 0, 0);
 
-            diveEnemy = new DiveEnemy(camera, player);
-            objectsManager.AddGameObject(diveEnemy);
 
             cloudManager.Initialize();
 
@@ -143,7 +143,7 @@ namespace FliedChicken.SceneDevices
             if (state == GamePlayState.TITLE)
             {
                 renderer.Begin();
-                titleDisplayMode.Draw(renderer);
+                TitleDisplayMode.Draw(renderer);
                 renderer.End();
             }
             // ---------------------------------------------
@@ -158,7 +158,7 @@ namespace FliedChicken.SceneDevices
 
             renderer.End();
             // ---------------------------------------------
-            
+
             renderer.BeginCloud(camera);
             cloudManager.FrontDraw(renderer);
             renderer.End();
@@ -169,7 +169,7 @@ namespace FliedChicken.SceneDevices
 
             if (state == GamePlayState.BEFOREFLY)
             {
-                beforeFlyScreen.Draw(renderer);
+                BeforeFlyScreen.Draw(renderer);
             }
 
             if (state == GamePlayState.RESULT)
@@ -183,7 +183,7 @@ namespace FliedChicken.SceneDevices
             }
 
             renderer.End();
-            
+
 #if DEBUG
             // デバッグ用描画 現在のGamePlayStateの状態を表示
             //renderer.Begin();
@@ -223,11 +223,11 @@ namespace FliedChicken.SceneDevices
 
         private void Title()
         {
-            titleDisplayMode.Update();
-            if (titleDisplayMode.TitleFinishFlag)
+            TitleDisplayMode.Update();
+            if (TitleDisplayMode.TitleFinishFlag)
             {
-                
-                beforeFlyScreen.Initialize(player, diveEnemy, cloudManager, camera);
+
+                BeforeFlyScreen.Initialize(player, diveEnemy, cloudManager, camera);
                 state = GamePlayState.BEFOREFLY;
 
                 // TODO : ここでマップを生成する
@@ -236,10 +236,10 @@ namespace FliedChicken.SceneDevices
 
         private void BeforeFly()
         {
-            beforeFlyScreen.Update();
-            if (beforeFlyScreen.IsDead)
+            BeforeFlyScreen.Update();
+            if (BeforeFlyScreen.IsDead)
             {
-                beforeFlyScreen.End();
+                BeforeFlyScreen.End();
                 enemySpawner.Initialize();
                 state = GamePlayState.FLY;
             }
@@ -278,7 +278,7 @@ namespace FliedChicken.SceneDevices
             {
                 resultScreen.End();
                 rankingScreen.Initialize();
-                rankingScreen.RankingChange(titleDisplayMode.keyInput.Text, 11000);
+                rankingScreen.RankingChange(TitleDisplayMode.keyInput.Text, 11000);
                 state = GamePlayState.RANKING;
             }
         }

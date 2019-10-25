@@ -40,7 +40,8 @@ namespace FliedChicken.GameObjects.PlayerDevices
         // ヒットしたかどうか
         public bool HitFlag { get; private set; }
 
-        float time = 0;
+        float fallParticleTime = 0;
+        float normalParticleTime = 0;
 
         public Player(Camera camera)
         {
@@ -69,7 +70,8 @@ namespace FliedChicken.GameObjects.PlayerDevices
             mutekiTime = 0;
             MutekiFlag = false;
 
-            time = 0;
+            fallParticleTime = 0;
+            normalParticleTime = 0;
 
         }
 
@@ -95,11 +97,11 @@ namespace FliedChicken.GameObjects.PlayerDevices
         public void FlyUpdate()
         {
             // カメラの移動処理
-            camera.Position = Vector2.Lerp(camera.Position, Position + Vector2.UnitY * 50f, 0.1f);
+            camera.Position = Vector2.Lerp(camera.Position, Position + Vector2.UnitY * 50f, 0.1f * TimeSpeed.Time);
 
             if (MutekiFlag)
             {
-                mutekiTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
+                mutekiTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds * TimeSpeed.Time;
 
                 if (mutekiTime >= mutekiLimit)
                 {
@@ -131,6 +133,8 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
         public override void HitAction(GameObject gameObject)
         {
+            if (HitFlag) { return; }
+
             if (gameObject.GameObjectTag == GameObjectTag.OrangeEnemy)
             {
                 if (gameObject.Collider is CircleCollider)
@@ -190,15 +194,21 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
             if (PlayerMove.PlayerMoveState == PlayerMoveState.Fall)
             {
-                ObjectsManager.AddBackParticle(new FallParticle2D(Position + MyMath.RandomCircleVec2() * 20f - Vector2.UnitY * 100f, Color.Blue, Vector2.UnitY, rand));
+                float limit = 0.025f;
+                fallParticleTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds * TimeSpeed.Time;
+                while (fallParticleTime >= limit)
+                {
+                    fallParticleTime -= limit;
+                    ObjectsManager.AddBackParticle(new FallParticle2D(Position + MyMath.RandomCircleVec2() * 20f - Vector2.UnitY * 100f, Color.Blue, Vector2.UnitY, rand));
+                }
             }
             else
             {
                 float limit = 0.1f;
-                time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
-                while (time >= limit)
+                normalParticleTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds * TimeSpeed.Time;
+                while (normalParticleTime >= limit)
                 {
-                    time -= limit;
+                    normalParticleTime -= limit;
                     ObjectsManager.AddBackParticle(new PlayerTrajectory_Particle(Position + MyMath.RandomCircleVec2() * 10f, -Velocity / 100f, rand));
                 }
             }

@@ -35,6 +35,7 @@ namespace FliedChicken
         protected override void Initialize()
         {
             GameDevice.Instance(GraphicsDevice, Content);
+            TimeSpeed.Initialize();
 
             base.Initialize();
         }
@@ -60,6 +61,7 @@ namespace FliedChicken
             renderer.LoadTexture("FlyedChickenTitle", "Texture/");
             renderer.LoadTexture("Mine", "Texture/");
             renderer.LoadTexture("Star", "Texture/");
+            renderer.LoadTexture("slowMode", "Texture/");
 
             sceneManager.AddScene(SceneEnum.GameScene, new GameScene());
 
@@ -91,6 +93,10 @@ namespace FliedChicken
             GraphicsDevice.Clear(new Color(155, 190, 225));
 
             sceneManager.Draw(renderer);
+
+            renderer.Begin();
+            TimeSpeed.Draw(renderer);
+            renderer.End();
 
             base.Draw(gameTime);
         }

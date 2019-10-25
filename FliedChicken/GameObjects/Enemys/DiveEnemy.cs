@@ -42,8 +42,9 @@ namespace FliedChicken.GameObjects.Enemys
         {
             this.camera = camera;
             this.player = player;
-
+            
             Collider = new CircleCollider(this, 192 * 0.35f);
+            Position = player.Position - Vector2.UnitY * 100f;
             GameObjectTag = GameObjectTag.DiveEnemy;
 
             Animation = new Animation(this, "DiveEnemy", new Vector2(297, 192), 5, 0.05f);
@@ -95,7 +96,7 @@ namespace FliedChicken.GameObjects.Enemys
             float deltaTime = TimeSpeed.Time;
 
             spriteEffects = SpriteEffects.None;
-
+            
             Vector2 playerPos = player.Position;
             float newX = MathHelper.Lerp(Position.X, playerPos.X, 0.2f * deltaTime);
             float newY = Math.Min(Position.Y + moveSpeed * deltaTime, playerPos.Y - minPlayerDistance);
