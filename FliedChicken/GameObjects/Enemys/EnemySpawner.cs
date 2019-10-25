@@ -104,8 +104,6 @@ namespace FliedChicken.GameObjects.Enemys
             SpawnWithOneChanItem(enemy);
 
             Vector2 randomPos = new Vector2(0, GetPosY());
-            //if (enemy is ThornEnemy)    //仮置きでクラスごとに判定
-            //    randomPos = Vector2.Zero;
 
             enemy.Position = enemy.SpawnPosFunc.Invoke(enemy.Size) + camera.Position + randomPos;
             enemy.ObjectsManager = objectsManager;
