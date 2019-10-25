@@ -22,8 +22,8 @@ namespace FliedChicken.GameObjects.Enemys
             Size = new Vector2(600,150);
             Collider = new BoxCollider(this, Size);
 
-            Animation = new Animation(this, "slowenemy", new Vector2(445, 165), 8, 0.1f);
-            Animation.drawSize = Vector2.One * 1.5f;
+            Animation = new Animation(this, "slowenemy", new Vector2(300, 105), 8, 0.1f);
+            Animation.drawSize = Vector2.One * 2.0f;
 
             GameObjectTag = GameObjectTag.OrangeEnemy;
 
@@ -61,15 +61,6 @@ namespace FliedChicken.GameObjects.Enemys
             if (gameObject.GameObjectTag == GameObjectTag.OneChanBom)
             {
                 IsDead = true;
-            }
-
-            if (gameObject.GameObjectTag == GameObjectTag.Player)
-            {
-                if ((gameObject as Player).PlayerMove.PlayerMoveState == PlayerMoveState.Fall)
-                {
-                    DestroyEffect(Vector2.One);
-                    IsDead = true;
-                }
             }
         }
 

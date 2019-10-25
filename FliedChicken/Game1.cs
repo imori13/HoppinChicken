@@ -50,7 +50,6 @@ namespace FliedChicken
             color[0] = Color.White;
             Pixel.SetData(color);
             renderer.LoadTexture("Pixel", Pixel);
-            renderer.LoadTexture("stage", "Texture/");
             renderer.LoadTexture("slowenemy", "Texture/");
             renderer.LoadTexture("highspeed_enemy", "Texture/");
             renderer.LoadTexture("normal_enemy", "Texture/");
