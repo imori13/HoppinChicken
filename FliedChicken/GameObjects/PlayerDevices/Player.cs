@@ -27,6 +27,8 @@ namespace FliedChicken.GameObjects.PlayerDevices
         PlayerScale playerScale;
         public PlayerMove PlayerMove { get; private set; }
         public OnechanBomManager OnechanBomManager { get; private set; }
+        public bool PlayerGameStartFlag { get; set; }
+        public float StartPositionY { get; set; }
         public float SumDistance { get; private set; }
         public Animation animation;
         PlayerDeath playerDeath;
@@ -74,11 +76,17 @@ namespace FliedChicken.GameObjects.PlayerDevices
             fallParticleTime = 0;
             normalParticleTime = 0;
 
+            StartPositionY = 0;
+            SumDistance = 0;
+            PlayerGameStartFlag = false;
         }
 
         public override void Update()
         {
-            SumDistance = Vector2.Distance(Vector2.Zero, Position) / 100f;
+            if (PlayerGameStartFlag)
+            {
+                SumDistance = Math.Abs(StartPositionY - Position.Y) / 100f;
+            }
 
             switch (state)
             {

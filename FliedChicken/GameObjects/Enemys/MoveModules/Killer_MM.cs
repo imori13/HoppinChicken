@@ -53,7 +53,15 @@ namespace FliedChicken.GameObjects.Enemys.MoveModules
             vel.Normalize();
 
             float angleDiff = Vector2.Distance(vel, direction);
-            isChase = (angleDiff <= detectAngle) ? (true) : (isChase);
+
+            if (!isChase)
+            {
+                if (angleDiff <= detectAngle)
+                {
+                    isChase = true;
+                    ((Enemy)GameObject).Animation = new Animation(GameObject, "Killer_Active", new Vector2(50, 50), 1, 100000);
+                }
+            }
 
             if (angleDiff <= detectAngle)
             {

@@ -20,10 +20,8 @@ namespace FliedChicken.GameObjects.Enemys
             AttackModule = new NotAttack_AM(this);
             MoveModule = new Killer_MM(this);
 
-            Animation = new Animation(this, "Killer", new Vector2(51, 69), 1, 1000000);
-            Animation.Color = Color.White;
-            Animation.drawSize = Vector2.One * 1.0f;
-            Collider = new CircleCollider(this, 50);
+            Animation = new Animation(this, "Killer_Passive", new Vector2(50, 50), 1, 100000f);
+            Collider = new CircleCollider(this, 30);
 
             GameObjectTag = GameObjectTag.RedEnemy;
 

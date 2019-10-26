@@ -28,7 +28,7 @@ namespace FliedChicken.GameObjects.Enemys
             //Animation = new Animation(this, "normal_enemy", new Vector2(210, 210), 5, 0.25f);
             //Animation.drawSize = Vector2.One * 0.5f;
 
-            Animation = new Animation(this, "NormalEnemy", new Vector2(144,104), 5, 0.25f);
+            Animation = new Animation(this, "NormalEnemy", new Vector2(144,104), 5, 0.1f);
             Animation.drawSize = Vector2.One;
 
             GameObjectTag = GameObjectTag.OrangeEnemy;

@@ -203,7 +203,7 @@ namespace FliedChicken.SceneDevices
             SpriteFont font = Fonts.Font12_32;
             string text = player.SumDistance.ToString("0000.00M");
             Vector2 size = font.MeasureString(text);
-            renderer.DrawString(font, text, new Vector2(Screen.WIDTH / 2f, 100 * Screen.ScreenSize), Color.White * 0.5f, 0, size / 2f, Vector2.One * Screen.ScreenSize);
+            renderer.DrawString(font, text, new Vector2(Screen.WIDTH / 2f, 100 * Screen.ScreenSize), Color.Black, 0, size / 2f, Vector2.One * Screen.ScreenSize);
 #endif
 
             if (State == GamePlayState.RESULT)
@@ -233,7 +233,6 @@ namespace FliedChicken.SceneDevices
             TitleDisplayMode.Update();
             if (TitleDisplayMode.TitleFinishFlag)
             {
-
                 BeforeFlyScreen.Initialize(player, diveEnemy, cloudManager, camera);
                 State = GamePlayState.BEFOREFLY;
 
@@ -248,6 +247,8 @@ namespace FliedChicken.SceneDevices
             {
                 BeforeFlyScreen.End();
                 enemySpawner.Initialize();
+                player.StartPositionY = player.Position.Y;
+                player.PlayerGameStartFlag = true;
                 State = GamePlayState.FLY;
             }
         }
