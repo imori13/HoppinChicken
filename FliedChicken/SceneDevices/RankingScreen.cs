@@ -274,7 +274,7 @@ namespace FliedChicken.SceneDevices
                     0.0f, new Vector2(0, Fonts.Font10_128.MeasureString((i + 1).ToString()).Y / 2),
                     new Vector2(0.5f, 0.5f));
             }
-
+            
             for (int i = 0; i < 5; i++)
             {
                 renderer.DrawString(Fonts.Font10_128, rankPlayer[i],

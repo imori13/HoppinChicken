@@ -44,7 +44,7 @@ namespace FliedChicken.SceneDevices
         int score;
 
         //ゲームプレイシーンの状態
-        GamePlayState state;
+        public GamePlayState State { get; private set; }
         ResultScreen resultScreen;
         RankingScreen rankingScreen;
         public TitleDisplayMode TitleDisplayMode { get; private set; }
@@ -85,7 +85,7 @@ namespace FliedChicken.SceneDevices
             camera.Position = player.Position;
             oneChanItemUI.Initialize();
 
-            state = GamePlayState.TITLE;
+            State = GamePlayState.TITLE;
 
             TitleDisplayMode.Initialize();
 
@@ -104,7 +104,7 @@ namespace FliedChicken.SceneDevices
             Default();
 
             //状態によって動くUpdateメソッド
-            switch (state)
+            switch (State)
             {
                 case GamePlayState.TITLE:
                     Title();
@@ -138,7 +138,7 @@ namespace FliedChicken.SceneDevices
 
             // ---------------------------------------------
             // タイトル画面を描画
-            if (state == GamePlayState.TITLE)
+            if (State == GamePlayState.TITLE)
             {
                 renderer.Begin();
                 TitleDisplayMode.Draw(renderer);
@@ -165,17 +165,17 @@ namespace FliedChicken.SceneDevices
 
             renderer.Begin();
 
-            if (state == GamePlayState.BEFOREFLY)
+            if (State == GamePlayState.BEFOREFLY)
             {
                 BeforeFlyScreen.Draw(renderer);
             }
 
-            if (state == GamePlayState.RESULT)
+            if (State == GamePlayState.RESULT)
             {
                 ResultScreen(renderer);
             }
 
-            if (state == GamePlayState.RANKING)
+            if (State == GamePlayState.RANKING)
             {
                 RankingScreen(renderer);
             }
@@ -191,18 +191,25 @@ namespace FliedChicken.SceneDevices
             //renderer.DrawString(font, text, new Vector2(Screen.WIDTH / 2f, 100 * Screen.ScreenSize), Color.White * 0.5f, 0, size / 2f, Vector2.One * Screen.ScreenSize);
             //renderer.End();
 #endif
-
             // ---------------------------------------------
             renderer.Begin();
 
             oneChanItemUI.Draw(renderer);
 
-            if (state == GamePlayState.RESULT)
+#if DEBUG
+            // デバッグ用
+            SpriteFont font = Fonts.Font12_32;
+            string text = player.SumDistance.ToString("0000.00M");
+            Vector2 size = font.MeasureString(text);
+            renderer.DrawString(font, text, new Vector2(Screen.WIDTH / 2f, 100 * Screen.ScreenSize), Color.Black, 0, size / 2f, Vector2.One * Screen.ScreenSize);
+#endif
+
+            if (State == GamePlayState.RESULT)
             {
                 ResultScreen(renderer);
             }
 
-            if (state == GamePlayState.RANKING)
+            if (State == GamePlayState.RANKING)
             {
                 RankingScreen(renderer);
             }
@@ -228,7 +235,7 @@ namespace FliedChicken.SceneDevices
                 diveEnemy.Position = player.Position - new Vector2(0, 800);
                 objectsManager.AddGameObject(diveEnemy);
                 BeforeFlyScreen.Initialize(player, diveEnemy, cloudManager, camera);
-                state = GamePlayState.BEFOREFLY;
+                State = GamePlayState.BEFOREFLY;
 
                 // TODO : ここでマップを生成する
             }
@@ -241,7 +248,9 @@ namespace FliedChicken.SceneDevices
             {
                 BeforeFlyScreen.End();
                 enemySpawner.Initialize();
-                state = GamePlayState.FLY;
+                player.StartPositionY = player.Position.Y;
+                player.PlayerGameStartFlag = true;
+                State = GamePlayState.FLY;
             }
         }
 
@@ -255,7 +264,7 @@ namespace FliedChicken.SceneDevices
                 if (time >= limit)
                 {
                     resultScreen.Initialize(score);
-                    state = GamePlayState.RESULT;
+                    State = GamePlayState.RESULT;
                 }
             }
 
@@ -266,7 +275,7 @@ namespace FliedChicken.SceneDevices
         {
             if (Input.GetKeyDown(Keys.Space))
             {
-                state = GamePlayState.RESULT;
+                State = GamePlayState.RESULT;
                 resultScreen.Initialize(score);
             }
         }
@@ -280,7 +289,7 @@ namespace FliedChicken.SceneDevices
                 resultScreen.End();
                 rankingScreen.Initialize(resultScreen.GetWindowAlpha());
                 rankingScreen.RankingChange(TitleDisplayMode.keyInput.Text, 11000);
-                state = GamePlayState.RANKING;
+                State = GamePlayState.RANKING;
             }
         }
 

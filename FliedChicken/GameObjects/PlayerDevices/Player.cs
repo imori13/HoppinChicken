@@ -27,6 +27,9 @@ namespace FliedChicken.GameObjects.PlayerDevices
         PlayerScale playerScale;
         public PlayerMove PlayerMove { get; private set; }
         public OnechanBomManager OnechanBomManager { get; private set; }
+        public bool PlayerGameStartFlag { get; set; }
+        public float StartPositionY { get; set; }
+        public float SumDistance { get; private set; }
         public Animation animation;
         PlayerDeath playerDeath;
         public PlayerState state;
@@ -73,10 +76,17 @@ namespace FliedChicken.GameObjects.PlayerDevices
             fallParticleTime = 0;
             normalParticleTime = 0;
 
+            StartPositionY = 0;
+            SumDistance = 0;
+            PlayerGameStartFlag = false;
         }
 
         public override void Update()
         {
+            if (PlayerGameStartFlag)
+            {
+                SumDistance = Math.Abs(StartPositionY - Position.Y) / 100f;
+            }
 
             switch (state)
             {
@@ -133,7 +143,8 @@ namespace FliedChicken.GameObjects.PlayerDevices
         {
 
             if (!HitFlag)
-                animation.Draw(renderer, Vector2.Zero);
+                //animation.Draw(renderer, Vector2.Zero);
+                renderer.Draw2D("Chicken", Position, Color.White, 0, playerScale.DrawScale);
             else
                 playerDeath.Draw(renderer);
         }

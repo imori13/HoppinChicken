@@ -44,7 +44,7 @@ namespace FliedChicken.SceneDevices.Title
             destSizeY = 0;
             keyInput.Initialize();
             gameStartTextPos = new Vector2(Screen.WIDTH / 2f + 250, 150);
-            inputKeyPos = Screen.Vec2 / 2f + Vector2.UnitY * 100 * Screen.ScreenSize;
+            inputKeyPos = new Vector2(Screen.WIDTH / 2f, Screen.HEIGHT - 200 * Screen.ScreenSize);
             rate = 0;
             finishBack01 = Screen.WIDTH / 2f;
             finishBack02 = Screen.WIDTH / 2f;
@@ -127,7 +127,7 @@ namespace FliedChicken.SceneDevices.Title
 
                     // 文字が画面からどく
                     gameStartTextPos = Easing2D.BackIn(endingTime - 2, 0.5f, new Vector2(Screen.WIDTH / 2f, 150), new Vector2(Screen.WIDTH / 2f, -100), 2f);
-                    inputKeyPos = Easing2D.BackIn(endingTime - 2, 0.5f, Screen.Vec2 / 2f + Vector2.UnitY * 100 * Screen.ScreenSize, new Vector2(Screen.WIDTH / 2f, 1200), 2f);
+                    inputKeyPos = Easing2D.BackIn(endingTime - 2, 0.5f, new Vector2(Screen.WIDTH / 2f, Screen.HEIGHT - 200 * Screen.ScreenSize), new Vector2(Screen.WIDTH / 2f, 1200), 2f);
                 }
                 else
                 {
@@ -151,12 +151,12 @@ namespace FliedChicken.SceneDevices.Title
 
             if (!finishingFlag)
             {
-                renderer.Draw2D("FlyedChickenTitle", new Vector2(Screen.WIDTH / 2f, 200 * Screen.ScreenSize), Color.White, 0, new Vector2(250, 125.5f), Vector2.One * Screen.ScreenSize*1.5f);
+                renderer.Draw2D("FlyedChickenTitle", new Vector2(Screen.WIDTH / 2f, 200 * Screen.ScreenSize), Color.White, 0, new Vector2(250, 125.5f), Vector2.One * Screen.ScreenSize * 1.5f);
 
-                font = Fonts.Font12_32;
+                font = Fonts.Font10_128;
                 text = "PlayerName";
                 size = font.MeasureString(text);
-                renderer.DrawString(font, text, Screen.Vec2 / 2f + Vector2.UnitY * 50 * Screen.ScreenSize, Color.White, 0, size / 2f, Vector2.One * Screen.ScreenSize);
+                renderer.DrawString(font, text, new Vector2(100 * Screen.ScreenSize, Screen.HEIGHT / 2f -20*Screen.ScreenSize), Color.White, 0,Vector2.Zero, Vector2.One * Screen.ScreenSize);
             }
 
             // 黒幕
