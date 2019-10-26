@@ -57,14 +57,8 @@ namespace FliedChicken.GameObjects.Enemys.MoveModules
 
             if (angleDiff <= detectAngle)
             {
-                (GameObject as Enemy).Animation.Color = Color.Red;
-
                 if (angleDiff > chaseAngle)
                     Velocity = Vector2.Lerp(Velocity, direction, 0.05f);
-            }
-            else
-            {
-                (GameObject as Enemy).Animation.Color = Color.Yellow;
             }
 
             GameObject.Position += Velocity * speed * TimeSpeed.Time;
@@ -77,7 +71,7 @@ namespace FliedChicken.GameObjects.Enemys.MoveModules
                 distance = (distance > 0) ? (distance - 360) : (distance + 360);
             }
             destAngle += distance;
-            (GameObject as Enemy).Animation.Radian = MathHelper.Lerp((GameObject as Enemy).Animation.Radian, MathHelper.ToRadians(destAngle), 0.1f);
+            (GameObject as Enemy).Animation.Radian = MathHelper.Lerp((GameObject as Enemy).Animation.Radian, MathHelper.ToRadians(destAngle + 90), 0.1f);
 
             // 速度
             float destSpeed = 0;

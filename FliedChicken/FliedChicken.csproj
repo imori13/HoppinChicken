@@ -132,6 +132,9 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
     <None Include="Content\Font\pixelMplus10_size128.spritefont" />
+    <None Include="Content\Font\pixelMplus10_size256.spritefont">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Content\Font\pixelMplus12_size32.spritefont" />
     <None Include="Content\Font\PixelMplus10-Bold.ttf" />
   </ItemGroup>

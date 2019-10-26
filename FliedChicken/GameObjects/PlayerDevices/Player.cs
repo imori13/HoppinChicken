@@ -27,6 +27,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
         PlayerScale playerScale;
         public PlayerMove PlayerMove { get; private set; }
         public OnechanBomManager OnechanBomManager { get; private set; }
+        public float SumDistance { get; private set; }
         public Animation animation;
         PlayerDeath playerDeath;
         public PlayerState state;
@@ -77,6 +78,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
         public override void Update()
         {
+            SumDistance = Vector2.Distance(Vector2.Zero, Position) / 100f;
 
             switch (state)
             {
@@ -133,7 +135,8 @@ namespace FliedChicken.GameObjects.PlayerDevices
         {
 
             if (!HitFlag)
-                animation.Draw(renderer, Vector2.Zero);
+                //animation.Draw(renderer, Vector2.Zero);
+                renderer.Draw2D("Chicken", Position, Color.White, 0, playerScale.DrawScale);
             else
                 playerDeath.Draw(renderer);
         }

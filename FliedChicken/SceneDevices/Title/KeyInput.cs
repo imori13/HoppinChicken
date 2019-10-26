@@ -31,7 +31,7 @@ namespace FliedChicken.SceneDevices.Title
         {
             Keys[] keys = Input.GetPressedKey();
 
-            if (Text.Length < 20)
+            if (Text.Length <10)
             {
                 foreach (var key in keys)
                 {
@@ -80,20 +80,20 @@ namespace FliedChicken.SceneDevices.Title
             }
         }
 
-        public void Draw(Renderer renderer, float rate,Vector2 pos)
+        public void Draw(Renderer renderer, float rate, Vector2 pos)
         {
             if (rate != 0 && Text == "") { flag = true; Text = "Player"; }
 
-            SpriteFont font = Fonts.Font12_32;
+            SpriteFont font = Fonts.Font10_256;
             Vector2 size = font.MeasureString(Text);
 
             if (rate == 0)
             {
-                renderer.Draw2D("Pixel", Screen.Vec2 / 2f + Vector2.UnitY * 100 * Screen.ScreenSize, new Color(50, 50, 50) , 0, Vector2.One * 0.5f, new Vector2(500, 50) * Screen.ScreenSize);
+                renderer.Draw2D("Pixel", new Vector2(Screen.WIDTH / 2f, Screen.HEIGHT - 200 * Screen.ScreenSize), new Color(50, 50, 50), 0, Vector2.One * 0.5f, new Vector2(1800, 300) * Screen.ScreenSize);
             }
 
             renderer.DrawString(font, Text, pos,
-                 Color.Lerp((flag)?(new Color(0, 0, 0, 0)) :(Color.White), new Color(210, 210, 75), rate), 
+                 Color.Lerp((flag) ? (new Color(0, 0, 0, 0)) : (Color.White), new Color(210, 210, 75), rate),
                 0, size / 2f, Vector2.One * (1 - (1 - rate) / 5f) * Screen.ScreenSize);
         }
     }
