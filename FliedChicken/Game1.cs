@@ -66,6 +66,7 @@ namespace FliedChicken
 
             renderer.LoadTexture("Chicken", "Texture/");
             renderer.LoadTexture("HighSpeed", "Texture/");
+            renderer.LoadTexture("NormalEnemy", "Texture/");
 
             sceneManager.AddScene(SceneEnum.GameScene, new GameScene());
 
