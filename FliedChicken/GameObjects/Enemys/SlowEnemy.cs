@@ -22,8 +22,10 @@ namespace FliedChicken.GameObjects.Enemys
             Size = new Vector2(600,150);
             Collider = new BoxCollider(this, Size);
 
-            Animation = new Animation(this, "slowenemy", new Vector2(300, 105), 8, 0.1f);
-            Animation.drawSize = Vector2.One * 2.0f;
+            //Animation = new Animation(this, "slowenemy", new Vector2(300, 105), 8, 0.1f);
+            //Animation.drawSize = Vector2.One * 2.0f;
+
+            TextureName = "SlowEnemy";
 
             GameObjectTag = GameObjectTag.OrangeEnemy;
 
