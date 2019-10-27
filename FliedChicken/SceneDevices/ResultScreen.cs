@@ -206,8 +206,8 @@ namespace FliedChicken.SceneDevices
             renderer.DrawString(Fonts.Font10_128, "SCORE", textPosition01 + new Vector2(0, 150), Color.White,
                 0.0f, new Vector2(0, Fonts.Font10_128.MeasureString("SCORE").Y / 2), new Vector2(0.7f, 0.7f));
 
-            renderer.DrawString(Fonts.Font10_128, score.ToString() + "m", textPosition02, Color.White * scoreAlpha,
-                0.0f, new Vector2(Fonts.Font10_128.MeasureString(score.ToString() + "m").X, Fonts.Font10_128.MeasureString(score.ToString() + "m").Y / 2),
+            renderer.DrawString(Fonts.Font10_128, score.ToString("F2") + "m", textPosition02, Color.White * scoreAlpha,
+                0.0f, new Vector2(Fonts.Font10_128.MeasureString(score.ToString("F2") + "m").X, Fonts.Font10_128.MeasureString(score.ToString() + "m").Y / 2),
                 new Vector2(1.5f, 1.5f));
 
             renderer.DrawString(Fonts.Font10_128, "rank", textPosition01 + new Vector2(500, 500), Color.White,

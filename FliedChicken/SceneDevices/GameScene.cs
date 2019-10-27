@@ -263,7 +263,7 @@ namespace FliedChicken.SceneDevices
 
                 if (time >= limit)
                 {
-                    resultScreen.Initialize(score);
+                    resultScreen.Initialize(player.SumDistance);
                     State = GamePlayState.RESULT;
                 }
             }
@@ -288,7 +288,7 @@ namespace FliedChicken.SceneDevices
             {
                 resultScreen.End();
                 rankingScreen.Initialize(resultScreen.GetWindowAlpha());
-                rankingScreen.RankingChange(TitleDisplayMode.keyInput.Text, 11000);
+                rankingScreen.RankingChange(TitleDisplayMode.keyInput.Text, player.SumDistance);
                 State = GamePlayState.RANKING;
             }
         }
