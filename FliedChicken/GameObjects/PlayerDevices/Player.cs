@@ -41,7 +41,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
         // ヒットしたかどうか
         public bool HitFlag { get; private set; }
-        
+
         float normalParticleTime = 0;
 
         public Player(Camera camera)
@@ -67,7 +67,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
             mutekiTime = 0;
             MutekiFlag = false;
-            
+
             normalParticleTime = 0;
 
             StartPositionY = 0;
@@ -166,13 +166,12 @@ namespace FliedChicken.GameObjects.PlayerDevices
                     if (OnechanBomManager.OneChanceFlag)
                     {
                         // ワンちゃんボム発動！！！
-                        ObjectsManager.Camera.Shake(40, 5, 0.95f);
-
                         OnechanBomManager.Bom();
                         MutekiFlag = true;
                     }
                     else
                     {
+                        // しぬ
                         HitFlag = true;
                     }
                 }
@@ -180,8 +179,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
             if (gameObject.GameObjectTag == GameObjectTag.OneChanceItem)
             {
-                if ((gameObject as OneChanItem).PlayerHitEnabled)
-                    OnechanBomManager.AddCount();
+                OnechanBomManager.AddCount();
             }
         }
 

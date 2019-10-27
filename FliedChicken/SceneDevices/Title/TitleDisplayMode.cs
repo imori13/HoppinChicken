@@ -22,8 +22,7 @@ namespace FliedChicken.SceneDevices.Title
         bool startFlag;
         bool finishingFlag;
         public bool TitleFinishFlag { get; private set; }
-
-        Vector2 gameStartTextPos;
+        
         Vector2 inputKeyPos;
         float rate;
 
@@ -43,8 +42,7 @@ namespace FliedChicken.SceneDevices.Title
         {
             destSizeY = 0;
             keyInput.Initialize();
-            gameStartTextPos = new Vector2(Screen.WIDTH / 2f + 250, 150);
-            inputKeyPos = new Vector2(Screen.WIDTH / 2f, Screen.HEIGHT - 200 * Screen.ScreenSize);
+            inputKeyPos = new Vector2(Screen.WIDTH / 2f, Screen.HEIGHT - 178 * Screen.ScreenSize);
             rate = 0;
             finishBack01 = Screen.WIDTH / 2f;
             finishBack02 = Screen.WIDTH / 2f;
@@ -97,6 +95,7 @@ namespace FliedChicken.SceneDevices.Title
                         rankingON = true;
                     }
                 }
+                inputKeyPos = new Vector2(Screen.WIDTH / 2f, Screen.HEIGHT - 178 * Screen.ScreenSize);
             }
             else
             {
@@ -125,16 +124,15 @@ namespace FliedChicken.SceneDevices.Title
                         }
                     }
 
-                    // 文字が画面からどく
-                    gameStartTextPos = Easing2D.BackIn(endingTime - 2, 0.5f, new Vector2(Screen.WIDTH / 2f, 150), new Vector2(Screen.WIDTH / 2f, -100), 2f);
-                    inputKeyPos = Easing2D.BackIn(endingTime - 2, 0.5f, new Vector2(Screen.WIDTH / 2f, Screen.HEIGHT - 200 * Screen.ScreenSize), new Vector2(Screen.WIDTH / 2f, 1200), 2f);
+                    inputKeyPos = Easing2D.BackIn(endingTime - 2, 0.5f, new Vector2(Screen.WIDTH / 2f, Screen.HEIGHT - 350 * Screen.ScreenSize), new Vector2(Screen.WIDTH / 2f, 1200), 2f);
                 }
                 else
                 {
                     // 文字が表示される
                     destSizeY = 1080;
-                    gameStartTextPos = Vector2.Lerp(gameStartTextPos, new Vector2(Screen.WIDTH / 2f, 150), 0.05f);
                     rate = MathHelper.Lerp(rate, 1, 0.05f);
+
+                    inputKeyPos = Vector2.Lerp(inputKeyPos, new Vector2(Screen.WIDTH / 2f, Screen.HEIGHT - 350 * Screen.ScreenSize), 0.1f);
                 }
             }
 
@@ -145,18 +143,11 @@ namespace FliedChicken.SceneDevices.Title
         public void Draw(Renderer renderer)
         {
             // タイトル
-            SpriteFont font;
-            string text;
-            Vector2 size;
-
             if (!finishingFlag)
             {
-                renderer.Draw2D("FlyedChickenTitle", new Vector2(Screen.WIDTH / 2f, 200 * Screen.ScreenSize), Color.White, 0, new Vector2(250, 125.5f), Vector2.One * Screen.ScreenSize * 1.5f);
+                renderer.Draw2D("Title", new Vector2(Screen.WIDTH / 2f, 200 * Screen.ScreenSize), Color.White, 0, Vector2.One * Screen.ScreenSize * 2f);
 
-                font = Fonts.Font10_128;
-                text = "PlayerName";
-                size = font.MeasureString(text);
-                renderer.DrawString(font, text, new Vector2(100 * Screen.ScreenSize, Screen.HEIGHT / 2f -20*Screen.ScreenSize), Color.White, 0,Vector2.Zero, Vector2.One * Screen.ScreenSize);
+                renderer.Draw2D("NameWIndow", new Vector2(Screen.WIDTH / 2f, Screen.HEIGHT - 200 * Screen.ScreenSize), Color.White, 0, Vector2.One * Screen.ScreenSize);
             }
 
             // 黒幕
@@ -181,12 +172,6 @@ namespace FliedChicken.SceneDevices.Title
                 renderer.Draw2D("Pixel", new Vector2(Screen.WIDTH / 2f, Screen.HEIGHT), new Color(210, 210, 75), 0, new Vector2(0.5f, 1), new Vector2(Screen.WIDTH, startBack02 * Screen.ScreenSize));
                 renderer.Draw2D("Pixel", new Vector2(Screen.WIDTH / 2f, Screen.HEIGHT), new Color(50, 50, 50), 0, new Vector2(0.5f, 1), new Vector2(Screen.WIDTH, startBack01 * Screen.ScreenSize));
             }
-
-            // ゲームスタート
-            font = Fonts.Font10_128;
-            text = "GameStart";
-            size = font.MeasureString(text);
-            renderer.DrawString(font, text, gameStartTextPos, Color.White * rate, 0, size / 2f, Vector2.One * Screen.ScreenSize);
 
             keyInput.Draw(renderer, rate, inputKeyPos);
 

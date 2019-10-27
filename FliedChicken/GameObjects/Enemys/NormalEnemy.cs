@@ -23,7 +23,7 @@ namespace FliedChicken.GameObjects.Enemys
         public NormalEnemy(Camera camera)
             : base(camera)
         {
-            Size = new Vector2(80, 80);
+            Size = new Vector2(100, 60);
 
             //Animation = new Animation(this, "normal_enemy", new Vector2(210, 210), 5, 0.25f);
             //Animation.drawSize = Vector2.One * 0.5f;

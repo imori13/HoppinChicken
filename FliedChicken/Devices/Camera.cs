@@ -66,7 +66,7 @@ namespace FliedChicken.Devices
 
         public void Initialize()
         {
-
+            Position = Vector2.Zero;
         }
 
         public void Update()

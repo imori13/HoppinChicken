@@ -36,13 +36,13 @@ namespace FliedChicken.GameObjects.Enemys
         private float minPlayerDistance;
         private float maxPlayerDistance;
 
-        private const float moveSpeed = 9.0f;
+        private const float moveSpeed = 4.0f;
 
         public DiveEnemy(Camera camera, Player player)
         {
             this.camera = camera;
             this.player = player;
-            
+
             Collider = new CircleCollider(this, 192 * 0.35f);
             Position = player.Position - Vector2.UnitY * 100f;
             GameObjectTag = GameObjectTag.DiveEnemy;
@@ -96,7 +96,7 @@ namespace FliedChicken.GameObjects.Enemys
             float deltaTime = TimeSpeed.Time;
 
             spriteEffects = SpriteEffects.None;
-            
+
             Vector2 playerPos = player.Position;
             float newX = MathHelper.Lerp(Position.X, playerPos.X, 0.2f * deltaTime);
             float newY = Math.Min(Position.Y + moveSpeed * deltaTime, playerPos.Y - minPlayerDistance);
@@ -106,9 +106,13 @@ namespace FliedChicken.GameObjects.Enemys
         private void Stop()
         {
             stopCount += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
+
+            Animation.Color = (stopCount % 0.05f <= 0.025f) ? (Color.White * 1) : (Color.White * 0.1f);
+
             if (stopCount >= stopTime)
             {
-                stopCount = 0.0f;
+                Animation.Color = Color.White;
+                   stopCount = 0.0f;
                 state = State.FORMING;
             }
         }
@@ -120,7 +124,7 @@ namespace FliedChicken.GameObjects.Enemys
 
         public override void HitAction(GameObject gameObject)
         {
-            if (gameObject.GameObjectTag == GameObjectTag.RedEnemy)
+            if (gameObject is KillerEnemy)
             {
                 state = State.STOP;
             }

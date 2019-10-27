@@ -205,19 +205,17 @@ namespace FliedChicken.SceneDevices
         /// </summary>
         public void RankingWrite()
         {
-            Encoding enc = Encoding.GetEncoding("Shift_JIS");
-            StreamWriter sw = new StreamWriter(path, false, enc);
-
-            for (int i = 0; i < rankPlayer.Count; i++)
+            using (StreamWriter sw = new StreamWriter(path))
             {
-                string text = "";
-                text += rankPlayer[i];
-                text += ',';
-                text += rankScore[i].ToString();
-                sw.WriteLine(text);
+                for (int i = 0; i < rankPlayer.Count; i++)
+                {
+                    string text = "";
+                    text += rankPlayer[i];
+                    text += ',';
+                    text += rankScore[i].ToString();
+                    sw.WriteLine(text);
+                }
             }
-
-            sw.Close();
         }
 
         /// <summary>
@@ -291,23 +289,28 @@ namespace FliedChicken.SceneDevices
             for (int i = 0; i < 5; i++)
             {
                 renderer.DrawString(Fonts.Font10_128, (i + 1).ToString() + ',',
-                    textPosition01 + new Vector2(500,- 300 + (150 * i)), Color.White,
-                    0.0f, new Vector2(0, Fonts.Font10_128.MeasureString((i + 1).ToString()).Y / 2), 
+                    textPosition01 + new Vector2(500, -300 + (150 * i)), Color.White,
+                    0.0f, new Vector2(0, Fonts.Font10_128.MeasureString((i + 1).ToString()).Y / 2),
                     new Vector2(0.5f, 0.5f));
             }
 
             for (int i = 0; i < rankNum - 5; i++)
             {
                 renderer.DrawString(Fonts.Font10_128, (i + 6).ToString() + ',',
-                    textPosition01 + new Vector2(1100, - 300 + (150 * i)), Color.White,
+                    textPosition01 + new Vector2(1100, -300 + (150 * i)), Color.White,
                     0.0f, new Vector2(0, Fonts.Font10_128.MeasureString((i + 1).ToString()).Y / 2),
                     new Vector2(0.5f, 0.5f));
             }
-            
+
             for (int i = 0; i < 5; i++)
             {
+                if (i >= rankPlayer.Count)
+                {
+                    break;
+                }
+
                 renderer.DrawString(Fonts.Font10_128, rankPlayer[i],
-                    textPosition01 + new Vector2(850, - 310 + (150 * i)), Color.White,
+                    textPosition01 + new Vector2(850, -310 + (150 * i)), Color.White,
                     0.0f, Fonts.Font10_128.MeasureString(rankPlayer[i]), new Vector2(0.3f, 0.3f));
 
                 renderer.DrawString(Fonts.Font10_128, rankScore[i].ToString("F2") + "m",
@@ -316,17 +319,22 @@ namespace FliedChicken.SceneDevices
                     Fonts.Font10_128.MeasureString(rankScore[i].ToString("F2") + "m").Y / 2), new Vector2(0.3f, 0.3f));
             }
 
-            for (int i = 0; i < 5; i++)
-            {
-                renderer.DrawString(Fonts.Font10_128, rankPlayer[i + 5],
-                    textPosition01 + new Vector2(1450, -310 + (150 * i)), Color.White,
-                    0.0f, Fonts.Font10_128.MeasureString(rankPlayer[i + 5]), new Vector2(0.3f, 0.3f));
+            //for (int i = 0; i < 5; i++)
+            //{
+            //    if (i >= rankPlayer.Count)
+            //    {
+            //        break;
+            //    }
 
-                renderer.DrawString(Fonts.Font10_128, rankScore[i + 5].ToString("F2") + "m",
-                    textPosition01 + new Vector2(1500, -280 + (150 * i)), Color.White,
-                    0.0f, new Vector2(Fonts.Font10_128.MeasureString(rankScore[i + 5].ToString("F2") + "m").X,
-                    Fonts.Font10_128.MeasureString(rankScore[i + 5].ToString("F2") + "m").Y / 2), new Vector2(0.3f, 0.3f));
-            }
+            //    renderer.DrawString(Fonts.Font10_128, rankPlayer[i + 5],
+            //        textPosition01 + new Vector2(1450, -310 + (150 * i)), Color.White,
+            //        0.0f, Fonts.Font10_128.MeasureString(rankPlayer[i + 5]), new Vector2(0.3f, 0.3f));
+
+            //    renderer.DrawString(Fonts.Font10_128, rankScore[i + 5].ToString("F2") + "m",
+            //        textPosition01 + new Vector2(1500, -280 + (150 * i)), Color.White,
+            //        0.0f, new Vector2(Fonts.Font10_128.MeasureString(rankScore[i + 5].ToString("F2") + "m").X,
+            //        Fonts.Font10_128.MeasureString(rankScore[i + 5].ToString("F2") + "m").Y / 2), new Vector2(0.3f, 0.3f));
+            //}
         }
 
         public void DrawResult(Renderer renderer)

@@ -30,7 +30,31 @@ namespace FliedChicken.GameObjects.Clouds
             backCloud.Clear();
             frontCloud.Clear();
 
+            prevCameraPos = Vector2.Zero;
             distanceSum = 0;
+
+            for (int i = 0; i < 25; i++)
+            {
+                while (true)
+                {
+                    float generateOffset = 1000f;
+                    Vector2 generatePos = new Vector2(
+                        rand.Next((int)(ObjectsManager.Camera.Position.X - Screen.WIDTH / 2f - generateOffset), (int)(ObjectsManager.Camera.Position.X + Screen.WIDTH / 2f + generateOffset)),
+                        rand.Next((int)(ObjectsManager.Camera.Position.Y - Screen.HEIGHT / 2f - generateOffset), (int)(ObjectsManager.Camera.Position.Y + Screen.HEIGHT / 2f + generateOffset)));
+
+                    float removeOffset = 200;
+                    float left = ObjectsManager.Camera.Position.X - Screen.WIDTH / 2f - removeOffset;
+                    float right = ObjectsManager.Camera.Position.X + Screen.WIDTH / 2f + removeOffset;
+                    float up = ObjectsManager.Camera.Position.Y - Screen.HEIGHT / 2f - removeOffset;
+                    float down = ObjectsManager.Camera.Position.Y + Screen.HEIGHT / 2f + removeOffset;
+
+                    if ((generatePos.X > left) && (generatePos.X < right) && (generatePos.Y > up) && (generatePos.Y < down))
+                    {
+                        AddCloud(new BackCloud(generatePos));
+                        break;
+                    }
+                }
+            }
         }
 
         public void AddCloud(Cloud cloud)
@@ -90,7 +114,7 @@ namespace FliedChicken.GameObjects.Clouds
                 float up = ObjectsManager.Camera.Position.Y - Screen.HEIGHT / 2f - removeOffset;
                 float down = ObjectsManager.Camera.Position.Y + Screen.HEIGHT / 2f + removeOffset;
 
-                if ((generatePos.X > left) && (generatePos.X < right) && (generatePos.Y > up) &&(generatePos.Y < down))
+                if ((generatePos.X > left) && (generatePos.X < right) && (generatePos.Y > up) && (generatePos.Y < down))
                 {
                 }
                 else

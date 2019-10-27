@@ -11,26 +11,27 @@ namespace FliedChicken.GameObjects.PlayerDevices
 {
     class OnechanBom : GameObject
     {
-        Player player;
+        GameObject Pearent;
         float time;
         float deathLimit = 0.5f;
 
-        public OnechanBom(Player player, Vector2 position)
+        public OnechanBom(GameObject Pearent, float Radius)
         {
-            this.player = player;
             GameObjectTag = GameObjectTag.OneChanBom;
-            Collider = new CircleCollider(this, 500f);
-            Position = position;
+            Collider = new CircleCollider(this, Radius);
+            this.Pearent = Pearent;
+            base.Position = Pearent.Position;
         }
 
         public override void Initialize()
         {
             time = 0;
+            ObjectsManager.Camera.Shake(40, 5, 0.95f);
         }
 
         public override void Update()
         {
-            Position = player.Position;
+            Position = Pearent.Position;
 
             time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
 

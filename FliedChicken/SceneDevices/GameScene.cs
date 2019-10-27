@@ -90,8 +90,7 @@ namespace FliedChicken.SceneDevices
             TitleDisplayMode.Initialize();
 
             enemySpawner = new EnemySpawner(player, camera, objectsManager, 64 * 10, 64 * 14, 0, 0);
-
-
+            
             cloudManager.Initialize();
 
             time = 0;
@@ -196,13 +195,14 @@ namespace FliedChicken.SceneDevices
 
             oneChanItemUI.Draw(renderer);
 
-#if DEBUG
-            // デバッグ用
-            SpriteFont font = Fonts.Font12_32;
-            string text = player.SumDistance.ToString("0000.00M");
-            Vector2 size = font.MeasureString(text);
-            renderer.DrawString(font, text, new Vector2(Screen.WIDTH / 2f, 100 * Screen.ScreenSize), Color.Black, 0, size / 2f, Vector2.One * Screen.ScreenSize);
-#endif
+            // 進んだ距離を表示
+            if (State == GamePlayState.FLY)
+            {
+                SpriteFont font = Fonts.Font10_128;
+                string text = player.SumDistance.ToString("0.0M");
+                Vector2 size = font.MeasureString(text);
+                renderer.DrawString(font, text, new Vector2(Screen.WIDTH / 2f, 100 * Screen.ScreenSize), Color.Black, 0, size / 2f, Vector2.One * Screen.ScreenSize);
+            }
 
             if (State == GamePlayState.RESULT)
             {

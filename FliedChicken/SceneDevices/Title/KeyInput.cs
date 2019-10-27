@@ -31,7 +31,7 @@ namespace FliedChicken.SceneDevices.Title
         {
             Keys[] keys = Input.GetPressedKey();
 
-            if (Text.Length <10)
+            if (Text.Length < 10)
             {
                 foreach (var key in keys)
                 {
@@ -84,16 +84,11 @@ namespace FliedChicken.SceneDevices.Title
         {
             if (rate != 0 && Text == "") { flag = true; Text = "Player"; }
 
-            SpriteFont font = Fonts.Font10_256;
+            SpriteFont font = Fonts.Font12_32;
             Vector2 size = font.MeasureString(Text);
 
-            if (rate == 0)
-            {
-                renderer.Draw2D("Pixel", new Vector2(Screen.WIDTH / 2f, Screen.HEIGHT - 200 * Screen.ScreenSize), new Color(50, 50, 50), 0, Vector2.One * 0.5f, new Vector2(1800, 300) * Screen.ScreenSize);
-            }
-
             renderer.DrawString(font, Text, pos,
-                 Color.Lerp((flag) ? (new Color(0, 0, 0, 0)) : (Color.White), new Color(210, 210, 75), rate),
+                 (flag) ? new Color(0, 0, 0, 0) : new Color(255, 91, 91),
                 0, size / 2f, Vector2.One * (1 - (1 - rate) / 5f) * Screen.ScreenSize);
         }
     }
