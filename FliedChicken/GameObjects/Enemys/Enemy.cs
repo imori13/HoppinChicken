@@ -24,7 +24,7 @@ namespace FliedChicken.GameObjects.Enemys
         /// <summary>
         /// nullの場合はTextureNameで指定された画像を描画する。
         /// </summary>
-        public Animation Animation { get; protected set; }
+        public Animation Animation { get; set; }
 
         public Vector2 Size { get; protected set; }
         public Vector2 DrawOffset { get; protected set; }
