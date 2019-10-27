@@ -40,7 +40,11 @@ namespace FliedChicken.GameObjects.Objects
 
         public override void Update()
         {
-            if (carrier == null) return;
+            if (carrier == null)
+            {
+                PlayerHitEnabled = true;
+                return;
+            }
 
             Position = carrier.GetItemPosition();
             rotation += rotateSpeed * TimeSpeed.Time;

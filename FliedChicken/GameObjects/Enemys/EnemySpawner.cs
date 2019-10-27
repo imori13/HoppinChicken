@@ -26,7 +26,8 @@ namespace FliedChicken.GameObjects.Enemys
 
         private Random random;
 
-        private WeightSelectHelper<Func<Enemy>>[] spawnFunctions;
+        private List<WeightSelectHelper<Func<Enemy>>> spawnFunctions;
+        private List<KeyValuePair<float, WeightSelectHelper<Func<Enemy>>>> spawnFuncAddList;
 
         private float distanceSum;
         private Vector2 prevCameraPos;
@@ -62,13 +63,24 @@ namespace FliedChicken.GameObjects.Enemys
             random = GameDevice.Instance().Random;
             prevCameraPos = camera.Position;
 
-            spawnFunctions = new[]
+            spawnFunctions = new List<WeightSelectHelper<Func<Enemy>>>
                 {
                     new WeightSelectHelper<Func<Enemy>>(5, new Func<Enemy>(() => new NormalEnemy(camera))),
-                    new WeightSelectHelper<Func<Enemy>>(3, new Func<Enemy>(() => new HighSpeedEnemy(camera))),
-                    new WeightSelectHelper<Func<Enemy>>(1, new Func<Enemy>(() => new SlowEnemy(camera))),
-                    new WeightSelectHelper<Func<Enemy>>(5, new Func<Enemy>(() => new ThornEnemy(camera))),
-                    new WeightSelectHelper<Func<Enemy>>(2, new Func<Enemy>(() => new KillerEnemy(camera)))
+                };
+
+            spawnFuncAddList = new List<KeyValuePair<float, WeightSelectHelper<Func<Enemy>>>>
+                {
+                    new KeyValuePair<float, WeightSelectHelper<Func<Enemy>>>
+                    (30, new WeightSelectHelper<Func<Enemy>>(1, new Func<Enemy>(() => new SlowEnemy(camera)))),
+
+                    new KeyValuePair<float, WeightSelectHelper<Func<Enemy>>>
+                    (60, new WeightSelectHelper<Func<Enemy>>(3, new Func<Enemy>(() => new HighSpeedEnemy(camera)))),
+
+                    new KeyValuePair<float, WeightSelectHelper<Func<Enemy>>>
+                    (100, new WeightSelectHelper<Func<Enemy>>(5, new Func<Enemy>(() => new ThornEnemy(camera)))),
+
+                    new KeyValuePair<float, WeightSelectHelper<Func<Enemy>>>
+                    (120, new WeightSelectHelper<Func<Enemy>>(2, new Func<Enemy>(() => new KillerEnemy(camera))))
                 };
         }
 
@@ -81,6 +93,8 @@ namespace FliedChicken.GameObjects.Enemys
                 SpawnEnemy();
             }
             prevCameraPos = camera.Position;
+
+            AddSpawnFunction();
         }
 
         public void DebugDraw(Renderer renderer)
@@ -120,6 +134,18 @@ namespace FliedChicken.GameObjects.Enemys
             carrier.OneChanItem = new OneChanItem(carrier);
             carrier.OneChanItem.ObjectsManager = objectsManager;
             objectsManager.AddGameObject(carrier.OneChanItem);
+        }
+
+        private void AddSpawnFunction()
+        {
+            if (spawnFuncAddList.Count == 0)
+                return;
+
+            if (spawnFuncAddList[0].Key <= player.SumDistance)
+            {
+                spawnFunctions.Add(spawnFuncAddList[0].Value);
+                spawnFuncAddList.RemoveAt(0);
+            }
         }
     }
 }
