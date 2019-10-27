@@ -20,7 +20,7 @@ namespace FliedChicken.GameObjects.Enemys
             AttackModule = new NotAttack_AM(this);
             MoveModule = new Killer_MM(this);
 
-            Animation = new Animation(this, "Killer_Passive", new Vector2(50, 50), 1, 100000f);
+            Animation = new Animation(this, "Killer_Passive", new Vector2(60,60), 1, 100000f);
             Collider = new CircleCollider(this, 30);
 
             GameObjectTag = GameObjectTag.RedEnemy;

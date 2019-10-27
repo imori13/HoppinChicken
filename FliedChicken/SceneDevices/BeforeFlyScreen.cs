@@ -126,7 +126,6 @@ namespace FliedChicken.SceneDevices
 
         private void Default()
         {
-            player.animation.Update();
             cloudManager.Update();
         }
 

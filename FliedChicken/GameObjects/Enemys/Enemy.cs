@@ -19,7 +19,7 @@ namespace FliedChicken.GameObjects.Enemys
         /// <summary>
         /// テクスチャ名。Animationが設定されている場合は無視される。
         /// </summary>
-        protected string TextureName { get; set; }
+        public string TextureName { get; set; }
 
         /// <summary>
         /// nullの場合はTextureNameで指定された画像を描画する。

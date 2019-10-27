@@ -7,7 +7,6 @@ namespace FliedChicken.GameObjects.PlayerDevices
     public enum PlayerMoveState
     {
         None,
-        Fall,
         Jump,
     }
 
@@ -63,39 +62,20 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
             PlayerMoveState = PlayerMoveState.None;
 
-            // 落下処理
-            bool fallFlag = false;
-            float destFallSpeed =10;
-            if (Input.GetKey(Keys.Space))
-            {
-                fallTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds * TimeSpeed.Time;
-
-                if (fallTime > 0.2f)
-                {
-                    destFallSpeed = 15;
-                    fallFlag = true;
-
-                    PlayerMoveState = PlayerMoveState.Fall;
-                }
-            }
-            else if (Input.GetKeyUp(Keys.Space))
-            {
-                fallTime = 0;
-            }
-
-            fallSpeed = MathHelper.Lerp(fallSpeed, destFallSpeed, 0.1f);
-
             // 左右移動
 
-            float speed = (fallFlag) ? (0.5f) : (1.5f);
+            float speed = 8f;
             if (Input.GetKey(Keys.Right))
             {
-                Velocity = new Vector2(Velocity.X + speed, Velocity.Y);
+                Velocity.X = MathHelper.Lerp(Velocity.X, speed,0.1f);
             }
-
-            if (Input.GetKey(Keys.Left))
+            else if (Input.GetKey(Keys.Left))
             {
-                Velocity = new Vector2(Velocity.X - speed, Velocity.Y);
+                Velocity.X = MathHelper.Lerp(Velocity.X, -speed, 0.1f);
+            }
+            else
+            {
+                Velocity.X = MathHelper.Lerp(Velocity.X, 0, 0.1f);
             }
 
             // ジャンプ処理
@@ -105,15 +85,9 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 {
                     time = 0;
                     inputflag = false;
-                    Velocity = new Vector2(Velocity.X, -5);
+                    Velocity = new Vector2(Velocity.X, -15);
 
                     PlayerMoveState = PlayerMoveState.Jump;
-
-                    player.animation = new Animation(player, "PlayerFly", Vector2.One * 114, 3, 0.1f);
-                    player.animation.drawSize = Vector2.One * 0.5f;
-                    player.animation.RepeatFlag = false;
-
-                    player.animation.Color = (player.MutekiFlag) ? (Color.Yellow) : (Color.White);
                 }
                 else
                 {
@@ -123,7 +97,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 }
             }
 
-            Velocity = Vector2.Lerp(Velocity, Vector2.UnitY * fallSpeed, 0.25f);
+            Velocity.Y = MathHelper.Lerp(Velocity.Y, fallSpeed, 0.1f);
 
             return Velocity;
         }

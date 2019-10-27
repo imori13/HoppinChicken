@@ -65,8 +65,8 @@ namespace FliedChicken.GameObjects.Enemys
             spawnFunctions = new[]
                 {
                     new WeightSelectHelper<Func<Enemy>>(5, new Func<Enemy>(() => new NormalEnemy(camera))),
-                    new WeightSelectHelper<Func<Enemy>>(3, new Func<Enemy>(() => new HighSpeedEnemy(camera))),
-                    new WeightSelectHelper<Func<Enemy>>(1, new Func<Enemy>(() => new SlowEnemy(camera))),
+                    new WeightSelectHelper<Func<Enemy>>(1, new Func<Enemy>(() => new HighSpeedEnemy(camera))),
+                    new WeightSelectHelper<Func<Enemy>>(2, new Func<Enemy>(() => new SlowEnemy(camera))),
                     new WeightSelectHelper<Func<Enemy>>(5, new Func<Enemy>(() => new ThornEnemy(camera))),
                     new WeightSelectHelper<Func<Enemy>>(2, new Func<Enemy>(() => new KillerEnemy(camera)))
                 };
@@ -114,7 +114,8 @@ namespace FliedChicken.GameObjects.Enemys
         {
             if (!(enemy is IOneChanItemCarrier)) return;
             //5%の確率で出現
-            if (!(random.Next(0, 100) < 20)) return;
+            //if (!(random.Next(0, 100) < 5)) return;
+            if (!(random.Next(0, 100) < 40)) return;
 
             var carrier = enemy as IOneChanItemCarrier;
             carrier.OneChanItem = new OneChanItem(carrier);

@@ -30,7 +30,6 @@ namespace FliedChicken.GameObjects.PlayerDevices
         public bool PlayerGameStartFlag { get; set; }
         public float StartPositionY { get; set; }
         public float SumDistance { get; private set; }
-        public Animation animation;
         PlayerDeath playerDeath;
         public PlayerState state;
 
@@ -42,8 +41,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
         // ヒットしたかどうか
         public bool HitFlag { get; private set; }
-
-        float fallParticleTime = 0;
+        
         float normalParticleTime = 0;
 
         public Player(Camera camera)
@@ -54,8 +52,6 @@ namespace FliedChicken.GameObjects.PlayerDevices
             playerScale = new PlayerScale(this);
             PlayerMove = new PlayerMove(this);
             OnechanBomManager = new OnechanBomManager(this);
-            animation = new Animation(this, "PlayerIdol", Vector2.One * 114, 3, 0.1f);
-            animation.drawSize = Vector2.One * 0.5f;
             playerDeath = new PlayerDeath(this);
         }
 
@@ -63,7 +59,6 @@ namespace FliedChicken.GameObjects.PlayerDevices
         {
             playerScale.Initialize();
             PlayerMove.Initialize();
-            animation.Initialize();
             playerDeath.Initialize();
 
             state = PlayerState.FLY;
@@ -72,8 +67,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
             mutekiTime = 0;
             MutekiFlag = false;
-
-            fallParticleTime = 0;
+            
             normalParticleTime = 0;
 
             StartPositionY = 0;
@@ -144,7 +138,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
             if (!HitFlag)
                 //animation.Draw(renderer, Vector2.Zero);
-                renderer.Draw2D("Chicken", Position, Color.White, 0, playerScale.DrawScale);
+                renderer.Draw2D("Chicken", Position, Color.White, 0, playerScale.DrawScale * 1.2f);
             else
                 playerDeath.Draw(renderer);
         }
@@ -193,42 +187,18 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
         void Default()
         {
-            animation.Update();
-
-            if (animation.FinishFlag)
-            {
-                animation = new Animation(this, "PlayerIdol", Vector2.One * 114, 3, 0.1f);
-                animation.RepeatFlag = true;
-                animation.drawSize = Vector2.One * 0.5f;
-
-                animation.Color = (MutekiFlag) ? (Color.Yellow) : (Color.White);
-            }
-
             // プレイヤーのぼよんぼよんする挙動
             playerScale.Update();
             // プレイヤーの移動処理
             Velocity = PlayerMove.Velocity();
             Position = PlayerMove.Move();
 
-            if (PlayerMove.PlayerMoveState == PlayerMoveState.Fall)
+            float limit = 0.1f;
+            normalParticleTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds * TimeSpeed.Time;
+            while (normalParticleTime >= limit)
             {
-                float limit = 0.025f;
-                fallParticleTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds * TimeSpeed.Time;
-                while (fallParticleTime >= limit)
-                {
-                    fallParticleTime -= limit;
-                    ObjectsManager.AddBackParticle(new FallParticle2D(Position + MyMath.RandomCircleVec2() * 20f - Vector2.UnitY * 100f, Color.Blue, Vector2.UnitY, rand));
-                }
-            }
-            else
-            {
-                float limit = 0.1f;
-                normalParticleTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds * TimeSpeed.Time;
-                while (normalParticleTime >= limit)
-                {
-                    normalParticleTime -= limit;
-                    ObjectsManager.AddBackParticle(new PlayerTrajectory_Particle(Position + MyMath.RandomCircleVec2() * 10f, -Velocity / 100f, rand));
-                }
+                normalParticleTime -= limit;
+                ObjectsManager.AddBackParticle(new PlayerTrajectory_Particle(Position + MyMath.RandomCircleVec2() * 10f, -Velocity / 100f, rand));
             }
         }
     }

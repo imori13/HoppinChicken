@@ -29,7 +29,7 @@ namespace FliedChicken.GameObjects.Objects
             this.carrier = carrier;
 
             drawScale = 1.0f;
-            PlayerHitEnabled = carrier == null;
+            PlayerHitEnabled = (carrier == null);
         }
 
         public override void Initialize()
@@ -56,10 +56,10 @@ namespace FliedChicken.GameObjects.Objects
 
         public override void HitAction(GameObject gameObject)
         {
-            if (!PlayerHitEnabled) return;
-
             if (gameObject.GameObjectTag == GameObjectTag.Player)
+            {
                 IsDead = true;
+            }
         }
 
         public void Destroy()

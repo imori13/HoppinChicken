@@ -59,7 +59,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
         public void Draw(Renderer renderer)
         {
-            renderer.Draw2D("PlayerDead", position, Color.White, MathHelper.ToRadians(rotation), new Vector2(57, 57), Vector2.One * 0.5f);
+            renderer.Draw2D("Chicken", position, Color.White, MathHelper.ToRadians(rotation), new Vector2(22.5f, 22.5f), Vector2.One);
         }
     }
 }

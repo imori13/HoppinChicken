@@ -47,7 +47,7 @@ namespace FliedChicken.GameObjects.Enemys
             Position = player.Position - Vector2.UnitY * 100f;
             GameObjectTag = GameObjectTag.DiveEnemy;
 
-            Animation = new Animation(this, "DiveEnemy", new Vector2(297, 192), 5, 0.05f);
+            Animation = new Animation(this, "DiveEnemy", new Vector2(216, 152), 4, 0.05f);
 
             maxPlayerDistance = Screen.HEIGHT * 0.75f;
             minPlayerDistance = Screen.HEIGHT * 0.25f;

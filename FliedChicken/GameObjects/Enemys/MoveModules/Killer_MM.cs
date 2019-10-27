@@ -56,17 +56,24 @@ namespace FliedChicken.GameObjects.Enemys.MoveModules
 
             if (!isChase)
             {
-                if (angleDiff <= detectAngle)
+                if ((angleDiff <= detectAngle) && (Vector2.Distance(GameObject.Position, player.Position) <= 500f))
                 {
                     isChase = true;
-                    ((Enemy)GameObject).Animation = new Animation(GameObject, "Killer_Active", new Vector2(50, 50), 1, 100000);
+                    ((Enemy)GameObject).Animation = new Animation(GameObject, "Killer_Active", new Vector2(60, 60), 1, 10000);
+                }
+            }
+            else
+            {
+                if (angleDiff <= detectAngle)
+                {
+                    if (angleDiff > chaseAngle)
+                        Velocity = Vector2.Lerp(Velocity, direction, 0.1f);
                 }
             }
 
-            if (angleDiff <= detectAngle)
+            if (Velocity.Y >= 0)
             {
-                if (angleDiff > chaseAngle)
-                    Velocity = Vector2.Lerp(Velocity, direction, 0.05f);
+                Velocity = new Vector2(Velocity.X, 0);
             }
 
             GameObject.Position += Velocity * speed * TimeSpeed.Time;
@@ -83,7 +90,7 @@ namespace FliedChicken.GameObjects.Enemys.MoveModules
 
             // 速度
             float destSpeed = 0;
-            destSpeed = (isChase) ? (4f) : (1f);
+            destSpeed = (isChase) ? (16f) : (1f);
             speed = MathHelper.Lerp(speed, destSpeed, 0.02f);
 
             // パーティクル
