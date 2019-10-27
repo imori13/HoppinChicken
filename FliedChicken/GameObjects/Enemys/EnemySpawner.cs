@@ -118,6 +118,7 @@ namespace FliedChicken.GameObjects.Enemys
 
             var carrier = enemy as IOneChanItemCarrier;
             carrier.OneChanItem = new OneChanItem(carrier);
+            carrier.OneChanItem.ObjectsManager = objectsManager;
             objectsManager.AddGameObject(carrier.OneChanItem);
         }
     }

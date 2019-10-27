@@ -32,8 +32,8 @@ namespace FliedChicken.UI
         {
             if (ObjectsManager.Player.OnechanBomManager.Count >= 1)
             {
-                renderer.Draw2D("Star", new Vector2(Screen.WIDTH -100,100), Color.White, 0,new Vector2(48,48), Vector2.One);
+                renderer.Draw2D("Star", new Vector2(Screen.WIDTH - 100, 100), Color.White, 0, new Vector2(48, 48), Vector2.One);
+            }
         }
-    }
     }
 }

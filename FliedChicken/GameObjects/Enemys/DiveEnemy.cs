@@ -36,7 +36,7 @@ namespace FliedChicken.GameObjects.Enemys
         private float minPlayerDistance;
         private float maxPlayerDistance;
 
-        private const float moveSpeed = 5.5f;
+        private const float moveSpeed = 9.0f;
 
         public DiveEnemy(Camera camera, Player player)
         {
