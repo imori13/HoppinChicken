@@ -47,6 +47,7 @@ namespace FliedChicken.SceneDevices
         public GamePlayState State { get; private set; }
         ResultScreen resultScreen;
         RankingScreen rankingScreen;
+        DiveEnemyUI dEnemyUI;
         public TitleDisplayMode TitleDisplayMode { get; private set; }
         OneChanItemUI oneChanItemUI;
         public BeforeFlyScreen BeforeFlyScreen { get; private set; }
@@ -202,6 +203,7 @@ namespace FliedChicken.SceneDevices
                 string text = player.SumDistance.ToString("0.0M");
                 Vector2 size = font.MeasureString(text);
                 renderer.DrawString(font, text, new Vector2(Screen.WIDTH / 2f, 100 * Screen.ScreenSize), Color.Black, 0, size / 2f, Vector2.One * Screen.ScreenSize);
+                dEnemyUI.Draw(renderer);
             }
 
             if (State == GamePlayState.RESULT)
@@ -250,12 +252,15 @@ namespace FliedChicken.SceneDevices
                 enemySpawner.Initialize();
                 player.StartPositionY = player.Position.Y;
                 player.PlayerGameStartFlag = true;
+                dEnemyUI = new DiveEnemyUI(camera, diveEnemy);
+                dEnemyUI.Initialize();
                 State = GamePlayState.FLY;
             }
         }
 
         private void Fly()
         {
+            dEnemyUI.Update();
             if (player.HitFlag == true)
             {
                 time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
