@@ -26,7 +26,12 @@ namespace FliedChicken.Devices
 
         public static void Update()
         {
-            dest = (Input.GetKey(Keys.T)) ? (0.2f) : (1.00f);
+            dest = 1;
+
+            if (DebugMode.DebugFlag)
+            {
+                dest = (Input.GetKey(Keys.T)) ? (0.2f) : (1.00f);
+            }
 
             if (IsHitStop)
             {
