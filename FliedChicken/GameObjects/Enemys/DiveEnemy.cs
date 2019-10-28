@@ -128,13 +128,14 @@ namespace FliedChicken.GameObjects.Enemys
             if (gameObject is KillerEnemy)
             {
                 state = State.STOP;
+                minPlayerDistance -= 20;
             }
         }
 
         private void UpdatePlayerDistance()
         {
-            //Aランクぐらいの落下距離で最大
-            float sineY = Easing2D.SineIn(player.SumDistance, 400, new Vector2(0, 7.5f), new Vector2(0, player.PlayerMove.FallSpeed)).Y;
+            //Aランクの手前ぐらいの落下距離で最大
+            float sineY = Easing2D.SineIn(player.SumDistance, 600, new Vector2(0, 7.5f), new Vector2(0, player.PlayerMove.FallSpeed)).Y;
             moveSpeed = sineY;
 
             minPlayerDistance -= moveSpeed * TimeSpeed.Time;
