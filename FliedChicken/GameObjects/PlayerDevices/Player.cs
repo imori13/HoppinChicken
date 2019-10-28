@@ -121,7 +121,8 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
         void BeforeFly()
         {
-
+            camera.Position = Vector2.Lerp(camera.Position, Position + Vector2.UnitY * 50f, 0.1f * TimeSpeed.Time);
+            Default();
         }
 
         public void FlyUpdate()
@@ -184,7 +185,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
         void ClearUpdate()
         {
-
+            Default();
         }
 
         public override void Draw(Renderer renderer)

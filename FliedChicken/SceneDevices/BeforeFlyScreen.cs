@@ -32,9 +32,6 @@ namespace FliedChicken.SceneDevices
         private Player player;
         private DiveEnemy Denemy;
 
-        private Vector2 BasePlayerPosition;
-        private Vector2 BaseDenemyPosition;
-
         public bool IsDead { get; private set; }
 
         private State state;
@@ -52,12 +49,6 @@ namespace FliedChicken.SceneDevices
         CloudManager cloudManager;
         Camera camera;
 
-        private Vector2 downSpeed;
-
-        float normalParticleTime = 0;
-
-        Random rand = GameDevice.Instance().Random;
-
         public BeforeFlyScreen()
         {
             
@@ -68,9 +59,6 @@ namespace FliedChicken.SceneDevices
         {
             this.player = player;
             this.Denemy = Denemy;
-
-            BasePlayerPosition = camera.Position;
-            BaseDenemyPosition = BasePlayerPosition - new Vector2(0, 300); 
 
             player.state = Player.PlayerState.BEFOREFLY;
             Denemy.state = DiveEnemy.State.BEFOREFLY;
@@ -88,8 +76,6 @@ namespace FliedChicken.SceneDevices
 
             this.cloudManager = cloudManager;
             this.camera = camera;
-
-            downSpeed = new Vector2(0, 11);
         }
 
         public  void Update()
@@ -126,33 +112,16 @@ namespace FliedChicken.SceneDevices
 
         private void Default()
         {
-            camera.Position += downSpeed;
-            player.Position += downSpeed;
-            Denemy.Position += downSpeed;
-
-            float limit = 0.1f;
-            normalParticleTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds * TimeSpeed.Time;
-            while (normalParticleTime >= limit)
-            {
-                normalParticleTime -= limit;
-                player.ObjectsManager.AddBackParticle(
-                    new PlayerTrajectory_Particle(player.Position + MyMath.RandomCircleVec2() * 10f, -player.Velocity / 100f, rand));
-            }
-
-            BasePlayerPosition = camera.Position;
-            BaseDenemyPosition = BasePlayerPosition - new Vector2(0, 300);
             cloudManager.Update();
         }
 
         private void State01()
         {
-            player.Position = new Vector2(MathHelper.Lerp(player.Position.X, BasePlayerPosition.X, 0.1f), MathHelper.Lerp(player.Position.Y, BasePlayerPosition.Y, 0.1f));
-
             time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
-            if (time >= 1.0f)
+            if (time >= 0.5f)
             {
+                Denemy.Position = player.Position - new Vector2(0, 800);
                 time = 0.0f;
-                Denemy.Position = BaseDenemyPosition;
                 state = State.STATE02;
             }
         }
@@ -160,7 +129,7 @@ namespace FliedChicken.SceneDevices
         private void State02()
         {
             Denemy.Position += new Vector2(0, 30) * TimeSpeed.Time;
-            if (Denemy.Position.Y >= player.Position.Y - 200)
+            if (Denemy.Position.Y >= player.Position.Y - 300)
             {
                 time = 0.0f;
                 state = State.STATE03;
@@ -169,6 +138,7 @@ namespace FliedChicken.SceneDevices
 
         private void State03()
         {
+            Denemy.Position = player.Position - new Vector2(0, 300);
             time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
             if(time >= 0.5f)
             {
@@ -190,6 +160,7 @@ namespace FliedChicken.SceneDevices
         private void State05()
         {
             textPosition.X = MathHelper.Lerp(textPosition.X, Screen.Vec2.X / 2, 0.1f);
+            Denemy.Position = player.Position - new Vector2(0, 300);
             time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
             if (time >= 1.5f)
             {
@@ -201,6 +172,7 @@ namespace FliedChicken.SceneDevices
         private void Finish()
         {
             textPosition.X = MathHelper.Lerp(textPosition.X, -400, 0.1f);
+            Denemy.Position = player.Position - new Vector2(0, 300);
             time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
             if (time >= 1.0f)
             {
@@ -221,17 +193,19 @@ namespace FliedChicken.SceneDevices
         {
             if (attack)
             {
-                Denemy.Position += new Vector2(0, 30);
-                if (Denemy.Position.Y >= player.Position.Y)
+                Denemy.Position += new Vector2(0, 30) * TimeSpeed.Time;
+                if (Denemy.Position.Y >= player.Position.Y - 100)
                 {
+                    Denemy.Position = new Vector2(player.Position.X, player.Position.Y - 100);
                     attack = false;
                 }
             }
             else
             {
-                Denemy.Position -= new Vector2(0, 15);
+                Denemy.Position -= new Vector2(0, 15) * TimeSpeed.Time;
                 if (Denemy.Position.Y <= player.Position.Y - 200)
                 {
+                    Denemy.Position = new Vector2(player.Position.X, player.Position.Y - 200);
                     attack = true;
                     attackCountNow++;
                 }

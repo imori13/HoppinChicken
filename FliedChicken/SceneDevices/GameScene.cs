@@ -273,7 +273,7 @@ namespace FliedChicken.SceneDevices
                 }
             }
 
-            enemySpawner.Update();
+             enemySpawner.Update();
         }
 
         private void Clear()
