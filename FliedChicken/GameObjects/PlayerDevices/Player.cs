@@ -146,41 +146,6 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 Default();
             else
                 playerDeath.Update();
-
-#if DEBUG
-            // TODO:あとでけす
-            if (Input.GetKeyDown(Keys.H))
-            {
-                var random = GameDevice.Instance().Random;
-                int rotation = 360;
-                while (rotation > 0)
-                {
-                    Vector2 direction = MyMath.DegToVec2(rotation);
-                    direction = new Vector2(direction.X, direction.Y);
-                    direction *= 0.3f;
-                    var newParicle = new RadiationParticle2D(Position, Color.Yellow, direction, random);
-                    ObjectsManager.AddBackParticle(newParicle);
-                    rotation -= random.Next(0, 30 + 1);
-                }
-
-                for (int i = 0; i < 100; i++)
-                {
-                    ObjectsManager.AddBackParticle(new ExplosionParticle2D(ObjectsManager.Player.Position, MyMath.RandomCircleVec2(),Color.Black, random));
-                }
-            }
-
-            if (Input.GetKeyDown(Keys.D))
-            {
-                HitFlag = true;
-
-                GameDevice.Instance().Sound.PlaySE("Death");
-
-                TimeSpeed.HitStop();
-
-                // スコアをテキストファイルに記録
-                ScoreStream.Instance().AddScore(ObjectsManager.GameScene.TitleDisplayMode.keyInput.Text, SumDistance);
-            }
-#endif
         }
 
         void ClearUpdate()
@@ -221,7 +186,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 }
             }
 
-            if (gameObject.GameObjectTag == GameObjectTag.RedEnemy)
+            if (gameObject.GameObjectTag == GameObjectTag.RedEnemy || gameObject.GameObjectTag == GameObjectTag.DiveEnemy)
             {
                 if (!MutekiFlag)
                 {
@@ -236,13 +201,16 @@ namespace FliedChicken.GameObjects.PlayerDevices
                     }
                     else
                     {
-                        // スコアをテキストファイルに記録
-                        ScoreStream.Instance().AddScore(ObjectsManager.GameScene.TitleDisplayMode.keyInput.Text, SumDistance);
+                        if (!DebugMode.DebugFlag)
+                        {
+                            // スコアをテキストファイルに記録
+                            ScoreStream.Instance().AddScore(ObjectsManager.GameScene.TitleDisplayMode.keyInput.Text, SumDistance);
 
-                        // しぬ
-                        HitFlag = true;
-                        GameDevice.Instance().Sound.PlaySE("Death");
-                        TimeSpeed.HitStop();
+                            // しぬ
+                            HitFlag = true;
+                            GameDevice.Instance().Sound.PlaySE("Death");
+                            TimeSpeed.HitStop();
+                        }
                     }
                 }
             }
