@@ -156,7 +156,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
                 for (int i = 0; i < 100; i++)
                 {
-                    ObjectsManager.AddBackParticle(new ExplosionParticle2D(ObjectsManager.Player.Position, MyMath.RandomCircleVec2(), Color.Black, random));
+                    ObjectsManager.AddBackParticle(new ExplosionParticle2D(ObjectsManager.Player.Position, MyMath.RandomCircleVec2(),Color.Black, random));
                 }
             }
 

@@ -31,6 +31,9 @@ namespace FliedChicken.GameObjects.Particle
         protected float rotation_dest;    // rotation+rotation_rotateの合計値。線形補完の時に使う。
         protected float rotation_start;   // rotationの最初の値を保存。線形補完の時に使う。
 
+        float frictionTime;
+        float frictionLimit=0.025f;
+
         // 引数一番多い版。少ないやつをオーバーロードメソッドとして新しく作っちゃってもオッケー 
         // 同じ名前のメソッドでも引数が違うメソッドが書けるのがオーバーロード。
         public Particle2D(
@@ -84,7 +87,12 @@ namespace FliedChicken.GameObjects.Particle
             rotation = MathHelper.Lerp(rotation_start, rotation_dest, GetAliveRate());
 
             // 速度*摩擦 どんどん移動速度が落ちるとかに
-            speed *= friction;
+            frictionTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds * TimeSpeed.Time;
+            if (frictionTime >= frictionLimit)
+            {
+                frictionTime = 0;
+                speed *= friction;
+            }
 
             // 座標=移動角度*速度
             position += direction * speed * TimeSpeed.Time;

@@ -172,7 +172,7 @@ namespace FliedChicken.SceneDevices
             int index = 0;
             foreach (var data in dicSortData)
             {
-                if (index >= 50) { break; }
+                if (index >= 45) { break; }
 
                 // 描画するテキスト
                 string text = (index + 1).ToString("00") + "位 " + data.Key.PadRight(10, ' ') + ": " + data.Value.ToString("F2").PadLeft(8, '0') + "ｍ";
