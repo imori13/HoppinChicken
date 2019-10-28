@@ -65,6 +65,7 @@ namespace FliedChicken.GameObjects.Enemys
             if (gameObject.GameObjectTag == GameObjectTag.OneChanBom)
             {
                 IsDead = true;
+                DestroyEffect(Vector2.One);
             }
         }
 

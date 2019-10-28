@@ -186,9 +186,9 @@ namespace FliedChicken.SceneDevices
             if (State == GamePlayState.FLY)
             {
                 SpriteFont font = Fonts.Font10_128;
-                string text = player.SumDistance.ToString("0.0M");
+                string text = player.SumDistance.ToString("0.00M");
                 Vector2 size = font.MeasureString(text);
-                renderer.DrawString(font, text, new Vector2(Screen.WIDTH / 2f, 200 * Screen.ScreenSize), Color.Black, 0, size / 2f, Vector2.One * Screen.ScreenSize);
+                renderer.DrawString(font, text, new Vector2(Screen.WIDTH - 100 * Screen.ScreenSize, 150 * Screen.ScreenSize), new Color(240,90,90), 0, new Vector2(size.X, size.Y / 2f), Vector2.One * Screen.ScreenSize);
                 dEnemyUI.Draw(renderer);
             }
 
