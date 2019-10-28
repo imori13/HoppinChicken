@@ -186,7 +186,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 }
             }
 
-            if (gameObject.GameObjectTag == GameObjectTag.RedEnemy)
+            if (gameObject.GameObjectTag == GameObjectTag.RedEnemy || gameObject.GameObjectTag == GameObjectTag.DiveEnemy)
             {
                 if (!MutekiFlag)
                 {
@@ -201,13 +201,16 @@ namespace FliedChicken.GameObjects.PlayerDevices
                     }
                     else
                     {
-                        // スコアをテキストファイルに記録
-                        ScoreStream.Instance().AddScore(ObjectsManager.GameScene.TitleDisplayMode.keyInput.Text, SumDistance);
+                        if (!DebugMode.DebugFlag)
+                        {
+                            // スコアをテキストファイルに記録
+                            ScoreStream.Instance().AddScore(ObjectsManager.GameScene.TitleDisplayMode.keyInput.Text, SumDistance);
 
-                        // しぬ
-                        HitFlag = true;
-                        GameDevice.Instance().Sound.PlaySE("Death");
-                        TimeSpeed.HitStop();
+                            // しぬ
+                            HitFlag = true;
+                            GameDevice.Instance().Sound.PlaySE("Death");
+                            TimeSpeed.HitStop();
+                        }
                     }
                 }
             }

@@ -49,7 +49,6 @@ namespace FliedChicken.SceneDevices
         RankingScreen rankingScreen;
         DiveEnemyUI dEnemyUI;
         public TitleDisplayMode TitleDisplayMode { get; private set; }
-        OneChanItemUI oneChanItemUI;
         public BeforeFlyScreen BeforeFlyScreen { get; private set; }
         //コイン関連
         CoinManager coinManager;
@@ -73,7 +72,6 @@ namespace FliedChicken.SceneDevices
 
             coinManager = new CoinManager(objectsManager, 0.5f);
             cloudManager = new CloudManager(objectsManager);
-            oneChanItemUI = new OneChanItemUI(objectsManager);
         }
 
         public override void Initialize()
@@ -84,7 +82,6 @@ namespace FliedChicken.SceneDevices
             player = new Player(camera);
             objectsManager.AddGameObject(player);
             camera.Position = player.Position;
-            oneChanItemUI.Initialize();
 
             State = GamePlayState.TITLE;
 
@@ -182,19 +179,8 @@ namespace FliedChicken.SceneDevices
 
             renderer.End();
 
-#if DEBUG
-            // デバッグ用描画 現在のGamePlayStateの状態を表示
-            //renderer.Begin();
-            //SpriteFont font = Fonts.Font12_32;
-            //string text = state.ToString();
-            //Vector2 size = font.MeasureString(text);
-            //renderer.DrawString(font, text, new Vector2(Screen.WIDTH / 2f, 100 * Screen.ScreenSize), Color.White * 0.5f, 0, size / 2f, Vector2.One * Screen.ScreenSize);
-            //renderer.End();
-#endif
             // ---------------------------------------------
             renderer.Begin();
-
-            oneChanItemUI.Draw(renderer);
 
             // 進んだ距離を表示
             if (State == GamePlayState.FLY)
@@ -202,7 +188,7 @@ namespace FliedChicken.SceneDevices
                 SpriteFont font = Fonts.Font10_128;
                 string text = player.SumDistance.ToString("0.0M");
                 Vector2 size = font.MeasureString(text);
-                renderer.DrawString(font, text, new Vector2(Screen.WIDTH / 2f, 100 * Screen.ScreenSize), Color.Black, 0, size / 2f, Vector2.One * Screen.ScreenSize);
+                renderer.DrawString(font, text, new Vector2(Screen.WIDTH / 2f, 200 * Screen.ScreenSize), Color.Black, 0, size / 2f, Vector2.One * Screen.ScreenSize);
                 dEnemyUI.Draw(renderer);
             }
 
@@ -225,7 +211,6 @@ namespace FliedChicken.SceneDevices
             camera.Update();
             objectsManager.Update();
             cloudManager.Update();
-            oneChanItemUI.Update();
         }
 
         private void Title()
@@ -238,8 +223,6 @@ namespace FliedChicken.SceneDevices
                 objectsManager.AddGameObject(diveEnemy);
                 BeforeFlyScreen.Initialize(player, diveEnemy, cloudManager, camera);
                 State = GamePlayState.BEFOREFLY;
-
-                // TODO : ここでマップを生成する
             }
         }
 
@@ -319,7 +302,6 @@ namespace FliedChicken.SceneDevices
 
         public override SceneEnum NextScene()
         {
-            //rankingScreen.RankingWrite();
             return SceneEnum.GameScene;
         }
     }

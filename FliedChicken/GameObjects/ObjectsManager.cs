@@ -114,11 +114,14 @@ namespace FliedChicken.GameObjects
             backParticles.ForEach(p => p.Draw(renderer));
             gameobjects.ForEach(g => g.Draw(renderer));
 
-            foreach (var g in gameobjects)
+            if (DebugMode.DebugFlag)
             {
-                if (g.Collider != null)
+                foreach (var g in gameobjects)
                 {
-                    g.Collider.Draw(renderer);
+                    if (g.Collider != null)
+                    {
+                        g.Collider.Draw(renderer);
+                    }
                 }
             }
 
