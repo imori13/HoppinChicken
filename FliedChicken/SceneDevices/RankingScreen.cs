@@ -33,15 +33,13 @@ namespace FliedChicken.SceneDevices
         private Vector2 maxWindowSize;
         private float windowAlpha;
 
-        readonly int rankNum = 10;
+        private float scoreAlpha;
 
         ScreenState state;
 
         public bool IsDead { get; private set; }
 
         private Vector2 textPosition01;
-
-        private float time;
 
         private TitleDisplayMode titleDisplayMode;
 
@@ -62,12 +60,12 @@ namespace FliedChicken.SceneDevices
 
             textPosition01 = new Vector2(Screen.Vec2.X, Screen.Vec2.Y / 2);
 
-            time = 0.0f;
+            scoreAlpha = 0.0f;
         }
 
         public void InitializeTitle()
         {
-            state = ScreenState.STATE01;
+            state = ScreenState.START;
 
             IsDead = false;
 
@@ -76,7 +74,7 @@ namespace FliedChicken.SceneDevices
 
             textPosition01 = new Vector2(Screen.Vec2.X, Screen.Vec2.Y / 2);
 
-            time = 0.0f;
+            scoreAlpha = 0.0f;
         }
 
         public void Update()
@@ -113,6 +111,7 @@ namespace FliedChicken.SceneDevices
             windowAlpha += 0.1f * TimeSpeed.Time;
             if (windowAlpha >= 0.5f)
             {
+                windowAlpha = 0.5f;
                 state = ScreenState.STATE01;
             }
         }
@@ -129,21 +128,32 @@ namespace FliedChicken.SceneDevices
 
         private void State02()
         {
-            time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
-            if (Input.GetKeyDown(Keys.Space))
+            scoreAlpha += 0.1f * TimeSpeed.Time;
+            if (scoreAlpha >= 1.0f)
             {
-                IsDead = true;
+                scoreAlpha = 1.0f;
+                state = ScreenState.STATE03;
             }
         }
 
         private void State03()
         {
-
+            if (Input.GetKeyDown(Keys.Space) || Input.GetKeyDown(Keys.Enter))
+            {
+                state = ScreenState.FINISH;
+            }
         }
 
         private void Finish()
         {
-
+            textPosition01 -= new Vector2(100, 0) * TimeSpeed.Time;
+            scoreAlpha -= 0.1f * TimeSpeed.Time;
+            windowAlpha -= 0.1f * TimeSpeed.Time;
+            if (textPosition01.X <= -Screen.WIDTH * 1.5f)
+            {
+                textPosition01.X = -Screen.WIDTH * 1.5f;
+                IsDead = true;
+            }
         }
 
         public void End()
@@ -155,8 +165,6 @@ namespace FliedChicken.SceneDevices
         {
             renderer.Draw2D("Pixel", Screen.Vec2 / 2f,
                 Color.Black * windowAlpha, 0.0f, maxWindowSize);
-
-            windowAlpha = MathHelper.Lerp(windowAlpha, 0.5f, 0.1f);
 
             renderer.DrawString(Fonts.Font10_128, "RANKING", textPosition01 + new Vector2(Screen.WIDTH / 2f, -400), new Color(255, 91, 91),
                 0.0f, Fonts.Font10_128.MeasureString("RANKING") / 2f, new Vector2(0.7f, 0.7f));
@@ -201,7 +209,7 @@ namespace FliedChicken.SceneDevices
                 renderer.DrawString(
                     font, text,
                     position,
-                    color,
+                    color * scoreAlpha,
                     0, new Vector2(size.X / 2f, size.Y / 2f),
                     Vector2.One);
 

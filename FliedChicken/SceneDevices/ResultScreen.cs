@@ -144,6 +144,7 @@ namespace FliedChicken.SceneDevices
             windowAlpha += 0.1f * TimeSpeed.Time;
             if (windowAlpha >= 0.5f)
             {
+                windowAlpha = 0.5f;
                 state = ScreenState.STATE01;
             }
         }
@@ -153,6 +154,7 @@ namespace FliedChicken.SceneDevices
             textPosition01 -= new Vector2(100, 0) * TimeSpeed.Time;
             if (textPosition01.X <= 50)
             {
+                textPosition01.X = 50;
                 state = ScreenState.STATE02;
             }
         }
@@ -162,6 +164,7 @@ namespace FliedChicken.SceneDevices
             scoreAlpha += 0.1f * TimeSpeed.Time;
             if (scoreAlpha >= 1.0f)
             {
+                scoreAlpha = 1.0f;
                 state = ScreenState.STATE03;
             }
         }
@@ -181,6 +184,7 @@ namespace FliedChicken.SceneDevices
             scoreAlpha -= 0.1f * TimeSpeed.Time;
             if (textPosition02.X <= 0.0f)
             {
+                textPosition02.X = 0.0f;
                 IsDead = true;
             }
         }
