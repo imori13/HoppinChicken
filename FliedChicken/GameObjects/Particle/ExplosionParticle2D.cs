@@ -22,7 +22,7 @@ namespace FliedChicken.GameObjects.Particle
                 rand.Next(0, 1) + (float)rand.NextDouble(),
                 position,
                 direction,
-                rand.Next(25, 50) + (float)rand.NextDouble(),  // speed
+                rand.Next(10,30) + (float)rand.NextDouble(),  // speed
                 0.9f,   // friction
                 Color.Lerp(color, Color.White, (float)rand.NextDouble()),
                 1,  // alpha

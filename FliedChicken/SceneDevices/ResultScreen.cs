@@ -171,7 +171,7 @@ namespace FliedChicken.SceneDevices
 
         private void State03()
         {
-            if (Input.GetKeyDown(Keys.Space))
+            if (Input.GetKeyDown(Keys.Space) || Input.IsPadButtonDown(Buttons.B, 0) || Input.IsPadButtonDown(Buttons.A, 0))
             {
                 state = ScreenState.FINISH;
             }

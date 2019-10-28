@@ -72,6 +72,7 @@ namespace FliedChicken
             renderer.LoadTexture("Killer_Passive", "Texture/");
             renderer.LoadTexture("NameWIndow", "Texture/");
             renderer.LoadTexture("DiveEnemyUI", "Texture/");
+            renderer.LoadTexture("RankingLR", "Texture/");
 
             Sound sound = GameDevice.Instance().Sound;
 

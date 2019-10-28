@@ -27,7 +27,9 @@ namespace FliedChicken.GameObjects.PlayerDevices
             OneChanceFlag = false;
 
             // ボムを生成
-            player.ObjectsManager.AddGameObject(new OnechanBom(player, 500f));
+            player.ObjectsManager.AddGameObject(new OnechanBom(player, 1000f));
+
+            player.ObjectsManager.Camera.Shake(40, 5, 0.95f);
         }
 
         // プレイヤーヒット時の呼び出し用

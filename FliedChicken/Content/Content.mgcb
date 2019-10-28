@@ -375,6 +375,7 @@
 /build:SE/Death.wav
 
 #begin Texture/DiveEnemyUI.png
+#begin Texture/RankingLR.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -385,4 +386,5 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Texture/DiveEnemyUI.png
+/build:Texture/RankingLR.png
 

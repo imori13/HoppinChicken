@@ -130,6 +130,7 @@ namespace FliedChicken.SceneDevices
         {
             scoreAlpha += 0.1f * TimeSpeed.Time;
             if (scoreAlpha >= 1.0f)
+            //if (Input.GetKeyDown(Keys.Space) || Input.IsPadButtonDown(Buttons.B, 0) || Input.IsPadButtonDown(Buttons.A, 0))
             {
                 scoreAlpha = 1.0f;
                 state = ScreenState.STATE03;
@@ -180,7 +181,7 @@ namespace FliedChicken.SceneDevices
             int index = 0;
             foreach (var data in dicSortData)
             {
-                if (index >= 50) { break; }
+                if (index >= 45) { break; }
 
                 // 描画するテキスト
                 string text = (index + 1).ToString("00") + "位 " + data.Key.PadRight(10, ' ') + ": " + data.Value.ToString("F2").PadLeft(8, '0') + "ｍ";
