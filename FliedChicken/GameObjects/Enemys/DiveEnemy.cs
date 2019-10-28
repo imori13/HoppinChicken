@@ -36,7 +36,8 @@ namespace FliedChicken.GameObjects.Enemys
         private float minPlayerDistance;
         private float maxPlayerDistance;
 
-        private const float moveSpeed = 4.0f;
+        private float moveSpeed;
+        private float moveSpeed_Max;
 
         public DiveEnemy(Camera camera, Player player)
         {
@@ -51,6 +52,9 @@ namespace FliedChicken.GameObjects.Enemys
 
             maxPlayerDistance = Screen.HEIGHT * 0.75f;
             minPlayerDistance = Screen.HEIGHT * 0.25f;
+
+            //落下速度(最高)を設定
+            moveSpeed_Max = player.PlayerMove.FallSpeed;
         }
 
         public override void Initialize()
@@ -98,6 +102,7 @@ namespace FliedChicken.GameObjects.Enemys
             spriteEffects = SpriteEffects.None;
 
             Vector2 playerPos = player.Position;
+
             float newX = MathHelper.Lerp(Position.X, playerPos.X, 0.2f * deltaTime);
             float newY = Math.Min(Position.Y + moveSpeed * deltaTime, playerPos.Y - minPlayerDistance);
             Position = new Vector2(newX, newY);
@@ -127,12 +132,17 @@ namespace FliedChicken.GameObjects.Enemys
             if (gameObject is KillerEnemy)
             {
                 state = State.STOP;
+                minPlayerDistance -= 20;
             }
         }
 
         private void UpdatePlayerDistance()
         {
-            minPlayerDistance -= moveSpeed * 0.5f * TimeSpeed.Time;
+            //Aランクの手前ぐらいの落下距離で最大
+            float sineY = Easing2D.SineIn(player.SumDistance, 600, new Vector2(0, 7.5f), new Vector2(0, moveSpeed_Max)).Y;
+            moveSpeed = sineY;
+
+            minPlayerDistance -= moveSpeed * TimeSpeed.Time;
             minPlayerDistance = Math.Max(0, minPlayerDistance);
         }
     }

@@ -72,7 +72,7 @@ namespace FliedChicken.GameObjects.Objects
                     Vector2 direction = MyMath.DegToVec2(rotation);
                     direction = new Vector2(direction.X, direction.Y);
                     direction *= 0.1f;
-                    var newParicle = new RadiationParticle2D(Position, Color.OrangeRed, direction, random);
+                    var newParicle = new RadiationParticle2D(Position, Color.LightYellow, direction, random);
                     ObjectsManager.AddBackParticle(newParicle);
                     rotation -= random.Next(0, 10 + 1);
                 }

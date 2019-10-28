@@ -17,7 +17,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
         Player player;
 
-        private float fallSpeed;
+        public float FallSpeed { get; private set; }
 
         private Vector2 destPosition;
 
@@ -36,7 +36,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
         {
             PlayerMoveState = PlayerMoveState.None;
             inputflag = false;
-            fallSpeed = 10;
+            FallSpeed = 10;
         }
 
         public Vector2 Velocity()
@@ -101,7 +101,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 }
             }
 
-            Velocity.Y = MathHelper.Lerp(Velocity.Y, fallSpeed, 0.1f*TimeSpeed.Time);
+            Velocity.Y = MathHelper.Lerp(Velocity.Y, FallSpeed, 0.1f * TimeSpeed.Time);
 
             return Velocity;
         }

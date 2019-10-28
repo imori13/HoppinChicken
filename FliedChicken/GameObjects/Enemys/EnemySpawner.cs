@@ -71,22 +71,24 @@ namespace FliedChicken.GameObjects.Enemys
             spawnFuncAddList = new List<KeyValuePair<float, WeightSelectHelper<Func<Enemy>>>>
                 {
                     new KeyValuePair<float, WeightSelectHelper<Func<Enemy>>>
-                    (30, new WeightSelectHelper<Func<Enemy>>(1, new Func<Enemy>(() => new SlowEnemy(camera)))),
+                    (60, new WeightSelectHelper<Func<Enemy>>(1, new Func<Enemy>(() => new SlowEnemy(camera)))),
 
                     new KeyValuePair<float, WeightSelectHelper<Func<Enemy>>>
-                    (60, new WeightSelectHelper<Func<Enemy>>(3, new Func<Enemy>(() => new HighSpeedEnemy(camera)))),
+                    (150, new WeightSelectHelper<Func<Enemy>>(3, new Func<Enemy>(() => new HighSpeedEnemy(camera)))),
 
                     new KeyValuePair<float, WeightSelectHelper<Func<Enemy>>>
-                    (100, new WeightSelectHelper<Func<Enemy>>(5, new Func<Enemy>(() => new ThornEnemy(camera)))),
+                    (250, new WeightSelectHelper<Func<Enemy>>(5, new Func<Enemy>(() => new ThornEnemy(camera)))),
 
                     new KeyValuePair<float, WeightSelectHelper<Func<Enemy>>>
-                    (120, new WeightSelectHelper<Func<Enemy>>(2, new Func<Enemy>(() => new KillerEnemy(camera))))
+                    (300, new WeightSelectHelper<Func<Enemy>>(2, new Func<Enemy>(() => new KillerEnemy(camera))))
                 };
+
+            spawnFuncAddList.OrderBy(value => value.Key);
         }
 
         public void Update()
         {
-            distanceSum += Vector2.Distance(camera.Position, prevCameraPos);
+            distanceSum += Math.Abs(camera.Position.Y - prevCameraPos.Y);
             while (distanceSum >= 0)
             {
                 distanceSum -= 128f;

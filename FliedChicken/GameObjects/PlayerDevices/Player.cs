@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace FliedChicken.GameObjects.PlayerDevices
 {
-    class Player : GameObject
+    class Player : GameObject, IOneChanItemCarrier
     {
         public enum PlayerState
         {
@@ -44,8 +44,10 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
         // ヒットしたかどうか
         public bool HitFlag { get; private set; }
+        public OneChanItem OneChanItem { get; set; }
 
         float normalParticleTime = 0;
+        float oneChanRotation;
 
         public Player(Camera camera)
         {
@@ -56,6 +58,9 @@ namespace FliedChicken.GameObjects.PlayerDevices
             PlayerMove = new PlayerMove(this);
             OnechanBomManager = new OnechanBomManager(this);
             playerDeath = new PlayerDeath(this);
+
+            //見た目だけ欲しいのでクラスだけ追加(クソ手抜き)
+            OneChanItem = new OneChanItem(this);
         }
 
         public override void Initialize()
@@ -109,6 +114,9 @@ namespace FliedChicken.GameObjects.PlayerDevices
                     boundSoundFlag = true;
                 }
             }
+
+            //見た目だけ欲しいので手動更新
+            OneChanItem.Update();
         }
 
         void BeforeFly()
@@ -181,6 +189,9 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
         public override void Draw(Renderer renderer)
         {
+            if (OnechanBomManager.OneChanceFlag && !HitFlag)
+                OneChanItem.Draw(renderer);
+
             if (!HitFlag)
                 renderer.Draw2D("Chicken", Position, Color.White, 0, playerScale.DrawScale * 1.2f);
             else
@@ -258,6 +269,11 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 normalParticleTime -= limit;
                 ObjectsManager.AddBackParticle(new PlayerTrajectory_Particle(Position + MyMath.RandomCircleVec2() * 10f, -Velocity / 100f, rand));
             }
+        }
+
+        public Vector2 GetItemPosition()
+        {
+            return Position;
         }
     }
 }
