@@ -141,7 +141,7 @@ namespace FliedChicken.GameObjects.Enemys
         private void UpdatePlayerDistance()
         {
             //Aランクの手前ぐらいの落下距離で最大
-            float sineY = Easing2D.SineIn(player.SumDistance, 600, new Vector2(0, 4), new Vector2(0, 8)).Y;
+            float sineY = Easing2D.SineIn(player.SumDistance, 600, new Vector2(0,4), new Vector2(0, 9.5f)).Y;
             moveSpeed = sineY;
 
             minPlayerDistance -= moveSpeed * TimeSpeed.Time;
