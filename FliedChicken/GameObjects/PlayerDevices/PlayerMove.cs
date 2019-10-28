@@ -67,12 +67,13 @@ namespace FliedChicken.GameObjects.PlayerDevices
             // 左右移動
 
             float speed = 8f;
-
-            if (Input.GetKey(Keys.Right) || Input.GetLeftStickState(0).X > 0.5f || Input.GetRightStickState(0).X > 0.5f)
+            if ((Input.GetKey(Keys.Right) || Input.GetLeftStickState(0).X > 0.5f || Input.GetRightStickState(0).X > 0.5f)
+                && player.state != Player.PlayerState.BEFOREFLY)
             {
                 Velocity.X = MathHelper.Lerp(Velocity.X, speed, 0.1f * TimeSpeed.Time);
             }
-            else if (Input.GetKey(Keys.Left) || Input.GetLeftStickState(0).X < -0.5f || Input.GetRightStickState(0).X < -0.5f)
+            else if ((Input.GetKey(Keys.Left) || Input.GetLeftStickState(0).X < -0.5f || Input.GetRightStickState(0).X < -0.5f)
+                && player.state != Player.PlayerState.BEFOREFLY)
             {
                 Velocity.X = MathHelper.Lerp(Velocity.X, -speed, 0.1f * TimeSpeed.Time);
             }
@@ -82,7 +83,8 @@ namespace FliedChicken.GameObjects.PlayerDevices
             }
 
             // ジャンプ処理
-            if (Input.GetKeyDown(Keys.Space) || Input.IsPadButtonDown(Buttons.B, 0) || Input.IsPadButtonDown(Buttons.A, 0) || inputflag)
+            if ((Input.GetKeyDown(Keys.Space) || Input.IsPadButtonDown(Buttons.B, 0) || Input.IsPadButtonDown(Buttons.A, 0) || inputflag)
+                && player.state != Player.PlayerState.BEFOREFLY)
             {
                 if (time >= 0.1f)
                 {

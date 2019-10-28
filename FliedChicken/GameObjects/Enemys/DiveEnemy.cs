@@ -129,6 +129,12 @@ namespace FliedChicken.GameObjects.Enemys
 
         public override void HitAction(GameObject gameObject)
         {
+            if (gameObject.GameObjectTag == GameObjectTag.OneChanBom)
+            {
+                state = State.STOP;
+                minPlayerDistance -= 20;
+            }
+
             if (gameObject is KillerEnemy)
             {
                 state = State.STOP;

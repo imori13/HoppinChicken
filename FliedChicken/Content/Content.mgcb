@@ -374,7 +374,6 @@
 /processorParam:Quality=Best
 /build:SE/Death.wav
 
-#begin Texture/DiveEnemyUI.png
 #begin Texture/RankingLR.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -385,6 +384,29 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Texture/DiveEnemyUI.png
 /build:Texture/RankingLR.png
+
+#begin Texture/ESCAPE!!.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Texture/ESCAPE!!.png
+
+#begin Texture/DiveEnemyUI.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Texture/DiveEnemyUI.png
 
