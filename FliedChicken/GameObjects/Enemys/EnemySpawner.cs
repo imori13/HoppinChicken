@@ -71,14 +71,14 @@ namespace FliedChicken.GameObjects.Enemys
             spawnFuncAddList = new List<KeyValuePair<float, WeightSelectHelper<Func<Enemy>>>>
                 {
                     new KeyValuePair<float, WeightSelectHelper<Func<Enemy>>>
-                    (60, new WeightSelectHelper<Func<Enemy>>(1, new Func<Enemy>(() => new SlowEnemy(camera)))),
+                    (50, new WeightSelectHelper<Func<Enemy>>(1, new Func<Enemy>(() => new SlowEnemy(camera)))),
+                    
+                    new KeyValuePair<float, WeightSelectHelper<Func<Enemy>>>
+                    (100, new WeightSelectHelper<Func<Enemy>>(5, new Func<Enemy>(() => new ThornEnemy(camera)))),
 
                     new KeyValuePair<float, WeightSelectHelper<Func<Enemy>>>
                     (150, new WeightSelectHelper<Func<Enemy>>(3, new Func<Enemy>(() => new HighSpeedEnemy(camera)))),
-
-                    new KeyValuePair<float, WeightSelectHelper<Func<Enemy>>>
-                    (250, new WeightSelectHelper<Func<Enemy>>(5, new Func<Enemy>(() => new ThornEnemy(camera)))),
-
+                    
                     new KeyValuePair<float, WeightSelectHelper<Func<Enemy>>>
                     (300, new WeightSelectHelper<Func<Enemy>>(2, new Func<Enemy>(() => new KillerEnemy(camera))))
                 };
