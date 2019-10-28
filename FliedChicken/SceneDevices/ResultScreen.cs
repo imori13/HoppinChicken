@@ -104,7 +104,7 @@ namespace FliedChicken.SceneDevices
 
             scoreCheckFL = new float[]
             {
-                1200, 800, 400
+                750, 500, 250
             };
 
             ScoreCheck(score);
