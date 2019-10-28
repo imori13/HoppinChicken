@@ -64,7 +64,18 @@ namespace FliedChicken.GameObjects.Objects
             if (gameObject.GameObjectTag == GameObjectTag.Player)
             {
                 IsDead = true;
-                ObjectsManager.AddBackParticle(new OneChanParticle(gameObject, Vector2.One * 3, rotation));
+
+                var random = GameDevice.Instance().Random;
+                int rotation = 360;
+                while (rotation > 0)
+                {
+                    Vector2 direction = MyMath.DegToVec2(rotation);
+                    direction = new Vector2(direction.X, direction.Y);
+                    direction *= 0.1f;
+                    var newParicle = new RadiationParticle2D(Position, Color.LightYellow, direction, random);
+                    ObjectsManager.AddBackParticle(newParicle);
+                    rotation -= random.Next(0, 10 + 1);
+                }
             }
         }
 
