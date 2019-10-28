@@ -30,7 +30,7 @@ namespace FliedChicken.SceneDevices.Title
 
         RankingScreen rankingScreen;
 
-        bool rankingON;
+        public bool RankingON { get; private set; }
 
         public TitleDisplayMode()
         {
@@ -55,19 +55,19 @@ namespace FliedChicken.SceneDevices.Title
             startBack01 = 0;
             startBack02 = 0;
 
-            rankingON = false;
+            RankingON = false;
         }
 
         public void Update()
         {
             if (!startFlag)
             {
-                if (rankingON)
+                if (RankingON)
                 {
                     rankingScreen.Update();
                     if (rankingScreen.IsDead)
                     {
-                        rankingON = false;
+                        RankingON = false;
                     }
                 }
                 else
@@ -82,19 +82,21 @@ namespace FliedChicken.SceneDevices.Title
                     {
                         destSizeY += 300;
                     }
-
-                    destSizeY -= 10 * TimeSpeed.Time;
-
-                    destSizeY = MathHelper.Clamp(destSizeY, 0, 1080);
-
+                    
                     keyInput.Update();
 
                     if (Input.GetKeyDown(Keys.Enter) || (Input.IsPadButtonHold(Buttons.LeftShoulder, 0) && Input.IsPadButtonHold(Buttons.RightShoulder, 0)))
                     {
                         rankingScreen.InitializeTitle();
-                        rankingON = true;
+                        RankingON = true;
+                        GameDevice.Instance().Sound.PlaySE("ButtonDown");
                     }
                 }
+
+                destSizeY -= 10 * TimeSpeed.Time;
+
+                destSizeY = MathHelper.Clamp(destSizeY, 0, 1080);
+
                 inputKeyPos = new Vector2(Screen.WIDTH / 2f, Screen.HEIGHT - 178 * Screen.ScreenSize);
             }
             else
@@ -177,7 +179,7 @@ namespace FliedChicken.SceneDevices.Title
 
             keyInput.Draw(renderer, rate, inputKeyPos);
 
-            if (rankingON)
+            if (RankingON)
             {
                 rankingScreen.Draw(renderer);
             }

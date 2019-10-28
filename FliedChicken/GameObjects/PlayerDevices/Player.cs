@@ -24,7 +24,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
         Camera camera;
 
         // モジュール
-        PlayerScale playerScale;
+        public PlayerScale PlayerScale { get; private set; }
         public PlayerMove PlayerMove { get; private set; }
         public OnechanBomManager OnechanBomManager { get; private set; }
         public bool PlayerGameStartFlag { get; set; }
@@ -32,6 +32,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
         public float SumDistance { get; private set; }
         PlayerDeath playerDeath;
         public PlayerState state;
+        public float Vivration { get; set; }
 
         public bool MutekiFlag { get; private set; }
         float mutekiTime;
@@ -54,7 +55,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
             this.camera = camera;
             GameObjectTag = GameObjectTag.Player;
             Collider = new CircleCollider(this, 20);
-            playerScale = new PlayerScale(this);
+            PlayerScale = new PlayerScale(this);
             PlayerMove = new PlayerMove(this);
             OnechanBomManager = new OnechanBomManager(this);
             playerDeath = new PlayerDeath(this);
@@ -65,7 +66,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
         public override void Initialize()
         {
-            playerScale.Initialize();
+            PlayerScale.Initialize();
             PlayerMove.Initialize();
             playerDeath.Initialize();
 
@@ -84,13 +85,39 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
             boundSoundFlag = false;
             boundSoundTime = 0;
+            Vivration = 0;
         }
 
         public override void Update()
         {
+            if (PlayerGameStartFlag && !HitFlag)
+            {
+                SumDistance = Math.Max(SumDistance, Math.Abs(StartPositionY - Position.Y) / 100f);
+            }
+
+            // プレイヤーとDiveEnemyが近ければカメラが上に行く処理
+            // ゴリラプログラミング。読むと毒
             if (PlayerGameStartFlag)
             {
-                SumDistance = Math.Abs(StartPositionY - Position.Y) / 100f;
+                float distance = Vector2.Distance(Position, ObjectsManager.DiveEnemy.Position);
+
+                float limitMax = 600;
+                distance = MathHelper.Clamp(distance, 0, limitMax);
+
+                float offsetY = 0;
+
+                float min = -300;
+                float max = 250;
+                
+                offsetY = Easing2D.SineIn(distance, limitMax, min, max);
+
+                offsetY = MathHelper.Clamp(offsetY, 0, max);
+
+                camera.Position = Vector2.Lerp(camera.Position, Position + Vector2.UnitY * offsetY, 0.1f * TimeSpeed.Time);
+            }
+            else
+            {
+                camera.Position = Vector2.Lerp(camera.Position, Position + Vector2.UnitY * 50, 0.1f * TimeSpeed.Time);
             }
 
             switch (state)
@@ -115,21 +142,23 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 }
             }
 
+            Vivration = (TimeSpeed.IsHitStop) ? (1) : (Vivration);
+
+            Vivration = MathHelper.Lerp(Vivration, 0, 0.2f);
+
+            Input.SetVibration(0, Vivration);
+
             //見た目だけ欲しいので手動更新
             OneChanItem.Update();
         }
 
         void BeforeFly()
         {
-            camera.Position = Vector2.Lerp(camera.Position, Position + Vector2.UnitY * 50f, 0.1f * TimeSpeed.Time);
             Default();
         }
 
         public void FlyUpdate()
         {
-            // カメラの移動処理
-            camera.Position = Vector2.Lerp(camera.Position, Position + Vector2.UnitY * 50f, 0.1f * TimeSpeed.Time);
-
             if (MutekiFlag)
             {
                 mutekiTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds * TimeSpeed.Time;
@@ -159,7 +188,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 OneChanItem.Draw(renderer);
 
             if (!HitFlag)
-                renderer.Draw2D("Chicken", Position, Color.White, 0, playerScale.DrawScale * 1.2f);
+                renderer.Draw2D("Chicken", Position, Color.White, 0, PlayerScale.DrawScale * 1.2f);
             else
                 playerDeath.Draw(renderer);
         }
@@ -178,6 +207,8 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 {
                     BoundBoxCollision(gameObject);
                 }
+
+                Vivration = 2f;
 
                 if (boundSoundFlag)
                 {
@@ -226,7 +257,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
         void Default()
         {
             // プレイヤーのぼよんぼよんする挙動
-            playerScale.Update();
+            PlayerScale.Update();
             // プレイヤーの移動処理
             Velocity = PlayerMove.Velocity();
             Position = PlayerMove.Move();

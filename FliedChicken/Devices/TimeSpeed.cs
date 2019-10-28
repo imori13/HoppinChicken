@@ -38,11 +38,13 @@ namespace FliedChicken.Devices
                 stopTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
 
                 dest = 0.1f;
-
+                
                 if (stopTime >= stopLimit)
                 {
                     stopTime = 0;
                     IsHitStop = false;
+
+                    GameDevice.Instance().Sound.ResumeBGM();
                 }
             }
 
@@ -62,6 +64,8 @@ namespace FliedChicken.Devices
         public static void HitStop()
         {
             IsHitStop = true;
+
+            GameDevice.Instance().Sound.PauseBGM();
         }
     }
 }

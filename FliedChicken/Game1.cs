@@ -89,6 +89,19 @@ namespace FliedChicken
             sound.LoadSE("Bound02", "SE/");
             sound.LoadSE("Bound03", "SE/");
             sound.LoadSE("Death", "SE/");
+            sound.LoadSE("DiveEnemySound", "SE/");
+            sound.LoadSE("ButtonDown", "SE/");
+
+            sound.LoadBGM("bgm_maoudamashii_8bit08", "BGM/");
+            sound.LoadBGM("bgm_maoudamashii_8bit09", "BGM/");
+            sound.LoadBGM("bgm_maoudamashii_8bit10", "BGM/");
+            sound.LoadBGM("bgm_maoudamashii_8bit11", "BGM/");
+            sound.LoadBGM("bgm_maoudamashii_8bit27", "BGM/");
+            sound.LoadBGM("bgm_maoudamashii_8bit28", "BGM/");
+
+            // 最初に再生するとき固まるので、再生して止めておく
+            sound.PlayBGM("bgm_maoudamashii_8bit28");
+            sound.StopBGM();
 
             sceneManager.AddScene(SceneEnum.GameScene, new GameScene());
 

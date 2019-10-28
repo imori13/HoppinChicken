@@ -105,6 +105,12 @@ namespace FliedChicken.Devices
             return max / 2 * (t * t * t * t * t + 2) + min;
         }
 
+        public static float SineIn(float t, float totaltime, float min, float max)
+        {
+            max -= min;
+            return -max * (float)Math.Cos(t * (Math.PI * 90 / 180) / totaltime) + max + min;
+        }
+
         public static Vector2 SineIn(float t, float totaltime, Vector2 min, Vector2 max)
         {
             max -= min;

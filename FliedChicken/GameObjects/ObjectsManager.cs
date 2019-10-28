@@ -49,8 +49,8 @@ namespace FliedChicken.GameObjects
 
             gameobject.Initialize();
 
-            if (Player == null && gameobject is Player) { Player = gameobject as Player; }
-            if (DiveEnemy == null && gameobject is DiveEnemy) { DiveEnemy = gameobject as DiveEnemy; }
+            if (gameobject is Player) { Player = gameobject as Player; }
+            if (gameobject is DiveEnemy) { DiveEnemy = gameobject as DiveEnemy; }
         }
 
         public void AddBackParticle(Particle2D particle)

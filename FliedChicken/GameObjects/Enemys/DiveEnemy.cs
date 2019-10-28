@@ -99,7 +99,7 @@ namespace FliedChicken.GameObjects.Enemys
 
             Vector2 playerPos = player.Position;
 
-            float newX = MathHelper.Lerp(Position.X, playerPos.X, 0.2f * deltaTime);
+            float newX = MathHelper.Lerp(Position.X, playerPos.X, 0.05f * deltaTime);
             float newY = Math.Min(Position.Y + moveSpeed * deltaTime, playerPos.Y - minPlayerDistance);
             Position = new Vector2(newX, newY);
         }
@@ -113,7 +113,7 @@ namespace FliedChicken.GameObjects.Enemys
             if (stopCount >= stopTime)
             {
                 Animation.Color = Color.White;
-                   stopCount = 0.0f;
+                stopCount = 0.0f;
                 state = State.FORMING;
             }
         }
@@ -130,18 +130,13 @@ namespace FliedChicken.GameObjects.Enemys
                 state = State.STOP;
                 minPlayerDistance -= 20;
             }
-
-            if (gameObject is KillerEnemy)
-            {
-                state = State.STOP;
-                minPlayerDistance -= 20;
-            }
         }
 
         private void UpdatePlayerDistance()
         {
             //Aランクの手前ぐらいの落下距離で最大
-            float sineY = Easing2D.SineIn(player.SumDistance, 600, new Vector2(0,4), new Vector2(0, 9.5f)).Y;
+            float distance = 600;
+            float sineY = Easing2D.SineIn(MathHelper.Clamp(player.SumDistance, 0, distance), distance, 4.0f, 7.5f);
             moveSpeed = sineY;
 
             minPlayerDistance -= moveSpeed * TimeSpeed.Time;

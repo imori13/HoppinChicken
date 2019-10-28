@@ -235,9 +235,21 @@ namespace FliedChicken.SceneDevices
                 enemySpawner.Initialize();
                 player.StartPositionY = player.Position.Y;
                 player.PlayerGameStartFlag = true;
-                dEnemyUI = new DiveEnemyUI(camera, diveEnemy);
+                dEnemyUI = new DiveEnemyUI(camera, diveEnemy, player);
                 dEnemyUI.Initialize();
                 State = GamePlayState.FLY;
+
+                string[] bgms = new string[]
+                {
+                    "bgm_maoudamashii_8bit08",
+                    "bgm_maoudamashii_8bit09",
+                    "bgm_maoudamashii_8bit10",
+                    "bgm_maoudamashii_8bit11",
+                    "bgm_maoudamashii_8bit27",
+                    "bgm_maoudamashii_8bit28",
+                };
+
+                GameDevice.Instance().Sound.PlayBGM(bgms[GameDevice.Instance().Random.Next(0, bgms.Length)]);
             }
         }
 
@@ -249,6 +261,8 @@ namespace FliedChicken.SceneDevices
                 time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
                 float limit = 1f;
 
+                GameDevice.Instance().Sound.StopBGM();
+
                 if (time >= limit)
                 {
                     resultScreen.Initialize(player.SumDistance);
@@ -256,7 +270,7 @@ namespace FliedChicken.SceneDevices
                 }
             }
 
-             enemySpawner.Update();
+            enemySpawner.Update();
         }
 
         private void Clear()

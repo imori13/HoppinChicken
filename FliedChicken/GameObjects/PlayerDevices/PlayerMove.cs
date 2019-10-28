@@ -64,18 +64,22 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
             PlayerMoveState = PlayerMoveState.None;
 
+            float destFallSpeed = 10f;
+
             // 左右移動
 
             float speed = 8f;
-            if ((Input.GetKey(Keys.Right) || Input.GetLeftStickState(0).X > 0.5f || Input.GetRightStickState(0).X > 0.5f)
-                && player.state != Player.PlayerState.BEFOREFLY)
+            if ((Input.GetKey(Keys.Right) || Input.GetLeftStickState(0).X > 0.5f || Input.IsPadButtonHold(Buttons.DPadRight, 0) || Input.GetRightStickState(0).X > 0.5f)
+                && !player.ObjectsManager.GameScene.TitleDisplayMode.RankingON)
             {
                 Velocity.X = MathHelper.Lerp(Velocity.X, speed, 0.1f * TimeSpeed.Time);
+                destFallSpeed = 8f;
             }
-            else if ((Input.GetKey(Keys.Left) || Input.GetLeftStickState(0).X < -0.5f || Input.GetRightStickState(0).X < -0.5f)
-                && player.state != Player.PlayerState.BEFOREFLY)
+            else if ((Input.GetKey(Keys.Left) || Input.GetLeftStickState(0).X < -0.5f || Input.IsPadButtonHold(Buttons.DPadLeft, 0) || Input.GetRightStickState(0).X < -0.5f)
+                && !player.ObjectsManager.GameScene.TitleDisplayMode.RankingON)
             {
                 Velocity.X = MathHelper.Lerp(Velocity.X, -speed, 0.1f * TimeSpeed.Time);
+                destFallSpeed = 7.5f;
             }
             else
             {
@@ -84,13 +88,15 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
             // ジャンプ処理
             if ((Input.GetKeyDown(Keys.Space) || Input.IsPadButtonDown(Buttons.B, 0) || Input.IsPadButtonDown(Buttons.A, 0) || inputflag)
-                && player.state != Player.PlayerState.BEFOREFLY)
+                && !player.ObjectsManager.GameScene.TitleDisplayMode.RankingON)
             {
                 if (time >= 0.1f)
                 {
                     time = 0;
                     inputflag = false;
                     Velocity = new Vector2(Velocity.X, -10);
+
+                    player.PlayerScale.Jump();
 
                     PlayerMoveState = PlayerMoveState.Jump;
 
@@ -103,6 +109,8 @@ namespace FliedChicken.GameObjects.PlayerDevices
                     PlayerMoveState = PlayerMoveState.Jump;
                 }
             }
+
+            FallSpeed = MathHelper.Lerp(FallSpeed, destFallSpeed, 0.1f);
 
             Velocity.Y = MathHelper.Lerp(Velocity.Y, FallSpeed, 0.1f * TimeSpeed.Time);
 

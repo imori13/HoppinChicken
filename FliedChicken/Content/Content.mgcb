@@ -410,3 +410,51 @@
 /processorParam:TextureFormat=Color
 /build:Texture/Title.png
 
+#begin BGM/bgm_maoudamashii_8bit11.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:BGM/bgm_maoudamashii_8bit11.mp3
+
+#begin BGM/bgm_maoudamashii_8bit08.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:BGM/bgm_maoudamashii_8bit08.mp3
+
+#begin BGM/bgm_maoudamashii_8bit09.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:BGM/bgm_maoudamashii_8bit09.mp3
+
+#begin BGM/bgm_maoudamashii_8bit10.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:BGM/bgm_maoudamashii_8bit10.mp3
+
+#begin BGM/bgm_maoudamashii_8bit28.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:BGM/bgm_maoudamashii_8bit28.mp3
+
+#begin BGM/bgm_maoudamashii_8bit27.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:BGM/bgm_maoudamashii_8bit27.mp3
+
+#begin SE/DiveEnemySound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/DiveEnemySound.wav
+
+#begin SE/ButtonDown.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/ButtonDown.wav
+

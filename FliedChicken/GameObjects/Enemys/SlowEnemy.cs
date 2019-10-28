@@ -19,7 +19,7 @@ namespace FliedChicken.GameObjects.Enemys
 
         public SlowEnemy(Camera camera) : base(camera)
         {
-            Size = new Vector2(500, 250);
+            Size = new Vector2(650, 275);
             Collider = new BoxCollider(this, Size);
 
             //Animation = new Animation(this, "slowenemy", new Vector2(300, 105), 8, 0.1f);
@@ -57,7 +57,7 @@ namespace FliedChicken.GameObjects.Enemys
 
         public override void Draw(Renderer renderer)
         {
-            renderer.Draw2D(TextureName, Position, Color.White, 0, Vector2.One * 2, SpriteEffect);
+            renderer.Draw2D(TextureName, Position, Color.White, 0, Vector2.One * 2.5f, SpriteEffect);
         }
 
         public override void HitAction(GameObject gameObject)

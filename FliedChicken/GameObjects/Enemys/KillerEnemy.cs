@@ -52,15 +52,6 @@ namespace FliedChicken.GameObjects.Enemys
 
         public override void HitAction(GameObject gameObject)
         {
-            if (gameObject.GameObjectTag == GameObjectTag.DiveEnemy)
-            {
-                DestroyEffect(Vector2.One);
-
-                IsDead = true;
-                // ボムを生成
-                ObjectsManager.AddGameObject(new OnechanBom(this, 100f));
-            }
-
             if (gameObject.GameObjectTag == GameObjectTag.OneChanBom)
             {
                 IsDead = true;

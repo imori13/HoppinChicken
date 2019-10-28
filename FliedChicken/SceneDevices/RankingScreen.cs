@@ -142,6 +142,7 @@ namespace FliedChicken.SceneDevices
             if (Input.GetKeyDown(Keys.Space) || Input.GetKeyDown(Keys.Enter) || Input.IsPadButtonDown(Buttons.B, 0) || Input.IsPadButtonDown(Buttons.A, 0))
             {
                 state = ScreenState.FINISH;
+                GameDevice.Instance().Sound.PlaySE("ButtonDown");
             }
         }
 

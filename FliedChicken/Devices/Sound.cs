@@ -122,7 +122,7 @@ namespace FliedChicken.Devices
             }
 
             // ボリューム設定
-            MediaPlayer.Volume = 0.5f;
+            MediaPlayer.Volume = 0.25f;
 
             // 現在のBGM名を設定
             currentBGM = name;

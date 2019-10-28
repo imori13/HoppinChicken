@@ -72,13 +72,13 @@ namespace FliedChicken.GameObjects.Enemys
                 {
                     new KeyValuePair<float, WeightSelectHelper<Func<Enemy>>>
                     (50, new WeightSelectHelper<Func<Enemy>>(1, new Func<Enemy>(() => new SlowEnemy(camera)))),
-                    
+
                     new KeyValuePair<float, WeightSelectHelper<Func<Enemy>>>
                     (100, new WeightSelectHelper<Func<Enemy>>(5, new Func<Enemy>(() => new ThornEnemy(camera)))),
 
                     new KeyValuePair<float, WeightSelectHelper<Func<Enemy>>>
                     (150, new WeightSelectHelper<Func<Enemy>>(3, new Func<Enemy>(() => new HighSpeedEnemy(camera)))),
-                    
+
                     new KeyValuePair<float, WeightSelectHelper<Func<Enemy>>>
                     (300, new WeightSelectHelper<Func<Enemy>>(2, new Func<Enemy>(() => new KillerEnemy(camera))))
                 };
@@ -89,9 +89,14 @@ namespace FliedChicken.GameObjects.Enemys
         public void Update()
         {
             distanceSum += Math.Abs(camera.Position.Y - prevCameraPos.Y);
-            while (distanceSum >= 0)
+
+            float start = 100f;
+            float end = 50f;
+            float distance = 600f;
+
+            if (distanceSum >= MathHelper.Lerp(start, end, MathHelper.Clamp(player.SumDistance / distance, 0, 1)))
             {
-                distanceSum -= 128f;
+                distanceSum = 0;
                 SpawnEnemy();
             }
             prevCameraPos = camera.Position;

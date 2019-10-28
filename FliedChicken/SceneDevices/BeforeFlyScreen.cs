@@ -41,7 +41,7 @@ namespace FliedChicken.SceneDevices
         private int attackCount;
         private int attackCountNow;
         private bool attack;
-
+        Vector2 offset = Vector2.Zero;
 
         private readonly string text = "ESCAPE!";
         private Vector2 textPosition;
@@ -51,10 +51,10 @@ namespace FliedChicken.SceneDevices
 
         public BeforeFlyScreen()
         {
-            
+
         }
 
-        public void Initialize(Player player, DiveEnemy Denemy, 
+        public void Initialize(Player player, DiveEnemy Denemy,
             CloudManager cloudManager, Camera camera)
         {
             this.player = player;
@@ -78,7 +78,7 @@ namespace FliedChicken.SceneDevices
             this.camera = camera;
         }
 
-        public  void Update()
+        public void Update()
         {
             Default();
             switch (state)
@@ -106,9 +106,6 @@ namespace FliedChicken.SceneDevices
 
         public void Draw(Renderer renderer)
         {
-            //renderer.DrawString(Fonts.Font10_128, text, textPosition, new Color(255, 91, 91),
-            //    0.0f, Fonts.Font10_128.MeasureString(text) / 2, Vector2.One);
-
             renderer.Draw2D("ESCAPE!!", textPosition, Color.White, 0);
         }
 
@@ -130,21 +127,17 @@ namespace FliedChicken.SceneDevices
 
         private void State02()
         {
-            Denemy.Position += new Vector2(0, 30) * TimeSpeed.Time;
-            if (Denemy.Position.Y >= player.Position.Y - 300)
-            {
-                time = 0.0f;
-                state = State.STATE03;
-            }
+            state = State.STATE03;
         }
 
         private void State03()
         {
-            Denemy.Position = player.Position - new Vector2(0, 300);
+            Denemy.Position = Vector2.Lerp(Denemy.Position, player.Position - new Vector2(0, 300), 0.1f);
             time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
-            if(time >= 0.5f)
+            if (time >= 0.5f)
             {
                 time = 0.0f;
+                offset = Vector2.Zero;
                 state = State.STATE04;
             }
         }
@@ -162,7 +155,7 @@ namespace FliedChicken.SceneDevices
         private void State05()
         {
             textPosition.X = MathHelper.Lerp(textPosition.X, Screen.Vec2.X / 2, 0.1f);
-            Denemy.Position = player.Position - new Vector2(0, 300);
+            Denemy.Position = Vector2.Lerp(Denemy.Position, player.Position - new Vector2(0, 300), 0.1f);
             time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
             if (time >= 1.5f)
             {
@@ -174,7 +167,7 @@ namespace FliedChicken.SceneDevices
         private void Finish()
         {
             textPosition.X = MathHelper.Lerp(textPosition.X, -400, 0.1f);
-            Denemy.Position = player.Position - new Vector2(0, 300);
+            Denemy.Position = Vector2.Lerp(Denemy.Position, player.Position - new Vector2(0, 300), 0.1f);
             time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
             if (time >= 1.0f)
             {
@@ -193,25 +186,32 @@ namespace FliedChicken.SceneDevices
 
         private void DenemyAttack()
         {
+            Vector2 destOffset = Vector2.Zero;
+
             if (attack)
             {
-                Denemy.Position += new Vector2(0, 30) * TimeSpeed.Time;
-                if (Denemy.Position.Y >= player.Position.Y - 100)
+                destOffset = new Vector2(0, -100);
+                offset = Vector2.Lerp(offset, destOffset, 0.1f);
+
+                if (Vector2.Distance(offset, destOffset) <= 30f)
                 {
-                    Denemy.Position = new Vector2(player.Position.X, player.Position.Y - 100);
                     attack = false;
                 }
             }
             else
             {
-                Denemy.Position -= new Vector2(0, 15) * TimeSpeed.Time;
-                if (Denemy.Position.Y <= player.Position.Y - 200)
+                destOffset = new Vector2(0, 300);
+                offset = Vector2.Lerp(offset, destOffset, 0.2f);
+
+                if (Vector2.Distance(offset, destOffset) <= 30f)
                 {
-                    Denemy.Position = new Vector2(player.Position.X, player.Position.Y - 200);
+                    GameDevice.Instance().Sound.PlaySE("DiveEnemySound");
                     attack = true;
                     attackCountNow++;
                 }
             }
+
+            Denemy.Position = Vector2.Lerp(Denemy.Position, player.Position - new Vector2(0, 300) + offset, 0.1f);
         }
     }
 }
