@@ -89,6 +89,7 @@
     <Compile Include="GameObjects\Objects\IOneChanItemCarrier.cs" />
     <Compile Include="GameObjects\Objects\OneChanItem.cs" />
     <Compile Include="GameObjects\Particle\ExplosionParticle2D.cs" />
+    <Compile Include="GameObjects\Particle\OneChanParticle.cs" />
     <Compile Include="GameObjects\Particle\PlayerTrajectory_Particle.cs" />
     <Compile Include="GameObjects\Particle\KillerTrajectory_Particle.cs" />
     <Compile Include="GameObjects\Particle\LingerRotateParticle2D.cs" />
