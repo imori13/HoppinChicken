@@ -67,6 +67,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
             // 左右移動
 
             float speed = 8f;
+
             if (Input.GetKey(Keys.Right) || Input.GetLeftStickState(0).X > 0.5f || Input.GetRightStickState(0).X > 0.5f)
             {
                 Velocity.X = MathHelper.Lerp(Velocity.X, speed, 0.1f * TimeSpeed.Time);
