@@ -106,8 +106,10 @@ namespace FliedChicken.SceneDevices
 
         public void Draw(Renderer renderer)
         {
-            renderer.DrawString(Fonts.Font10_128, text, textPosition, new Color(255, 91, 91),
-                0.0f, Fonts.Font10_128.MeasureString(text) / 2, Vector2.One);
+            //renderer.DrawString(Fonts.Font10_128, text, textPosition, new Color(255, 91, 91),
+            //    0.0f, Fonts.Font10_128.MeasureString(text) / 2, Vector2.One);
+
+            renderer.Draw2D("ESCAPE!!", textPosition, Color.White, 0);
         }
 
         private void Default()
