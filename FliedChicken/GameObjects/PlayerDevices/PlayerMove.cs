@@ -67,11 +67,11 @@ namespace FliedChicken.GameObjects.PlayerDevices
             // 左右移動
 
             float speed = 8f;
-            if (Input.GetKey(Keys.Right))
+            if (Input.GetKey(Keys.Right) || Input.GetLeftStickState(0).X > 0.5f || Input.GetRightStickState(0).X > 0.5f)
             {
                 Velocity.X = MathHelper.Lerp(Velocity.X, speed, 0.1f);
             }
-            else if (Input.GetKey(Keys.Left))
+            else if (Input.GetKey(Keys.Left) || Input.GetLeftStickState(0).X < -0.5f || Input.GetRightStickState(0).X < -0.5f)
             {
                 Velocity.X = MathHelper.Lerp(Velocity.X, -speed, 0.1f);
             }
@@ -81,7 +81,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
             }
 
             // ジャンプ処理
-            if (Input.GetKeyDown(Keys.Space) || inputflag)
+            if (Input.GetKeyDown(Keys.Space) || Input.IsPadButtonDown(Buttons.B, 0) || Input.IsPadButtonDown(Buttons.A, 0) || inputflag)
             {
                 if (time >= 0.1f)
                 {
@@ -90,7 +90,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
                     Velocity = new Vector2(Velocity.X, -10);
 
                     PlayerMoveState = PlayerMoveState.Jump;
-                    
+
                     GameDevice.Instance().Sound.PlaySE("Jump0" + rand.Next(1, 6).ToString());
                 }
                 else

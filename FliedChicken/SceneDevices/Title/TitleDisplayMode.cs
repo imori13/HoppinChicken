@@ -22,7 +22,7 @@ namespace FliedChicken.SceneDevices.Title
         bool startFlag;
         bool finishingFlag;
         public bool TitleFinishFlag { get; private set; }
-        
+
         Vector2 inputKeyPos;
         float rate;
 
@@ -78,7 +78,7 @@ namespace FliedChicken.SceneDevices.Title
                         startFlag = true;
                     }
 
-                    if (Input.GetKeyDown(Keys.Space))
+                    if (Input.GetKeyDown(Keys.Space) || Input.IsPadButtonDown(Buttons.B, 0) || Input.IsPadButtonDown(Buttons.A, 0))
                     {
                         destSizeY += 300;
                     }
@@ -89,7 +89,7 @@ namespace FliedChicken.SceneDevices.Title
 
                     keyInput.Update();
 
-                    if (Input.GetKeyDown(Keys.Enter))
+                    if (Input.GetKeyDown(Keys.Enter) || (Input.IsPadButtonHold(Buttons.LeftShoulder, 0) && Input.IsPadButtonHold(Buttons.RightShoulder, 0)))
                     {
                         rankingScreen.InitializeTitle();
                         rankingON = true;
@@ -148,6 +148,8 @@ namespace FliedChicken.SceneDevices.Title
                 renderer.Draw2D("Title", new Vector2(Screen.WIDTH / 2f, 200 * Screen.ScreenSize), Color.White, 0, Vector2.One * Screen.ScreenSize * 2f);
 
                 renderer.Draw2D("NameWIndow", new Vector2(Screen.WIDTH / 2f, Screen.HEIGHT - 200 * Screen.ScreenSize), Color.White, 0, Vector2.One * Screen.ScreenSize);
+
+                renderer.Draw2D("RankingLR", new Vector2(Screen.WIDTH - 200 * Screen.ScreenSize, Screen.HEIGHT - 100 * Screen.ScreenSize), Color.White, 0, Vector2.One * Screen.ScreenSize * 0.75f);
             }
 
             // 黒幕
