@@ -18,7 +18,8 @@ namespace FliedChicken.GameObjects.Enemys
         private float moveDirection;
 
         private Vector2 particlePosition;
-        private Timer particleTimer;
+        float time;
+        float limit = 0.1f;
 
         public HighSpeedEnemy(Camera camera) : base(camera)
         {
@@ -46,7 +47,7 @@ namespace FliedChicken.GameObjects.Enemys
             base.Initialize();
 
             particlePosition = new Vector2(Size.X * 0.55f * -moveDirection, Size.Y * 0.17f);
-            particleTimer = new Timer(0.1f);
+            time = 0;
 
             MoveModule.Initialize();
         }
@@ -57,11 +58,11 @@ namespace FliedChicken.GameObjects.Enemys
 
             MoveModule.Move();
 
-            if (particleTimer.IsTime())
+            time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds * TimeSpeed.Time;
+            if (time >= limit)
             {
+                time = 0;
                 ObjectsManager.AddBackParticle(new LingerRotateParticle2D(Position + particlePosition, GameDevice.Instance().Random));
-                particleTimer.MaxTime = GameDevice.Instance().Random.Next(3, 5 + 1) * 0.01f;
-                particleTimer.Reset();
             }
         }
 

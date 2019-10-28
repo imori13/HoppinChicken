@@ -69,15 +69,15 @@ namespace FliedChicken.GameObjects.PlayerDevices
             float speed = 8f;
             if (Input.GetKey(Keys.Right) || Input.GetLeftStickState(0).X > 0.5f || Input.GetRightStickState(0).X > 0.5f)
             {
-                Velocity.X = MathHelper.Lerp(Velocity.X, speed, 0.1f);
+                Velocity.X = MathHelper.Lerp(Velocity.X, speed, 0.1f * TimeSpeed.Time);
             }
             else if (Input.GetKey(Keys.Left) || Input.GetLeftStickState(0).X < -0.5f || Input.GetRightStickState(0).X < -0.5f)
             {
-                Velocity.X = MathHelper.Lerp(Velocity.X, -speed, 0.1f);
+                Velocity.X = MathHelper.Lerp(Velocity.X, -speed, 0.1f * TimeSpeed.Time);
             }
             else
             {
-                Velocity.X = MathHelper.Lerp(Velocity.X, 0, 0.1f);
+                Velocity.X = MathHelper.Lerp(Velocity.X, 0, 0.1f * TimeSpeed.Time);
             }
 
             // ジャンプ処理
@@ -101,7 +101,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 }
             }
 
-            Velocity.Y = MathHelper.Lerp(Velocity.Y, fallSpeed, 0.1f);
+            Velocity.Y = MathHelper.Lerp(Velocity.Y, fallSpeed, 0.1f*TimeSpeed.Time);
 
             return Velocity;
         }

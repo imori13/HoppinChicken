@@ -26,7 +26,6 @@ namespace FliedChicken.GameObjects.PlayerDevices
         public override void Initialize()
         {
             time = 0;
-            ObjectsManager.Camera.Shake(40, 5, 0.95f);
         }
 
         public override void Update()
