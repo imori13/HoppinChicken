@@ -82,6 +82,8 @@ namespace FliedChicken.GameObjects.Enemys
                     new KeyValuePair<float, WeightSelectHelper<Func<Enemy>>>
                     (300, new WeightSelectHelper<Func<Enemy>>(2, new Func<Enemy>(() => new KillerEnemy(camera))))
                 };
+
+            spawnFuncAddList.OrderBy(value => value.Key);
         }
 
         public void Update()
