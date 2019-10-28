@@ -63,11 +63,11 @@ namespace FliedChicken.SceneDevices
         public GameScene()
         {
             camera = new Camera();
-            objectsManager = new ObjectsManager(camera);
+            objectsManager = new ObjectsManager(camera, this);
             TitleDisplayMode = new TitleDisplayMode();
 
             resultScreen = new ResultScreen();
-            rankingScreen = new RankingScreen();
+            rankingScreen = new RankingScreen(TitleDisplayMode);
             BeforeFlyScreen = new BeforeFlyScreen();
 
             coinManager = new CoinManager(objectsManager, 0.5f);
@@ -90,7 +90,7 @@ namespace FliedChicken.SceneDevices
             TitleDisplayMode.Initialize();
 
             enemySpawner = new EnemySpawner(player, camera, objectsManager, 64 * 10, 64 * 14, 0, 0);
-            
+
             cloudManager.Initialize();
 
             time = 0;
@@ -288,7 +288,6 @@ namespace FliedChicken.SceneDevices
             {
                 resultScreen.End();
                 rankingScreen.Initialize(resultScreen.GetWindowAlpha());
-                rankingScreen.RankingChange(TitleDisplayMode.keyInput.Text, player.SumDistance);
                 State = GamePlayState.RANKING;
             }
         }

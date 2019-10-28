@@ -1,6 +1,7 @@
 ﻿using FliedChicken.Devices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace FliedChicken.GameObjects.PlayerDevices
 {
@@ -24,6 +25,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
         private bool inputflag;
 
         private float fallTime;
+        Random rand = GameDevice.Instance().Random;
 
         public PlayerMove(Player player)
         {
@@ -67,7 +69,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
             float speed = 8f;
             if (Input.GetKey(Keys.Right))
             {
-                Velocity.X = MathHelper.Lerp(Velocity.X, speed,0.1f);
+                Velocity.X = MathHelper.Lerp(Velocity.X, speed, 0.1f);
             }
             else if (Input.GetKey(Keys.Left))
             {
@@ -85,9 +87,11 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 {
                     time = 0;
                     inputflag = false;
-                    Velocity = new Vector2(Velocity.X, -15);
+                    Velocity = new Vector2(Velocity.X, -10);
 
                     PlayerMoveState = PlayerMoveState.Jump;
+                    
+                    GameDevice.Instance().Sound.PlaySE("Jump0" + rand.Next(1, 6).ToString());
                 }
                 else
                 {

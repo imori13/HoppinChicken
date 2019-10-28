@@ -11,7 +11,7 @@ with.
     <!--
     Modify this string to change the font that will be imported.
     -->
-    <FontName>PixelMplus12-Bold</FontName>
+    <FontName>PixelMplus12</FontName>
 
     <!--
     Size is a float value, measured in points. Modify this value to change

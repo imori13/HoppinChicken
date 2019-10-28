@@ -82,14 +82,19 @@ namespace FliedChicken.SceneDevices.Title
 
         public void Draw(Renderer renderer, float rate, Vector2 pos)
         {
-            if (rate != 0 && Text == "") { flag = true; Text = "Player"; }
+            // もし名前が入力されていなかったら
+            if (rate != 0 && Text == "")
+            {
+                flag = true;
+
+                // 被らない名前を生成する
+                Text = ScoreStream.Instance().NewPlayerName();
+            }
 
             SpriteFont font = Fonts.Font12_32;
             Vector2 size = font.MeasureString(Text);
 
-            renderer.DrawString(font, Text, pos,
-                 (flag) ? new Color(0, 0, 0, 0) : new Color(255, 91, 91),
-                0, size / 2f, Vector2.One * (1 - (1 - rate) / 5f) * Screen.ScreenSize);
+            renderer.DrawString(font, Text, pos, new Color(255, 91, 91), 0, size / 2f, Vector2.One * (1 - (1 - rate) / 5f) * Screen.ScreenSize);
         }
     }
 }

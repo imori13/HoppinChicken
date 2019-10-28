@@ -19,7 +19,7 @@ namespace FliedChicken
             Content.RootDirectory = "Content";
 
             // フルスクリーンのオンオフを設定
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = true;
             // フルスクリーンモードから画面を切り替えると実行中のまま消えるアレをなくす処理
             graphics.HardwareModeSwitch = false;
             // DrawメソッドをモニタのVerticalRetraceと同期しない
@@ -71,6 +71,21 @@ namespace FliedChicken
             renderer.LoadTexture("Killer_Active", "Texture/");
             renderer.LoadTexture("Killer_Passive", "Texture/");
             renderer.LoadTexture("NameWIndow", "Texture/");
+
+            Sound sound = GameDevice.Instance().Sound;
+
+            sound.LoadSE("Bom01", "SE/");
+            sound.LoadSE("Bom02", "SE/");
+            sound.LoadSE("Jump01", "SE/");
+            sound.LoadSE("Jump02", "SE/");
+            sound.LoadSE("Jump03", "SE/");
+            sound.LoadSE("Jump04", "SE/");
+            sound.LoadSE("Jump05", "SE/");
+            sound.LoadSE("HitItem", "SE/");
+            sound.LoadSE("Bound01", "SE/");
+            sound.LoadSE("Bound02", "SE/");
+            sound.LoadSE("Bound03", "SE/");
+            sound.LoadSE("Death", "SE/");
 
             sceneManager.AddScene(SceneEnum.GameScene, new GameScene());
 

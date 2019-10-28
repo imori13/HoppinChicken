@@ -3,6 +3,7 @@ using FliedChicken.GameObjects;
 using FliedChicken.GameObjects.Enemys;
 using FliedChicken.GameObjects.Particle;
 using FliedChicken.GameObjects.PlayerDevices;
+using FliedChicken.SceneDevices;
 using System.Collections.Generic;
 
 namespace FliedChicken.GameObjects
@@ -22,10 +23,12 @@ namespace FliedChicken.GameObjects
         public Player Player { get; private set; }
         public DiveEnemy DiveEnemy { get; private set; }
         public Camera Camera { get; private set; }
+        public GameScene GameScene { get; private set; }
 
-        public ObjectsManager(Camera camera)
+        public ObjectsManager(Camera camera, GameScene GameScene)
         {
             this.Camera = camera;
+            this.GameScene = GameScene;
         }
 
         public void Initialize()

@@ -35,7 +35,7 @@ namespace FliedChicken.SceneDevices.Title
         public TitleDisplayMode()
         {
             keyInput = new KeyInput();
-            rankingScreen = new RankingScreen();
+            rankingScreen = new RankingScreen(this);
         }
 
         public void Initialize()

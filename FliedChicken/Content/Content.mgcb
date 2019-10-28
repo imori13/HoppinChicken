@@ -14,18 +14,28 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Font/PixelMplus12-Bold.ttf
-/copy:Font/PixelMplus12-Bold.ttf
-
 #begin Font/pixelMplus12_size32.spritefont
 /importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
+/processor:WpfFontDescriptionProcessor
+/processorParam:HasAsciiCharacters=True
+/processorParam:HasZenkakuLatinLetters=True
+/processorParam:HasSpecialCharacters=True
+/processorParam:HasHiragana=True
+/processorParam:HasKatakana=True
+/processorParam:HasJisKanjiLevel1=True
+/processorParam:HasJisKanjiLevel2=True
+/processorParam:HasGreekLetters=True
+/processorParam:HasCyrillicLetters=True
+/processorParam:HasBoxCharacters=True
+/processorParam:OutlineThickness=0
+/processorParam:OutlineColor=64,64,64,255
+/processorParam:FontColor=255,255,255,255
+/processorParam:UseGradient=False
+/processorParam:GradientBeginColor=64,128,255,255
+/processorParam:GradientEndColor=0,0,128,255
+/processorParam:GradientAngle=90
+/processorParam:TextureFormat=Auto
 /build:Font/pixelMplus12_size32.spritefont
-
-#begin Font/PixelMplus10-Bold.ttf
-/copy:Font/PixelMplus10-Bold.ttf
 
 #begin Font/pixelMplus10_size128.spritefont
 /importer:FontDescriptionImporter
@@ -57,18 +67,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Texture/PlayerIdol.png
-
-#begin thorn.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:thorn.png
 
 #begin Texture/PlayerDead.png
 /importer:TextureImporter
@@ -105,36 +103,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Texture/highspeed_enemy.png
-
-#begin SE/Bom.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:SE/Bom.wav
-
-#begin SE/BulletShot.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:SE/BulletShot.wav
-
-#begin SE/Button.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:SE/Button.wav
-
-#begin SE/HighSpeed.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:SE/HighSpeed.wav
-
-#begin SE/Item.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:SE/Item.wav
 
 #begin Texture/PlayerDown.png
 /importer:TextureImporter
@@ -310,4 +278,99 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Texture/Title.png
+
+#begin Font/cica_size32.spritefont
+/importer:FontDescriptionImporter
+/processor:WpfFontDescriptionProcessor
+/processorParam:HasAsciiCharacters=True
+/processorParam:HasZenkakuLatinLetters=True
+/processorParam:HasSpecialCharacters=True
+/processorParam:HasHiragana=True
+/processorParam:HasKatakana=True
+/processorParam:HasJisKanjiLevel1=True
+/processorParam:HasJisKanjiLevel2=True
+/processorParam:HasGreekLetters=True
+/processorParam:HasCyrillicLetters=True
+/processorParam:HasBoxCharacters=True
+/processorParam:OutlineThickness=0
+/processorParam:OutlineColor=64,64,64,255
+/processorParam:FontColor=255,255,255,255
+/processorParam:UseGradient=False
+/processorParam:GradientBeginColor=64,128,255,255
+/processorParam:GradientEndColor=0,0,128,255
+/processorParam:GradientAngle=90
+/processorParam:TextureFormat=Auto
+/build:Font/cica_size32.spritefont
+
+#begin SE/Jump01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Jump01.wav
+
+#begin SE/Jump02.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Jump02.wav
+
+#begin SE/Jump03.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Jump03.wav
+
+#begin SE/Jump04.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Jump04.wav
+
+#begin SE/Jump05.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Jump05.wav
+
+#begin SE/HitItem.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/HitItem.wav
+
+#begin SE/Bom01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Bom01.wav
+
+#begin SE/Bom02.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Bom02.wav
+
+#begin SE/Bound01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Bound01.wav
+
+#begin SE/Bound02.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Bound02.wav
+
+#begin SE/Bound03.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Bound03.wav
+
+#begin SE/Death.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SE/Death.wav
 

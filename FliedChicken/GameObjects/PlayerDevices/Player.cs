@@ -37,6 +37,9 @@ namespace FliedChicken.GameObjects.PlayerDevices
         float mutekiTime;
         float mutekiLimit = 1;
 
+        bool boundSoundFlag;
+        float boundSoundTime;
+
         Random rand = GameDevice.Instance().Random;
 
         // ヒットしたかどうか
@@ -73,6 +76,9 @@ namespace FliedChicken.GameObjects.PlayerDevices
             StartPositionY = 0;
             SumDistance = 0;
             PlayerGameStartFlag = false;
+
+            boundSoundFlag = false;
+            boundSoundTime = 0;
         }
 
         public override void Update()
@@ -90,6 +96,18 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 case PlayerState.FLY:
                     FlyUpdate();
                     break;
+            }
+
+            // 連続してバウンド音を鳴らさないようにしたい
+            if (!boundSoundFlag)
+            {
+                boundSoundTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
+                float limit = 0.025f;
+                if (boundSoundTime >= limit)
+                {
+                    boundSoundTime = 0;
+                    boundSoundFlag = true;
+                }
             }
         }
 
@@ -121,9 +139,15 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 playerDeath.Update();
 
 #if DEBUG
+            // TODO:あとでけす
             if (Input.GetKeyDown(Keys.D))
             {
                 HitFlag = true;
+
+                GameDevice.Instance().Sound.PlaySE("Death");
+
+                // スコアをテキストファイルに記録
+                ScoreStream.Instance().AddScore(ObjectsManager.GameScene.TitleDisplayMode.keyInput.Text, SumDistance);
             }
 #endif
         }
@@ -135,9 +159,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
         public override void Draw(Renderer renderer)
         {
-
             if (!HitFlag)
-                //animation.Draw(renderer, Vector2.Zero);
                 renderer.Draw2D("Chicken", Position, Color.White, 0, playerScale.DrawScale * 1.2f);
             else
                 playerDeath.Draw(renderer);
@@ -157,6 +179,12 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 {
                     BoundBoxCollision(gameObject);
                 }
+
+                if (boundSoundFlag)
+                {
+                    boundSoundFlag = false;
+                    GameDevice.Instance().Sound.PlaySE("Bound0" + rand.Next(1, 4).ToString());
+                }
             }
 
             if (gameObject.GameObjectTag == GameObjectTag.RedEnemy)
@@ -168,11 +196,17 @@ namespace FliedChicken.GameObjects.PlayerDevices
                         // ワンちゃんボム発動！！！
                         OnechanBomManager.Bom();
                         MutekiFlag = true;
+                        GameDevice.Instance().Sound.PlaySE("Bom01");
+                        GameDevice.Instance().Sound.PlaySE("Bom02");
                     }
                     else
                     {
+                        // スコアをテキストファイルに記録
+                        ScoreStream.Instance().AddScore(ObjectsManager.GameScene.TitleDisplayMode.keyInput.Text, SumDistance);
+
                         // しぬ
                         HitFlag = true;
+                        GameDevice.Instance().Sound.PlaySE("Death");
                     }
                 }
             }
@@ -180,6 +214,8 @@ namespace FliedChicken.GameObjects.PlayerDevices
             if (gameObject.GameObjectTag == GameObjectTag.OneChanceItem)
             {
                 OnechanBomManager.AddCount();
+
+                GameDevice.Instance().Sound.PlaySE("HitItem");
             }
         }
 

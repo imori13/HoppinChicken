@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using FliedChicken.SceneDevices.Title;
 
 namespace FliedChicken.SceneDevices
 {
@@ -26,14 +27,6 @@ namespace FliedChicken.SceneDevices
             FINISH,
         }
 
-        List<string> rankPlayer;
-        List<float> rankScore;
-
-        List<float> rankAlpha;
-        private int alphaCount;
-
-        private readonly string path = "ranking.txt";
-
         private readonly float maxWindowWidth = Screen.WIDTH;
         private readonly float maxWindowHeight = Screen.HEIGHT - 200;
 
@@ -50,26 +43,15 @@ namespace FliedChicken.SceneDevices
 
         private float time;
 
-        private string myName;
-        private float myScore;
-        private int myRank;
+        private TitleDisplayMode titleDisplayMode;
 
-        public RankingScreen()
+        public RankingScreen(TitleDisplayMode titleDisplayMode)
         {
+            this.titleDisplayMode = titleDisplayMode;
         }
 
         public void Initialize(float alpha)
         {
-            rankPlayer = new List<string>();
-            rankScore = new List<float>();
-            rankAlpha = new List<float>();
-
-            for (int i = 0; i < rankNum; i++)
-            {
-                rankAlpha.Add(0.0f);
-            }
-
-            RankingRead();
 
             state = ScreenState.STATE01;
 
@@ -85,17 +67,6 @@ namespace FliedChicken.SceneDevices
 
         public void InitializeTitle()
         {
-            rankPlayer = new List<string>();
-            rankScore = new List<float>();
-            rankAlpha = new List<float>();
-
-            for (int i = 0; i < rankNum; i++)
-            {
-                rankAlpha.Add(0.0f);
-            }
-
-            RankingRead();
-
             state = ScreenState.STATE01;
 
             IsDead = false;
@@ -149,8 +120,9 @@ namespace FliedChicken.SceneDevices
         private void State01()
         {
             textPosition01 -= new Vector2(100, 0) * TimeSpeed.Time;
-            if (textPosition01.X <= 50)
+            if (textPosition01.X <= 0)
             {
+                textPosition01.X = 0;
                 state = ScreenState.STATE02;
             }
         }
@@ -179,210 +151,61 @@ namespace FliedChicken.SceneDevices
 
         }
 
-        /// <summary>
-        /// テキストファイルからランキングを読み込むメソッド
-        /// </summary>
-        public void RankingRead()
+        public void Draw(Renderer renderer)
         {
-            FileCheck();
+            renderer.Draw2D("Pixel", Screen.Vec2 / 2f,
+                Color.Black * windowAlpha, 0.0f, maxWindowSize);
 
-            StreamReader sr = new StreamReader(path);
+            windowAlpha = MathHelper.Lerp(windowAlpha, 0.5f, 0.1f);
 
-            while (!sr.EndOfStream)
+            renderer.DrawString(Fonts.Font10_128, "RANKING", textPosition01 + new Vector2(Screen.WIDTH / 2f, -400), new Color(255, 91, 91),
+                0.0f, Fonts.Font10_128.MeasureString("RANKING") / 2f, new Vector2(0.7f, 0.7f));
+
+            SpriteFont font = Fonts.Font12_32;
+
+            // スコアデータを読み込み
+            Dictionary<string, float> dicionary = ScoreStream.Instance().GetScoreDictionary();
+
+            // ディクショナリのValueが大きい順に並べる
+            var dicSortData = dicionary.OrderByDescending((x) => x.Value);
+
+            int index = 0;
+            foreach (var data in dicSortData)
             {
-                string line = sr.ReadLine();
-                string[] value = line.Split(',');
+                if (index >= 50) { break; }
 
-                rankPlayer.Add(value[0]);
-                rankScore.Add(int.Parse(value[1]));
-            }
+                // 描画するテキスト
+                string text = (index + 1).ToString("00") + "位 " + data.Key.PadRight(10, ' ') + ": " + data.Value.ToString("F2").PadLeft(8, '0') + "ｍ";
 
-            sr.Close();
-        }
+                Vector2 size = font.MeasureString(text);
 
-        /// <summary>
-        /// テキストファイルにランキングを書き込むメソッド
-        /// </summary>
-        public void RankingWrite()
-        {
-            using (StreamWriter sw = new StreamWriter(path))
-            {
-                for (int i = 0; i < rankPlayer.Count; i++)
+                Vector2 position = Vector2.Zero;
+
+                float y = -300;
+
+                if (index >= 30)
                 {
-                    string text = "";
-                    text += rankPlayer[i];
-                    text += ',';
-                    text += rankScore[i].ToString();
-                    sw.WriteLine(text);
+                    position = textPosition01 + new Vector2(Screen.WIDTH / 2f + 625, y + (size.Y * (index - 30)));
                 }
-            }
-        }
-
-        /// <summary>
-        /// リザルト結果からランキングを置き換えるメソッド
-        /// </summary>
-        /// <param name="playerName"></param>
-        /// <param name="score"></param>
-        public void RankingChange(string playerName, float score)
-        {
-            if (playerName == "Player")
-            {
-                int num = 1;
-                foreach (var name in rankPlayer)
+                else if (index >= 15)
                 {
-                    if (name.Contains("Player"))
-                    {
-                        num++;
-                    }
-                }
-
-                playerName = "Player" + num.ToString();
-            }
-
-            myName = playerName;
-            myScore = score;
-
-            for (int i = rankPlayer.Count - 1; i >= 0; i--)
-            {
-                if (rankScore[i] >= score)
-                {
-                    rankPlayer.Insert(i + 1, playerName);
-                    rankScore.Insert(i + 1, score);
-                    myRank = i + 1;
-                    break;
+                    position = textPosition01 + new Vector2(Screen.WIDTH / 2f, y + (size.Y * (index - 15)));
                 }
                 else
                 {
-                    if (i == 0)
-                    {
-                        rankPlayer.Insert(0, playerName);
-                        rankScore.Insert(0, score);
-                        myRank = 0;
-                    }
-                }
-            }
-        }
-
-        public void FileCheck()
-        {
-            if (!File.Exists(path))
-            {
-                StreamWriter sw = File.CreateText(path);
-
-                for (int i = 0; i < rankNum; i++)
-                {
-                    sw.WriteLine("----,00000");
+                    position = textPosition01 + new Vector2(Screen.WIDTH / 2f - 625, y + (size.Y * index));
                 }
 
-                sw.Close();
-            }
-        }
+                Color color = (titleDisplayMode.keyInput.Text == data.Key) ? (new Color(255, 91, 91, 255)) : (Color.White);
 
-        public void Draw(Renderer renderer)
-        {
-            renderer.Draw2D("Pixel", Screen.Vec2 / 2,
-                Color.Black * windowAlpha, 0.0f, maxWindowSize);
+                renderer.DrawString(
+                    font, text,
+                    position,
+                    color,
+                    0, new Vector2(size.X / 2f, size.Y / 2f),
+                    Vector2.One);
 
-            renderer.DrawString(Fonts.Font10_128, "RANKING", textPosition01 - new Vector2(0, 300), Color.White,
-                0.0f, new Vector2(0, Fonts.Font10_128.MeasureString("RANKING").Y / 2), new Vector2(0.7f, 0.7f));
-
-            for (int i = 0; i < 5; i++)
-            {
-                renderer.DrawString(Fonts.Font10_128, (i + 1).ToString() + ',',
-                    textPosition01 + new Vector2(500, -300 + (150 * i)), Color.White,
-                    0.0f, new Vector2(0, Fonts.Font10_128.MeasureString((i + 1).ToString()).Y / 2),
-                    new Vector2(0.5f, 0.5f));
-            }
-
-            for (int i = 0; i < rankNum - 5; i++)
-            {
-                renderer.DrawString(Fonts.Font10_128, (i + 6).ToString() + ',',
-                    textPosition01 + new Vector2(1100, -300 + (150 * i)), Color.White,
-                    0.0f, new Vector2(0, Fonts.Font10_128.MeasureString((i + 1).ToString()).Y / 2),
-                    new Vector2(0.5f, 0.5f));
-            }
-
-            for (int i = 0; i < 5; i++)
-            {
-                if (i >= rankPlayer.Count)
-                {
-                    break;
-                }
-
-                renderer.DrawString(Fonts.Font10_128, rankPlayer[i],
-                    textPosition01 + new Vector2(850, -310 + (150 * i)), Color.White,
-                    0.0f, Fonts.Font10_128.MeasureString(rankPlayer[i]), new Vector2(0.3f, 0.3f));
-
-                renderer.DrawString(Fonts.Font10_128, rankScore[i].ToString("F2") + "m",
-                    textPosition01 + new Vector2(900, -280 + (150 * i)), Color.White,
-                    0.0f, new Vector2(Fonts.Font10_128.MeasureString(rankScore[i].ToString("F2") + "m").X,
-                    Fonts.Font10_128.MeasureString(rankScore[i].ToString("F2") + "m").Y / 2), new Vector2(0.3f, 0.3f));
-            }
-
-            //for (int i = 0; i < 5; i++)
-            //{
-            //    if (i >= rankPlayer.Count)
-            //    {
-            //        break;
-            //    }
-
-            //    renderer.DrawString(Fonts.Font10_128, rankPlayer[i + 5],
-            //        textPosition01 + new Vector2(1450, -310 + (150 * i)), Color.White,
-            //        0.0f, Fonts.Font10_128.MeasureString(rankPlayer[i + 5]), new Vector2(0.3f, 0.3f));
-
-            //    renderer.DrawString(Fonts.Font10_128, rankScore[i + 5].ToString("F2") + "m",
-            //        textPosition01 + new Vector2(1500, -280 + (150 * i)), Color.White,
-            //        0.0f, new Vector2(Fonts.Font10_128.MeasureString(rankScore[i + 5].ToString("F2") + "m").X,
-            //        Fonts.Font10_128.MeasureString(rankScore[i + 5].ToString("F2") + "m").Y / 2), new Vector2(0.3f, 0.3f));
-            //}
-        }
-
-        public void DrawResult(Renderer renderer)
-        {
-            renderer.Draw2D("Pixel", Screen.Vec2 / 2,
-                Color.Black * windowAlpha, 0.0f, maxWindowSize);
-
-            renderer.DrawString(Fonts.Font10_128, "RANKING", textPosition01, Color.White,
-                0.0f, new Vector2(0, Fonts.Font10_128.MeasureString("RANKING").Y / 2), new Vector2(0.7f, 0.7f));
-
-            for (int i = 0; i < 5; i++)
-            {
-                renderer.DrawString(Fonts.Font10_128, (i + 1).ToString() + ',',
-                    textPosition01 + new Vector2(500, -300 + (150 * i)), Color.White,
-                    0.0f, new Vector2(0, Fonts.Font10_128.MeasureString((i + 1).ToString()).Y / 2),
-                    new Vector2(0.5f, 0.5f));
-            }
-
-            for (int i = 0; i < rankNum - 5; i++)
-            {
-                renderer.DrawString(Fonts.Font10_128, (i + 6).ToString() + ',',
-                    textPosition01 + new Vector2(1100, -300 + (150 * i)), Color.White,
-                    0.0f, new Vector2(0, Fonts.Font10_128.MeasureString((i + 1).ToString()).Y / 2),
-                    new Vector2(0.5f, 0.5f));
-            }
-
-            for (int i = 0; i < 5; i++)
-            {
-                renderer.DrawString(Fonts.Font10_128, rankPlayer[i],
-                    textPosition01 + new Vector2(850, -310 + (150 * i)), Color.White,
-                    0.0f, Fonts.Font10_128.MeasureString(rankPlayer[i]), new Vector2(0.3f, 0.3f));
-
-                renderer.DrawString(Fonts.Font10_128, rankScore[i].ToString("F2") + "m",
-                    textPosition01 + new Vector2(900, -280 + (150 * i)), Color.White,
-                    0.0f, new Vector2(Fonts.Font10_128.MeasureString(rankScore[i].ToString("F2") + "m").X,
-                    Fonts.Font10_128.MeasureString(rankScore[i].ToString("F2") + "m").Y / 2), new Vector2(0.3f, 0.3f));
-            }
-
-            for (int i = 0; i < 5; i++)
-            {
-                renderer.DrawString(Fonts.Font10_128, rankPlayer[i + 5],
-                    textPosition01 + new Vector2(1450, -310 + (150 * i)), Color.White,
-                    0.0f, Fonts.Font10_128.MeasureString(rankPlayer[i + 5]), new Vector2(0.3f, 0.3f));
-
-                renderer.DrawString(Fonts.Font10_128, rankScore[i + 5].ToString("F2") + "m",
-                    textPosition01 + new Vector2(1500, -280 + (150 * i)), Color.White,
-                    0.0f, new Vector2(Fonts.Font10_128.MeasureString(rankScore[i + 5].ToString("F2") + "m").X,
-                    Fonts.Font10_128.MeasureString(rankScore[i + 5].ToString("F2") + "m").Y / 2), new Vector2(0.3f, 0.3f));
+                index++;
             }
         }
     }
