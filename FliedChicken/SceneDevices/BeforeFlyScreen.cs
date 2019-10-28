@@ -184,8 +184,6 @@ namespace FliedChicken.SceneDevices
         private void Finish()
         {
             textPosition.X = MathHelper.Lerp(textPosition.X, -400, 0.1f);
-            //player.Position = new Vector2(player.Position.X, MathHelper.Lerp(player.Position.Y, BasePlayerPosition.Y, 0.01f));
-            //Denemy.Position = new Vector2(Denemy.Position.X, MathHelper.Lerp(Denemy.Position.Y, BaseDenemyPosition.Y, 0.01f));
             timeF += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
             if (timeF >= 1.0f)
             {

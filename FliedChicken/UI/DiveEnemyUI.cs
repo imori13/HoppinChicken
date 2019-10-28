@@ -30,7 +30,7 @@ namespace FliedChicken.UI
         public void Initialize()
         {
             display = false;
-            position = Vector2.Zero;
+            position = new Vector2(diveEnemy.Position.X - camera.Position.X + Screen.WIDTH / 2.0f, 50);
         }
 
         public void Update()
@@ -44,7 +44,7 @@ namespace FliedChicken.UI
 
         private void DisplayON()
         {
-            position = new Vector2(diveEnemy.Position.X - camera.Position.X, 0);
+            position = new Vector2(diveEnemy.Position.X - camera.Position.X + Screen.WIDTH / 2.0f, 50);
             if (diveEnemy.Position.Y >= camera.Position.Y - Screen.HEIGHT / 2.0f)
             {
                 display = false;
@@ -53,7 +53,6 @@ namespace FliedChicken.UI
         
         private void DisplayOFF()
         {
-            position = Vector2.Zero;
             if (diveEnemy.Position.Y < camera.Position.Y - Screen.HEIGHT / 2.0f)
             {
                 display = true;
@@ -64,7 +63,7 @@ namespace FliedChicken.UI
         {
             if (display)
             {
-                renderer.Draw2D("", position, Color.White);
+                renderer.Draw2D("DiveEnemyUI", position, Color.White);
             }
         }
     }
