@@ -86,7 +86,7 @@ namespace FliedChicken.GameObjects.Enemys
 
         public void Update()
         {
-            distanceSum += Vector2.Distance(camera.Position, prevCameraPos);
+            distanceSum += Math.Abs(camera.Position.Y - prevCameraPos.Y);
             while (distanceSum >= 0)
             {
                 distanceSum -= 128f;
