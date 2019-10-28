@@ -14,6 +14,7 @@ using FliedChicken.GameObjects;
 using FliedChicken.GameObjects.Enemys;
 using FliedChicken.GameObjects.PlayerDevices;
 using FliedChicken.GameObjects.Clouds;
+using FliedChicken.GameObjects.Particle;
 
 namespace FliedChicken.SceneDevices
 {
@@ -38,12 +39,7 @@ namespace FliedChicken.SceneDevices
 
         private State state;
 
-        private double radius;
-
-        private float time01;
-        private float time03;
-        private float time05;
-        private float timeF;
+        private float time;
 
         private int attackCount;
         private int attackCountNow;
@@ -56,6 +52,12 @@ namespace FliedChicken.SceneDevices
         CloudManager cloudManager;
         Camera camera;
 
+        private Vector2 downSpeed;
+
+        float normalParticleTime = 0;
+
+        Random rand = GameDevice.Instance().Random;
+
         public BeforeFlyScreen()
         {
             
@@ -67,8 +69,8 @@ namespace FliedChicken.SceneDevices
             this.player = player;
             this.Denemy = Denemy;
 
-            BasePlayerPosition = player.Position;
-            BaseDenemyPosition = Denemy.Position; 
+            BasePlayerPosition = camera.Position;
+            BaseDenemyPosition = BasePlayerPosition - new Vector2(0, 300); 
 
             player.state = Player.PlayerState.BEFOREFLY;
             Denemy.state = DiveEnemy.State.BEFOREFLY;
@@ -76,11 +78,7 @@ namespace FliedChicken.SceneDevices
             IsDead = false;
             state = State.STATE01;
 
-            radius = 0.0f;
-            time01 = 0.0f;
-            time03 = 0.0f;
-            time05 = 0.0f;
-            timeF = 0.0f;
+            time = 0.0f;
 
             attackCount = 2;
             attackCountNow = 0;
@@ -90,6 +88,8 @@ namespace FliedChicken.SceneDevices
 
             this.cloudManager = cloudManager;
             this.camera = camera;
+
+            downSpeed = new Vector2(0, 11);
         }
 
         public  void Update()
@@ -126,38 +126,53 @@ namespace FliedChicken.SceneDevices
 
         private void Default()
         {
+            camera.Position += downSpeed;
+            player.Position += downSpeed;
+            Denemy.Position += downSpeed;
+
+            float limit = 0.1f;
+            normalParticleTime += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds * TimeSpeed.Time;
+            while (normalParticleTime >= limit)
+            {
+                normalParticleTime -= limit;
+                player.ObjectsManager.AddBackParticle(
+                    new PlayerTrajectory_Particle(player.Position + MyMath.RandomCircleVec2() * 10f, -player.Velocity / 100f, rand));
+            }
+
+            BasePlayerPosition = camera.Position;
+            BaseDenemyPosition = BasePlayerPosition - new Vector2(0, 300);
             cloudManager.Update();
         }
 
         private void State01()
         {
-            radius += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds * Math.PI;
-            float sin = (float)Math.Sin(radius) * 30 + 10;
-            player.Position = BasePlayerPosition + new Vector2(0, sin);
-            time01 += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
-            if (time01 >= 1.0f)
+            player.Position = new Vector2(MathHelper.Lerp(player.Position.X, BasePlayerPosition.X, 0.1f), MathHelper.Lerp(player.Position.Y, BasePlayerPosition.Y, 0.1f));
+
+            time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
+            if (time >= 1.0f)
             {
+                time = 0.0f;
+                Denemy.Position = BaseDenemyPosition;
                 state = State.STATE02;
             }
         }
 
         private void State02()
         {
-            radius += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds * Math.PI;
-            float sin = (float)Math.Sin(radius) * 30 + 10;
-            player.Position = BasePlayerPosition + new Vector2(0, sin);
             Denemy.Position += new Vector2(0, 30) * TimeSpeed.Time;
             if (Denemy.Position.Y >= player.Position.Y - 200)
             {
+                time = 0.0f;
                 state = State.STATE03;
             }
         }
 
         private void State03()
         {
-            time03 += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
-            if(time03 >= 0.5f)
+            time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
+            if(time >= 0.5f)
             {
+                time = 0.0f;
                 state = State.STATE04;
             }
         }
@@ -167,6 +182,7 @@ namespace FliedChicken.SceneDevices
             DenemyAttack();
             if (attackCountNow >= attackCount)
             {
+                time = 0.0f;
                 state = State.STATE05;
             }
         }
@@ -174,9 +190,10 @@ namespace FliedChicken.SceneDevices
         private void State05()
         {
             textPosition.X = MathHelper.Lerp(textPosition.X, Screen.Vec2.X / 2, 0.1f);
-            time05 += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
-            if (time05 >= 1.5f)
+            time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
+            if (time >= 1.5f)
             {
+                time = 0.0f;
                 state = State.FINISH;
             }
         }
@@ -184,9 +201,10 @@ namespace FliedChicken.SceneDevices
         private void Finish()
         {
             textPosition.X = MathHelper.Lerp(textPosition.X, -400, 0.1f);
-            timeF += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
-            if (timeF >= 1.0f)
+            time += (float)GameDevice.Instance().GameTime.ElapsedGameTime.TotalSeconds;
+            if (time >= 1.0f)
             {
+                time = 0.0f;
                 player.state = Player.PlayerState.FLY;
                 Denemy.state = DiveEnemy.State.FORMING;
                 IsDead = true;
