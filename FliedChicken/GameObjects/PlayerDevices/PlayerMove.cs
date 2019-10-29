@@ -64,7 +64,7 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
             PlayerMoveState = PlayerMoveState.None;
 
-            float min = 10;
+            float min = 10f;
             float max = 20f;
 
             float destFallSpeed = MathHelper.Lerp(min, max, player.SumDistance / 750f);

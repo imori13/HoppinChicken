@@ -99,7 +99,7 @@ namespace FliedChicken.GameObjects.Enemys
 
             Vector2 playerPos = player.Position;
 
-            float newX = MathHelper.Lerp(Position.X, playerPos.X, 0.05f * deltaTime);
+            float newX = MathHelper.Lerp(Position.X, playerPos.X, 0.1f * deltaTime);
             float newY = Math.Min(Position.Y + moveSpeed * deltaTime, playerPos.Y - minPlayerDistance);
             Position = new Vector2(newX, newY);
         }
@@ -135,8 +135,8 @@ namespace FliedChicken.GameObjects.Enemys
         private void UpdatePlayerDistance()
         {
             //Aランクの手前ぐらいの落下距離で最大
-            float distance = 600;
-            float sineY = Easing2D.SineIn(MathHelper.Clamp(player.SumDistance, 0, distance), distance, 4.0f, 7.5f);
+            float distance = 750;
+            float sineY = Easing2D.SineIn(MathHelper.Clamp(player.SumDistance, 0, distance), distance, 4.0f, 14f);
             moveSpeed = sineY;
 
             minPlayerDistance -= moveSpeed * TimeSpeed.Time;
