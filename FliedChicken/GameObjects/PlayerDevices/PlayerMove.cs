@@ -64,7 +64,10 @@ namespace FliedChicken.GameObjects.PlayerDevices
 
             PlayerMoveState = PlayerMoveState.None;
 
-            float destFallSpeed = 10f;
+            float min = 10;
+            float max = 30f;
+
+            float destFallSpeed = MathHelper.Lerp(min, max, player.SumDistance / 1000f);
 
             // 左右移動
 
@@ -73,13 +76,11 @@ namespace FliedChicken.GameObjects.PlayerDevices
                 && !player.ObjectsManager.GameScene.TitleDisplayMode.RankingON)
             {
                 Velocity.X = MathHelper.Lerp(Velocity.X, speed, 0.1f * TimeSpeed.Time);
-                destFallSpeed = 8f;
             }
             else if ((Input.GetKey(Keys.Left) || Input.GetLeftStickState(0).X < -0.5f || Input.IsPadButtonHold(Buttons.DPadLeft, 0) || Input.GetRightStickState(0).X < -0.5f)
                 && !player.ObjectsManager.GameScene.TitleDisplayMode.RankingON)
             {
                 Velocity.X = MathHelper.Lerp(Velocity.X, -speed, 0.1f * TimeSpeed.Time);
-                destFallSpeed = 7.5f;
             }
             else
             {
