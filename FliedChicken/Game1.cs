@@ -19,7 +19,7 @@ namespace FliedChicken
             Content.RootDirectory = "Content";
 
             // フルスクリーンのオンオフを設定
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = true;
             // フルスクリーンモードから画面を切り替えると実行中のまま消えるアレをなくす処理
             graphics.HardwareModeSwitch = false;
             // DrawメソッドをモニタのVerticalRetraceと同期しない
