@@ -105,8 +105,12 @@ namespace FliedChicken.GameObjects.Clouds
             {
                 float generateOffset = 1000f;
                 Vector2 generatePos = new Vector2(
-                    rand.Next((int)(ObjectsManager.Camera.Position.X - Screen.WIDTH / 2f - generateOffset), (int)(ObjectsManager.Camera.Position.X + Screen.WIDTH / 2f + generateOffset)),
-                    rand.Next((int)(ObjectsManager.Camera.Position.Y - Screen.HEIGHT / 2f - generateOffset), (int)(ObjectsManager.Camera.Position.Y + Screen.HEIGHT / 2f + generateOffset)));
+                    rand.Next(
+                        (int)(ObjectsManager.Camera.Position.X - Screen.WIDTH / 2f - generateOffset),
+                        (int)(ObjectsManager.Camera.Position.X + Screen.WIDTH / 2f + generateOffset)),
+                    rand.Next(
+                        (int)(ObjectsManager.Camera.Position.Y - Screen.HEIGHT / 2f - generateOffset),
+                        (int)(ObjectsManager.Camera.Position.Y + Screen.HEIGHT / 2f + generateOffset)));
 
                 float removeOffset = 200;
                 float left = ObjectsManager.Camera.Position.X - Screen.WIDTH / 2f - removeOffset;

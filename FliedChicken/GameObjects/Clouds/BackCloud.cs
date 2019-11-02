@@ -40,9 +40,7 @@ namespace FliedChicken.GameObjects.Clouds
 
             Size = Vector2.Lerp(Size, initSize, 0.1f * TimeSpeed.Time);
 
-            Vector2 direction = ObjectsManager.Camera.Position - prevCameraPos;
-
-            Position += direction * speed;
+            Position += Vector2.UnitY * speed;
 
             prevCameraPos = ObjectsManager.Camera.Position;
         }
