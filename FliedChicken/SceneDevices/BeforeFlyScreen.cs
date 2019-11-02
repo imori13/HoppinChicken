@@ -46,7 +46,6 @@ namespace FliedChicken.SceneDevices
         private readonly string text = "ESCAPE!";
         private Vector2 textPosition;
 
-        CloudManager cloudManager;
         Camera camera;
 
         public BeforeFlyScreen()
@@ -73,8 +72,7 @@ namespace FliedChicken.SceneDevices
             attack = true;
 
             textPosition = new Vector2(Screen.Vec2.X + 400, Screen.Vec2.Y / 2);
-
-            this.cloudManager = cloudManager;
+            
             this.camera = camera;
         }
 
@@ -111,7 +109,7 @@ namespace FliedChicken.SceneDevices
 
         private void Default()
         {
-            cloudManager.Update();
+
         }
 
         private void State01()
